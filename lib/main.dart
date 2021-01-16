@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kickdown_app/listings_page.dart';
+import 'package:kickdown_app/settings_page.dart';
 
 void main() {
   runApp(KickdownApp());
@@ -10,38 +12,30 @@ class KickdownApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       title: 'Hello',
-      theme: CupertinoThemeData(primaryColor: Colors.black),
-      home: OfferPage(),
+      theme: CupertinoThemeData(primaryColor: Colors.red),
+      home: TabNavigation(),
     );
   }
 }
 
-class OfferPage extends StatefulWidget {
-  @override
-  _OfferPageState createState() => _OfferPageState();
-}
-
-class _OfferPageState extends State<OfferPage> {
+class TabNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.add)),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite)),
+          BottomNavigationBarItem(
+              label: 'Angebote', icon: Icon(Icons.car_rental)),
+          BottomNavigationBarItem(
+              label: 'Mehr', icon: Icon(Icons.more_horiz_outlined)),
         ],
       ),
       tabBuilder: (BuildContext context, int index) {
-        return CupertinoTabView(
-          builder: (BuildContext context) {
-            return CupertinoPageScaffold(
-              navigationBar: CupertinoNavigationBar(
-                middle: Text('Page 1 of tab $index'),
-              ),
-              child: Center(child: Text('Hello')),
-            );
-          },
-        );
+        if (index == 0) {
+          return ListingsPage();
+        } else {
+          return SettingsPage();
+        }
       },
     );
   }
