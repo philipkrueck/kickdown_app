@@ -33,7 +33,7 @@ class _ListingsScreenState extends State<ListingsScreen> {
 class ListingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
+    return GestureDetector(
       // potentially use something else here to avoid applying button styles to card
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -74,7 +74,7 @@ class ListingCard extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {
+      onTap: () {
         Navigator.of(context).push(
           CupertinoPageRoute(builder: (context) {
             return DetailsScreen();
