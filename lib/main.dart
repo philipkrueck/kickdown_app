@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/listings_page.dart';
-import 'package:kickdown_app/settings_page.dart';
+import 'package:kickdown_app/screens/listings_screen.dart';
+import 'package:kickdown_app/screens/settings_screen.dart';
 
 void main() {
   runApp(KickdownApp());
@@ -12,7 +12,9 @@ class KickdownApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       title: 'Hello',
-      theme: CupertinoThemeData(primaryColor: Colors.red),
+      theme: CupertinoThemeData(
+        primaryColor: Colors.red,
+      ),
       home: TabNavigation(),
     );
   }
@@ -32,7 +34,7 @@ class TabNavigation extends StatelessWidget {
       ),
       tabBuilder: (BuildContext context, int index) {
         if (index == 0) {
-          return ListingsPage();
+          return ListingsScreen();
         } else {
           return SettingsPage();
         }
