@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/screens/listings_screen.dart';
+import 'package:kickdown_app/screens/postings_screen.dart';
 import 'package:kickdown_app/screens/settings_screen.dart';
 
 void main() {
@@ -21,24 +21,54 @@ class KickdownApp extends StatelessWidget {
 }
 
 class TabNavigation extends StatelessWidget {
+  final overviewNormalTabIcon =
+      TabBarIcon(path: 'assets/ic_menu_overview_normal.png');
+  final overviewSelectedTabIcon =
+      TabBarIcon(path: 'assets/ic_menu_overview_selected.png');
+  final moreNormalTabIcon = TabBarIcon(path: 'assets/ic_menu_more_normal.png');
+  final moreSelectedTabIcon =
+      TabBarIcon(path: 'assets/ic_menu_more_selected.png');
+
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: [
           BottomNavigationBarItem(
-              label: 'Angebote', icon: Icon(Icons.car_rental)),
+            label: 'Angebote',
+            icon: overviewNormalTabIcon,
+            activeIcon: overviewSelectedTabIcon,
+          ),
           BottomNavigationBarItem(
-              label: 'Mehr', icon: Icon(Icons.more_horiz_outlined)),
+            label: 'Mehr',
+            icon: moreNormalTabIcon,
+            activeIcon: moreSelectedTabIcon,
+          ),
         ],
       ),
       tabBuilder: (BuildContext context, int index) {
         if (index == 0) {
-          return ListingsScreen();
+          return PostingsScreen();
         } else {
           return SettingsPage();
         }
       },
+    );
+  }
+}
+
+class TabBarIcon extends StatelessWidget {
+  final String path;
+  TabBarIcon({this.path});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      // TODO: apply style as an icon
+      path,
+      width: 24,
+      height: 24,
+      color: IconTheme.of(context).color,
     );
   }
 }

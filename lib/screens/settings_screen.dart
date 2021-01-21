@@ -17,55 +17,89 @@ const String privacyTermsUrl = 'https://www.kickdown.com/de/privacy';
 const String imprintUrl = 'https://www.kickdown.com/de/imprint';
 // const String forgotPasswordUrl = 'https://www.kickdown.com/users/password/new';
 
+class SettingsListTileViewModel {
+  String title;
+  Widget trailing;
+  String url;
+
+  SettingsListTileViewModel({@required this.title, this.trailing, this.url});
+}
+
 class _SettingsPageState extends State<SettingsPage> {
+  List<SettingsListTileViewModel> settingsListTileViewModels = [
+    SettingsListTileViewModel(
+      title: 'Mein Account',
+      trailing: CupertinoButton(
+        child: Text('Anmelden'),
+        onPressed: () => print('Anmelden'),
+      ),
+    ),
+    SettingsListTileViewModel(
+      title: 'About Kickdown',
+      trailing: Icon(CupertinoIcons.forward),
+      url: aboutKickdownURL,
+    ),
+    SettingsListTileViewModel(
+      title: 'AGB',
+      trailing: Icon(CupertinoIcons.forward),
+      url: termsOfUsagesURL,
+    ),
+    SettingsListTileViewModel(
+      title: 'Datenschutz',
+      trailing: Icon(CupertinoIcons.forward),
+      url: privacyTermsUrl,
+    ),
+    SettingsListTileViewModel(
+      title: 'Impressum',
+      trailing: Icon(CupertinoIcons.forward),
+      url: imprintUrl,
+    ),
+    SettingsListTileViewModel(
+      title: 'Tracking',
+      trailing: CupertinoSwitch(
+        value: true,
+        onChanged: (bool newValue) {
+          // update switch value
+        },
+      ),
+    )
+  ];
+
   @override
   Widget build(BuildContext context) {
+    settingsListTileViewModels.last = SettingsListTileViewModel(
+      title: 'Tracking',
+      trailing: CupertinoSwitch(
+        activeColor: CupertinoTheme.of(context).primaryColor,
+        value: true,
+        onChanged: (bool newValue) {
+          // update switch value
+        },
+      ),
+    );
+
     return CupertinoTabView(
       builder: (BuildContext context) {
         return CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
-            middle: Text('Einstellungen'),
-          ),
           child: Scaffold(
-            body: ListView(
-              children: [
-                CupertinoListTile(
-                  title: 'Mein Account',
-                  trailing: CupertinoButton(
-                    child: Text('Anmelden'),
-                    onPressed: () => print('Anmelden'),
-                  ),
-                ),
-                CupertinoListTile(
-                  title: 'About Kickdown',
-                  trailing: Icon(CupertinoIcons.forward),
-                  onTap: () => _openUrl(aboutKickdownURL),
-                ),
-                CupertinoListTile(
-                  title: 'AGB',
-                  trailing: Icon(CupertinoIcons.forward),
-                  onTap: () => _openUrl(termsOfUsagesURL),
-                ),
-                CupertinoListTile(
-                  title: 'Datenschutz',
-                  trailing: Icon(CupertinoIcons.forward),
-                  onTap: () => _openUrl(privacyTermsUrl),
-                ),
-                CupertinoListTile(
-                  title: 'Impressum',
-                  trailing: Icon(CupertinoIcons.forward),
-                  onTap: () => _openUrl(imprintUrl),
-                ),
-                CupertinoListTile(
-                  title: 'Tracking',
-                  trailing: CupertinoSwitch(
-                    value: true,
-                    activeColor: CupertinoTheme.of(context).primaryColor,
-                    onChanged: (bool newValue) {
-                      // update switch value
+            body: CustomScrollView(
+              slivers: [
+                CupertinoSliverNavigationBar(largeTitle: Text('Einstellungen')),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      final viewModel = settingsListTileViewModels[index];
+                      return CupertinoListTile(
+                        title: viewModel.title,
+                        trailing: viewModel.trailing,
+                        onTap: viewModel.url != null
+                            ? () => _openUrl(viewModel.url)
+                            : null,
+                      );
                     },
+                    childCount: settingsListTileViewModels.length,
                   ),
-                ),
+                )
               ],
             ),
           ),

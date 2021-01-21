@@ -27,6 +27,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   webview_flutter: ^1.0.7
   flutter_inappwebview: ^4.0.0+4
+  http: ^0.12.2
 
 dev_dependencies:
   flutter_test:
@@ -34,3 +35,16 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/ic_menu_more_normal.png
+    - assets/2.0/ic_menu_more_normal.png
+    - assets/3.0/ic_menu_more_normal.png
+    - assets/ic_menu_more_selected.png
+    - assets/2.0/ic_menu_more_selected.png
+    - assets/3.0/ic_menu_more_selected.png
+    - assets/ic_menu_overview_normal.png
+    - assets/2.0/ic_menu_overview_normal.png
+    - assets/3.0/ic_menu_overview_normal.png
+    - assets/ic_menu_overview_selected.png
+    - assets/2.0/ic_menu_overview_selected.png
+    - assets/3.0/ic_menu_overview_selected.png

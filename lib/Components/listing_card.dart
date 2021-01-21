@@ -1,36 +1,15 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:kickdown_app/Networking/posting.dart';
+import 'package:kickdown_app/screens/posting_detail_screen.dart';
 
-class ListingsScreen extends StatefulWidget {
-  @override
-  _ListingsScreenState createState() => _ListingsScreenState();
-}
-
-class _ListingsScreenState extends State<ListingsScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoTabView(
-      builder: (BuildContext context) {
-        return CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
-            middle: Text('Angebote'),
-          ),
-          child: ListView(
-            children: [
-              ListingCard(),
-              ListingCard(),
-              ListingCard(),
-              ListingCard(),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
+import 'countdown_label.dart';
 
 class ListingCard extends StatelessWidget {
+  Posting posting;
+
+  ListingCard({this.posting});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -42,9 +21,33 @@ class ListingCard extends StatelessWidget {
           child: Card(
             child: Column(
               children: [
-                Container(
-                  height: 180,
-                  color: Colors.grey,
+                Stack(
+                  children: [
+                    Image.network(
+                      posting.heroPhotoURL,
+                      height: 180,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, progress) {
+                        return progress == null
+                            ? child
+                            : CupertinoActivityIndicator.partiallyRevealed();
+                      },
+                    ),
+                    Positioned(
+                      top: 16,
+                      right: 16,
+                      child: Icon(
+                        Icons.dialer_sip,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: CountdownLabel(),
+                    )
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -54,12 +57,12 @@ class ListingCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('BMW 3.0 CSi E9'),
-                          Text('In Hamburg'),
+                          Text(posting.title),
+                          Text('In ${posting.city}'),
                         ],
                       ),
                       Text(
-                        '38.970 €',
+                        '${posting.currentPrice} €',
                         style: TextStyle(
                           color: Colors.red,
                           fontSize: 25,
@@ -77,26 +80,10 @@ class ListingCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           CupertinoPageRoute(builder: (context) {
-            return DetailsScreen();
+            return PostingDetailsScreen(posting: posting);
           }),
         );
       },
-    );
-  }
-}
-
-class DetailsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: Center(
-        child: CupertinoButton(
-          child: Text('Back'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
     );
   }
 }
