@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/screens/postings_screen.dart';
 import 'package:kickdown_app/screens/settings_screen.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(KickdownApp());
@@ -10,6 +11,9 @@ void main() {
 class KickdownApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     return CupertinoApp(
       title: 'Hello',
       theme: CupertinoThemeData(
@@ -47,11 +51,21 @@ class TabNavigation extends StatelessWidget {
         ],
       ),
       tabBuilder: (BuildContext context, int index) {
+        CupertinoTabView returnValue;
         if (index == 0) {
-          return PostingsScreen();
+          returnValue = CupertinoTabView(
+            builder: (context) {
+              return CupertinoPageScaffold(child: PostingsScreen());
+            },
+          );
         } else {
-          return SettingsPage();
+          returnValue = CupertinoTabView(
+            builder: (context) {
+              return CupertinoPageScaffold(child: SettingsScreen());
+            },
+          );
         }
+        return returnValue;
       },
     );
   }

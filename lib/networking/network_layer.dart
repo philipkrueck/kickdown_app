@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:kickdown_app/Networking/posting.dart';
+import 'package:kickdown_app/networking/posting.dart';
 
 class NetworkLayer {
   static const _debugBaseURL = 'https://kdstaging.herokuapp.com';

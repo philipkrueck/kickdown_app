@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:kickdown_app/styles.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsScreen extends StatefulWidget {
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  _SettingsScreenState createState() => _SettingsScreenState();
 
   final ChromeSafariBrowser browser = ChromeSafariBrowser();
 }
@@ -21,11 +21,19 @@ class SettingsListTileViewModel {
   String title;
   Widget trailing;
   String url;
+  bool isStartOfSection;
+  bool isEndOfSection;
 
-  SettingsListTileViewModel({@required this.title, this.trailing, this.url});
+  SettingsListTileViewModel({
+    @required this.title,
+    this.trailing,
+    this.url,
+    this.isStartOfSection = false,
+    this.isEndOfSection = false,
+  });
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsScreenState extends State<SettingsScreen> {
   List<SettingsListTileViewModel> settingsListTileViewModels = [
     SettingsListTileViewModel(
       title: 'Mein Account',
@@ -33,26 +41,30 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Text('Anmelden'),
         onPressed: () => print('Anmelden'),
       ),
+      isStartOfSection: true,
+      isEndOfSection: true,
     ),
     SettingsListTileViewModel(
       title: 'About Kickdown',
-      trailing: Icon(CupertinoIcons.forward),
+      trailing: DetailIcon(),
       url: aboutKickdownURL,
+      isStartOfSection: true,
     ),
     SettingsListTileViewModel(
       title: 'AGB',
-      trailing: Icon(CupertinoIcons.forward),
+      trailing: DetailIcon(),
       url: termsOfUsagesURL,
     ),
     SettingsListTileViewModel(
       title: 'Datenschutz',
-      trailing: Icon(CupertinoIcons.forward),
+      trailing: DetailIcon(),
       url: privacyTermsUrl,
     ),
     SettingsListTileViewModel(
       title: 'Impressum',
-      trailing: Icon(CupertinoIcons.forward),
+      trailing: DetailIcon(),
       url: imprintUrl,
+      isEndOfSection: true,
     ),
     SettingsListTileViewModel(
       title: 'Tracking',
@@ -62,6 +74,8 @@ class _SettingsPageState extends State<SettingsPage> {
           // update switch value
         },
       ),
+      isStartOfSection: true,
+      isEndOfSection: true,
     )
   ];
 
@@ -76,35 +90,33 @@ class _SettingsPageState extends State<SettingsPage> {
           // update switch value
         },
       ),
+      isStartOfSection: true,
+      isEndOfSection: true,
     );
 
-    return CupertinoTabView(
-      builder: (BuildContext context) {
-        return CupertinoPageScaffold(
-          child: Scaffold(
-            body: CustomScrollView(
-              slivers: [
-                CupertinoSliverNavigationBar(largeTitle: Text('Einstellungen')),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      final viewModel = settingsListTileViewModels[index];
-                      return CupertinoListTile(
-                        title: viewModel.title,
-                        trailing: viewModel.trailing,
-                        onTap: viewModel.url != null
-                            ? () => _openUrl(viewModel.url)
-                            : null,
-                      );
-                    },
-                    childCount: settingsListTileViewModels.length,
-                  ),
-                )
-              ],
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          CupertinoSliverNavigationBar(largeTitle: Text('Mehr')),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                final viewModel = settingsListTileViewModels[index];
+                return CupertinoListTile(
+                  title: viewModel.title,
+                  trailing: viewModel.trailing,
+                  onTap: viewModel.url != null
+                      ? () => _openUrl(viewModel.url)
+                      : null,
+                  isStartOfSection: viewModel.isStartOfSection,
+                  isEndOfSection: viewModel.isEndOfSection,
+                );
+              },
+              childCount: settingsListTileViewModels.length,
             ),
-          ),
-        );
-      },
+          )
+        ],
+      ),
     );
   }
 
@@ -117,21 +129,81 @@ class CupertinoListTile extends StatelessWidget {
   final String title;
   final Widget trailing;
   final AsyncCallback onTap;
+  final bool isStartOfSection;
+  final bool isEndOfSection;
 
-  CupertinoListTile({this.title, this.trailing, this.onTap});
+  CupertinoListTile(
+      {@required this.title,
+      this.trailing,
+      this.onTap,
+      @required this.isStartOfSection,
+      @required this.isEndOfSection});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Divider(thickness: 1.0),
-        ListTile(
-          onTap: onTap,
-          title: Text(title),
-          trailing: trailing,
-        ),
-        Divider(thickness: 1.0)
-      ],
+    return GestureDetector(
+      child: Column(
+        children: [
+          SizedBox(
+            height: isStartOfSection ? 20 : 0,
+          ),
+          isStartOfSection ? CupertinoSectionDivider() : Container(),
+          Container(
+            height: 44,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(title),
+                  ),
+                ),
+                trailing,
+              ],
+            ),
+          ),
+          isEndOfSection
+              ? CupertinoSectionDivider()
+              : CupertinoInnerRowDivider(),
+          SizedBox(
+            height: isEndOfSection ? 20 : 0,
+          ),
+        ],
+      ),
+      onTap: onTap,
+    );
+  }
+}
+
+class CupertinoSectionDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 1,
+      color: Styles.settingsRowDivider,
+    );
+  }
+}
+
+class CupertinoInnerRowDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Container(
+        height: 1,
+        color: Styles.settingsRowDivider, //Styles.settingsRowDivider,
+      ),
+    );
+  }
+}
+
+class DetailIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      CupertinoIcons.forward,
+      color: Styles.settingsDetailColor,
     );
   }
 }

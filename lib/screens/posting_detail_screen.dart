@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/Components/countdown_label.dart';
-import 'package:kickdown_app/Networking/posting.dart';
+import 'package:kickdown_app/components/countdown_label.dart';
+import 'package:kickdown_app/components/posting_header.dart';
+import 'package:kickdown_app/networking/posting.dart';
 
 class PostingDetailsScreen extends StatelessWidget {
   final Posting posting;
@@ -14,70 +14,11 @@ class PostingDetailsScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       child: Column(
         children: [
-          Stack(
-            children: [
-              Image.network(
-                posting.heroPhotoURL,
-              ),
-              Positioned(
-                top: 50,
-                left: 16,
-                height: 30,
-                width: 30,
-                child: CupertinoNavigationBarBackButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  color: Colors.white,
-                ),
-              ),
-              Positioned(
-                  top: 50,
-                  right: 16,
-                  height: 30,
-                  width: 30,
-                  child: Icon(Icons.breakfast_dining)),
-              Positioned(
-                  bottom: 8,
-                  right: 8,
-                  child: Text(
-                    '1/119',
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(posting.title),
-                    Text(
-                      'in ${posting.city}',
-                      style: TextStyle(color: Colors.grey, fontSize: 13),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('${posting.currentPrice} €',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold)),
-                    CountdownLabel(),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          PostingHeader(posting: posting, isDetail: true),
           Padding(
             padding: const EdgeInsets.all(32.0),
             child: ListView(
-              shrinkWrap: true, // TODO
+              shrinkWrap: true,
               children: [
                 Text(
                   'Details',

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/Components/listing_card.dart';
-import 'package:kickdown_app/Networking/network_layer.dart';
-import 'package:kickdown_app/Networking/posting.dart';
-import 'package:kickdown_app/screens/posting_detail_screen.dart';
+import 'package:kickdown_app/components/posting_card.dart';
+import 'package:kickdown_app/model/postings_repository.dart';
+import 'package:kickdown_app/networking/posting.dart';
 
 class PostingsScreen extends StatefulWidget {
   @override
@@ -19,48 +17,42 @@ class _PostingsScreenState extends State<PostingsScreen> {
   @override
   void initState() {
     super.initState();
-    futurePostings = NetworkLayer.fetchPostings();
+    futurePostings = PostingsRepository.loadPostings();
   }
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabView(
-      builder: (BuildContext context) {
-        return CupertinoPageScaffold(
-          child: FutureBuilder<List<Posting>>(
-            future: futurePostings,
-            builder: (context, snapshot) {
-              Widget listingsListSliver;
-              if (snapshot.hasData) {
-                final List<Posting> postings = snapshot.data;
-                listingsListSliver = SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return ListingCard(posting: postings[index]);
-                    },
-                    childCount: postings.length,
-                  ),
-                );
+    return FutureBuilder<List<Posting>>(
+      future: futurePostings,
+      builder: (context, snapshot) {
+        Widget listingsListSliver;
+        if (snapshot.hasData) {
+          final List<Posting> postings = snapshot.data;
+          listingsListSliver = SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return PostingCard(posting: postings[index]);
+              },
+              childCount: postings.length,
+            ),
+          );
 
-                _buildListView(snapshot.data);
-              } else if (snapshot.hasError) {
-                listingsListSliver = SliverToBoxAdapter(
-                    child: Center(child: Text("${snapshot.error}")));
-              } else {
-                listingsListSliver = SliverToBoxAdapter(
-                    child: Center(child: CupertinoActivityIndicator()));
-              }
-
-              print(listingsListSliver);
-
-              return CustomScrollView(
-                slivers: [
-                  navigationBarSliver,
-                  listingsListSliver,
-                ],
-              );
-            },
-          ),
+          _buildListView(snapshot.data);
+        } else if (snapshot.hasError) {
+          listingsListSliver = SliverToBoxAdapter(
+              child: Center(child: Text("${snapshot.error}")));
+        } else {
+          listingsListSliver = SliverToBoxAdapter(
+              child: Center(child: CupertinoActivityIndicator()));
+        }
+        return CustomScrollView(
+          slivers: <Widget>[
+            navigationBarSliver,
+            SliverSafeArea(
+              top: false,
+              sliver: listingsListSliver,
+            ),
+          ],
         );
       },
     );
@@ -69,7 +61,7 @@ class _PostingsScreenState extends State<PostingsScreen> {
   Widget _buildListView(List<Posting> postings) {
     return ListView(
       children: postings.map((posting) {
-        return ListingCard(posting: posting);
+        return PostingCard(posting: posting);
       }).toList(),
     );
   }
