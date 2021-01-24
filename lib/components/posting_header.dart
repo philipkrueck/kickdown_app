@@ -24,9 +24,9 @@ class PostingHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildFavoriteIcon() {
+  Widget _buildFavoriteIcon(context) {
     return Positioned(
-      top: 16,
+      top: isDetail ? MediaQuery.of(context).padding.top + 8 : 8,
       right: 16,
       child: Icon(
         Icons.dialer_sip,
@@ -45,7 +45,7 @@ class PostingHeader extends StatelessWidget {
 
   Widget _buildBackButton(context) {
     return Positioned(
-      top: 50,
+      top: MediaQuery.of(context).padding.top + 8,
       left: 16,
       height: 30,
       width: 30,
@@ -77,7 +77,7 @@ class PostingHeader extends StatelessWidget {
           children: [
             _buildNetworkImage(posting, isDetail),
             isDetail ? _buildBackButton(context) : Container(),
-            _buildFavoriteIcon(),
+            _buildFavoriteIcon(context),
             isDetail ? _buildImageLabel() : _buildCountdownLabel(),
           ],
         ),
