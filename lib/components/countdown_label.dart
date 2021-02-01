@@ -13,6 +13,7 @@ class CountdownLabel extends StatelessWidget {
       this.currentUserIsHighestBidder = false});
 
   Duration get durationUntilEnd {
+    return Duration(hours: 3, seconds: 4);
     return endDate.difference(DateTime.now());
   }
 
@@ -45,17 +46,25 @@ class CountdownLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: currentUserIsHighestBidder
-          ? Styles.annotationBadgeColor
-          : Styles.accentColor01,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        color: currentUserIsHighestBidder
+            ? Styles.annotationBadgeColor
+            : Styles.accentColor01,
+      ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8, 3, 7, 2),
         child: Row(
           children: [
             durationUntilEnd.inHours <= 12
-                ? Icon(Icons.timer_sharp, color: Colors.white)
+                ? Image.asset(
+                    'assets/ic_timer.png',
+                    width: 15,
+                    height: 15,
+                  )
                 : Container(),
+            SizedBox(width: 4),
             Text(
               timeDifferenceString,
               style: Styles.title04,
