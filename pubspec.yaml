@@ -63,3 +63,9 @@ flutter:
     - assets/img_placeholder.png
     - assets/2.0/img_placeholder.png
     - assets/3.0/img_placeholder.png
+    - assets/ic_favorite_normal.png
+    - assets/2.0/ic_favorite_normal.png
+    - assets/3.0/ic_favorite_normal.png
+    - assets/ic_favorite_selected.png
+    - assets/2.0/ic_favorite_selected.png
+    - assets/3.0/ic_favorite_selected.png

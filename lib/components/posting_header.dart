@@ -28,13 +28,20 @@ class PostingHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildFavoriteIcon(context) {
+  Widget _buildFavoriteIcon({context, bool isSelected, Function onPressed}) {
     return Positioned(
       top: isDetail ? MediaQuery.of(context).padding.top + 8 : 8,
       right: 16,
-      child: Icon(
-        Icons.dialer_sip,
-        color: Colors.white,
+      child: CupertinoButton(
+        padding: EdgeInsets.zero,
+        child: Image.asset(
+          isSelected
+              ? 'assets/ic_favorite_selected.png'
+              : 'assets/ic_favorite_normal.png',
+          width: 40,
+          height: 50,
+        ),
+        onPressed: onPressed,
       ),
     );
   }
@@ -75,7 +82,12 @@ class PostingHeader extends StatelessWidget {
             children: [
               _networkImage,
               isDetail ? _buildBackButton(context) : Container(),
-              _buildFavoriteIcon(context),
+              _buildFavoriteIcon(
+                  context: context,
+                  isSelected: false,
+                  onPressed: () {
+                    print('tap favorite');
+                  }),
               isDetail ? _imageLabel : Container(),
             ],
           ),
