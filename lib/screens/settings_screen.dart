@@ -38,6 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     SettingsListTileViewModel(
       title: 'Mein Account',
       trailing: CupertinoButton(
+        padding: EdgeInsets.only(right: 8),
         child: Text('Anmelden'),
         onPressed: () => print('Anmelden'),
       ),

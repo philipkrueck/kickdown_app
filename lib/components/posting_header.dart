@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/networking/posting.dart';
+import 'package:kickdown_app/styles.dart';
 
 import 'countdown_label.dart';
+import 'package:intl/intl.dart';
 
 class PostingHeader extends StatelessWidget {
   final Posting posting;
   final bool isDetail;
+
+  final NumberFormat currencyFormatter =
+      NumberFormat.simpleCurrency(locale: 'eu', decimalDigits: 0);
 
   PostingHeader({this.posting, this.isDetail = false});
 
@@ -32,14 +37,6 @@ class PostingHeader extends StatelessWidget {
         Icons.dialer_sip,
         color: Colors.white,
       ),
-    );
-  }
-
-  Widget _buildCountdownLabel() {
-    return Positioned(
-      bottom: 8,
-      right: 8,
-      child: CountdownLabel(),
     );
   }
 
@@ -71,53 +68,61 @@ class PostingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            _buildNetworkImage(posting, isDetail),
-            isDetail ? _buildBackButton(context) : Container(),
-            _buildFavoriteIcon(context),
-            isDetail ? _buildImageLabel() : _buildCountdownLabel(),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Stack(
             children: [
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      posting.title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      softWrap: false,
-                    ),
-                    Text('In ${posting.city}'),
-                  ],
-                ),
-              ),
-              SizedBox(width: 8),
-              Column(
-                children: [
-                  Text(
-                    '${posting.currentPrice} €',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  isDetail ? CountdownLabel() : Container(),
-                ],
-              )
+              _buildNetworkImage(posting, isDetail),
+              isDetail ? _buildBackButton(context) : Container(),
+              _buildFavoriteIcon(context),
+              isDetail ? _buildImageLabel() : Container(),
             ],
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        posting.title,
+                        style: Styles.title02,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
+                      ),
+                    ),
+                    Text(
+                      currencyFormatter.format(posting.currentPrice),
+                      style: Styles.title03,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      posting.city,
+                      style: Styles.caption02,
+                    ),
+                    CountdownLabel(
+                      endDate: posting.endTime,
+                      currentUserIsHighestBidder: false,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

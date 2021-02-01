@@ -28,6 +28,7 @@ dependencies:
   webview_flutter: ^1.0.7
   flutter_inappwebview: ^4.0.0+4
   http: ^0.12.2
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
@@ -48,3 +49,15 @@ flutter:
     - assets/ic_menu_overview_selected.png
     - assets/2.0/ic_menu_overview_selected.png
     - assets/3.0/ic_menu_overview_selected.png
+    - assets/ic_navbar_back.png
+    - assets/2.0/ic_navbar_back.png
+    - assets/3.0/ic_navbar_back.png
+    - assets/ic_navbar_close.png
+    - assets/2.0/ic_navbar_close.png
+    - assets/3.0/ic_navbar_close.png
+    - assets/ic_timer.png
+    - assets/2.0/ic_timer.png
+    - assets/3.0/ic_timer.png
+    - assets/img_placeholder.png
+    - assets/2.0/img_placeholder.png
+    - assets/3.0/img_placeholder.png

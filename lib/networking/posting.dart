@@ -16,6 +16,7 @@ class Posting {
   String heroPhotoURL;
   String auctionCode;
   int highestBidInEuro;
+  DateTime endTime = DateTime.utc(2021, 11, 9);
 
   // Observable properties
   bool starredByCurrentUser;

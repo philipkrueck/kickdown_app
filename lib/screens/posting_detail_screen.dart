@@ -15,16 +15,16 @@ class PostingDetailsScreen extends StatelessWidget {
       child: Column(
         children: [
           PostingHeader(posting: posting, isDetail: true),
-          Padding(
-            padding: const EdgeInsets.all(32.0),
+          Expanded(
             child: ListView(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 32),
               shrinkWrap: true,
               children: [
                 Text(
                   'Details',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 8),
                 Column(
                   children: [
                     DetailRow(type: 'Verkäufer', detail: posting.sellerName),
@@ -49,16 +49,19 @@ class PostingDetailsScreen extends StatelessWidget {
               ],
             ),
           ),
-          FlatButton(
-            onPressed: () {
-              print('Bieten');
-            },
-            child: Text(
-              'Bieten',
-              style: TextStyle(color: Colors.white),
+          Container(
+            height: 70,
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 32),
+            child: Expanded(
+              child: CupertinoButton(
+                child: Text('Bieten'),
+                color: Colors.red,
+                onPressed: () => print('tap'),
+              ),
             ),
-            color: CupertinoTheme.of(context).primaryColor,
-          )
+          ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom)
         ],
       ),
     );

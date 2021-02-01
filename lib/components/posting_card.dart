@@ -18,8 +18,19 @@ class PostingCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
-          height: 250,
-          child: Card(child: PostingHeader(posting: posting)),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x54000000),
+                spreadRadius: 4,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: PostingHeader(posting: posting),
+          ),
         ),
       ),
       onTap: () {

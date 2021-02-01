@@ -12,4 +12,50 @@ abstract class Styles {
   static const Color settingsRowDivider = Color(0xFFD9D9D9);
 
   static const Color settingsDetailColor = Color(0xFFD9D9D9);
+
+  // STYLE GUIDE STARTS HERE:
+
+  // COLORS
+  static const Color _kickdownRed = Color(0xFFF44336);
+  static const Color _kickdownDarkRed = Color(0xC62B20);
+  static const Color _black = Color(0xFF000000);
+  static const Color _grayDark = Color(0xFF848484);
+  static const Color _grayLight = Color(0xFFC7C7C7);
+  static const Color _white = Color(0xFFFFFFFF);
+  static const Color _green = Color(0xFF6CD971);
+  static Color _gradientBlack = Color.lerp(_black.withOpacity(0), _black, 0.5);
+
+  static const Color accentColor01 = _kickdownRed;
+  static const Color annotationBadgeColor = _green;
+
+  // TEXT STYLES
+  static const TextStyle title01 =
+      TextStyle(color: _black, fontSize: 25, fontWeight: FontWeight.w800);
+
+  static const TextStyle title02 =
+      TextStyle(color: _black, fontSize: 15, fontWeight: FontWeight.w800);
+
+  static const TextStyle title03 =
+      TextStyle(color: _kickdownRed, fontSize: 25, fontWeight: FontWeight.w800);
+
+  static const TextStyle title04 =
+      TextStyle(color: _white, fontSize: 15, fontWeight: FontWeight.w800);
+
+  static const TextStyle body01 =
+      TextStyle(color: _black, fontSize: 15, fontWeight: FontWeight.normal);
+
+  static const TextStyle caption01 =
+      TextStyle(color: _grayDark, fontSize: 13, fontWeight: FontWeight.normal);
+
+  static const TextStyle caption02 =
+      TextStyle(color: _grayDark, fontSize: 13, fontWeight: FontWeight.bold);
+
+  static const TextStyle caption03 =
+      TextStyle(color: _kickdownRed, fontSize: 13, fontWeight: FontWeight.bold);
+
+  static const TextStyle caption04 =
+      TextStyle(color: _white, fontSize: 13, fontWeight: FontWeight.bold);
+
+  static const TextStyle caption05 = TextStyle(
+      color: _kickdownRed, fontSize: 13, fontWeight: FontWeight.normal);
 }
