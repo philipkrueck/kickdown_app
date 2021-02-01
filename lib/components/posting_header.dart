@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/networking/posting.dart';
 import 'package:kickdown_app/styles.dart';
 
+import '../application_state.dart';
 import 'countdown_label.dart';
 import 'package:intl/intl.dart';
 
@@ -15,17 +17,14 @@ class PostingHeader extends StatelessWidget {
 
   PostingHeader({this.posting, this.isDetail = false});
 
-  Widget _buildNetworkImage(Posting posting, bool isDetail) {
-    return Image.network(
-      posting.heroPhotoURL,
-      height: isDetail ? 300 : 180,
+  Widget get _networkImage {
+    return CachedNetworkImage(
+      imageUrl: this.posting.heroPhotoURL,
+      placeholder: (context, url) => ApplicationState.placeholder,
+      errorWidget: (context, url, error) => Icon(Icons.error),
       width: double.infinity,
-      fit: BoxFit.cover,
-      loadingBuilder: (context, child, progress) {
-        return progress == null
-            ? child
-            : CupertinoActivityIndicator.partiallyRevealed();
-      },
+      height: isDetail ? 300 : 180,
+      fit: BoxFit.fitWidth,
     );
   }
 
@@ -55,7 +54,7 @@ class PostingHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildImageLabel() {
+  Widget get _imageLabel {
     return Positioned(
       bottom: 8,
       right: 8,
@@ -74,10 +73,10 @@ class PostingHeader extends StatelessWidget {
         children: [
           Stack(
             children: [
-              _buildNetworkImage(posting, isDetail),
+              _networkImage,
               isDetail ? _buildBackButton(context) : Container(),
               _buildFavoriteIcon(context),
-              isDetail ? _buildImageLabel() : Container(),
+              isDetail ? _imageLabel : Container(),
             ],
           ),
           Padding(

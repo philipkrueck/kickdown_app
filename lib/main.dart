@@ -3,9 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:kickdown_app/screens/postings_screen.dart';
 import 'package:kickdown_app/screens/settings_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+import 'application_state.dart';
 
 void main() {
-  runApp(KickdownApp());
+  runApp(
+    ChangeNotifierProvider(
+      lazy: false,
+      create: (context) {
+        return ApplicationState();
+      },
+      builder: (context, _) => KickdownApp(),
+    ),
+  );
 }
 
 class KickdownApp extends StatelessWidget {
