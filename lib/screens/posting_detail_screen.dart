@@ -1,10 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/components/bid_button.dart';
-import 'package:kickdown_app/components/countdown_label.dart';
+import 'package:kickdown_app/components/buttons/button_01.dart';
 import 'package:kickdown_app/components/posting_header.dart';
 import 'package:kickdown_app/networking/posting.dart';
 import 'package:kickdown_app/screens/bid_preparation_screen.dart';
@@ -76,10 +72,10 @@ class PostingDetailsScreen extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 32),
             child: Expanded(
-              child: BidButton(
-                onButtonPressed: _onButtonPressed,
-              ),
-            ),
+                child: Button01(
+              onPressed: _onButtonPressed,
+              text: 'Bieten',
+            )),
           ),
           SizedBox(height: MediaQuery.of(context).padding.bottom)
         ],

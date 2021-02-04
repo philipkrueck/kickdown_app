@@ -96,6 +96,7 @@ class _MoreScreenState extends State<MoreScreen> {
     ];
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
           CupertinoSliverNavigationBar(largeTitle: Text('Mehr')),
@@ -133,7 +134,7 @@ class _MoreScreenState extends State<MoreScreen> {
   }
 }
 
-class CupertinoListTile extends StatelessWidget {
+class CupertinoListTile extends StatefulWidget {
   final String title;
   final Widget trailing;
   final AsyncCallback onTap;
@@ -148,40 +149,65 @@ class CupertinoListTile extends StatelessWidget {
       @required this.isEndOfSection});
 
   @override
+  _CupertinoListTileState createState() => _CupertinoListTileState();
+}
+
+class _CupertinoListTileState extends State<CupertinoListTile> {
+  Color _backgroundColor = Colors.white;
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Column(
-        children: [
-          SizedBox(
-            height: isStartOfSection ? 28 : 0,
-          ),
-          isStartOfSection ? CupertinoSectionDivider() : Container(),
-          Container(
-            height: 44,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                      title,
-                      style: Styles.body01,
+    return Column(
+      children: [
+        SizedBox(
+          height: widget.isStartOfSection ? 28 : 0,
+        ),
+        widget.isStartOfSection ? CupertinoSectionDivider() : Container(),
+        GestureDetector(
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: Container(
+              color: _backgroundColor,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(16, 15, 16, 13),
+                      child: Text(
+                        widget.title,
+                        style: Styles.body01,
+                      ),
                     ),
                   ),
-                ),
-                trailing,
-              ],
+                  widget.trailing,
+                ],
+              ),
             ),
           ),
-          isEndOfSection
-              ? CupertinoSectionDivider()
-              : CupertinoInnerRowDivider(),
-          SizedBox(
-            height: isEndOfSection ? 20 : 0,
-          ),
-        ],
-      ),
-      onTap: onTap,
+          onTapDown: (tapDetails) {
+            if (widget.onTap == null) {
+              return;
+            }
+            setState(() {
+              _backgroundColor = CupertinoColors.secondarySystemFill;
+            });
+          },
+          onTapCancel: () {
+            if (widget.onTap == null) {
+              return;
+            }
+            setState(() {
+              _backgroundColor = Colors.white;
+            });
+          },
+        ),
+        widget.isEndOfSection
+            ? CupertinoSectionDivider()
+            : CupertinoInnerRowDivider(),
+        SizedBox(
+          height: widget.isEndOfSection ? 20 : 0,
+        ),
+      ],
     );
   }
 }
@@ -199,9 +225,12 @@ class CupertinoSectionDivider extends StatelessWidget {
 class CupertinoInnerRowDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 1,
-      color: Styles.settingsRowDivider, //Styles.settingsRowDivider,
+    return Padding(
+      padding: EdgeInsets.only(left: 16),
+      child: Container(
+        height: 1,
+        color: Styles.settingsRowDivider, //Styles.settingsRowDivider,
+      ),
     );
   }
 }
@@ -213,7 +242,7 @@ class DetailIcon extends StatelessWidget {
       padding: EdgeInsets.only(right: 10),
       child: Icon(
         CupertinoIcons.forward,
-        color: Styles.settingsDetailColor,
+        color: Styles.chevronColor,
       ),
     );
   }

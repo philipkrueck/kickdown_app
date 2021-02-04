@@ -15,16 +15,21 @@ class PostingHeader extends StatelessWidget {
   final NumberFormat currencyFormatter =
       NumberFormat.simpleCurrency(locale: 'eu', decimalDigits: 0);
 
-  PostingHeader({this.posting, this.isDetail = false});
+  PostingHeader({
+    @required this.posting,
+    this.isDetail = false,
+  });
 
   Widget get _networkImage {
-    return CachedNetworkImage(
-      imageUrl: this.posting.heroPhotoURL,
-      placeholder: (context, url) => ApplicationState.placeholder,
-      errorWidget: (context, url, error) => Icon(Icons.error),
-      width: double.infinity,
-      height: isDetail ? 300 : 180,
-      fit: BoxFit.fitWidth,
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: CachedNetworkImage(
+        imageUrl: this.posting.heroPhotoURL,
+        placeholder: (context, url) => ApplicationState.placeholder,
+        errorWidget: (context, url, error) => ApplicationState.placeholder,
+        width: double.infinity,
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 
@@ -38,8 +43,8 @@ class PostingHeader extends StatelessWidget {
           isSelected
               ? 'assets/ic_favorite_selected.png'
               : 'assets/ic_favorite_normal.png',
-          width: 40,
-          height: 50,
+          width: 32,
+          height: 32,
         ),
         onPressed: onPressed,
       ),
@@ -74,6 +79,51 @@ class PostingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget _buildBottomInformation() {
+      return Container(
+        padding: EdgeInsets.all(8.0),
+        color: Colors.white,
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    posting.title,
+                    style: Styles.title02,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                ),
+                Text(
+                  currencyFormatter.format(posting.currentPrice),
+                  style: Styles.title03,
+                ),
+              ],
+            ),
+            SizedBox(height: 4),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  posting.city,
+                  style: Styles.caption02,
+                ),
+                CountdownLabel(
+                  endDate: posting.endTime,
+                  currentUserIsHighestBidder: false,
+                )
+              ],
+            )
+          ],
+        ),
+      );
+    }
+
     return Hero(
       tag: posting.id,
       child: Container(
@@ -93,47 +143,7 @@ class PostingHeader extends StatelessWidget {
                 isDetail ? _imageLabel : Container(),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          posting.title,
-                          style: Styles.title02,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          softWrap: false,
-                        ),
-                      ),
-                      Text(
-                        currencyFormatter.format(posting.currentPrice),
-                        style: Styles.title03,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        posting.city,
-                        style: Styles.caption02,
-                      ),
-                      CountdownLabel(
-                        endDate: posting.endTime,
-                        currentUserIsHighestBidder: false,
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
+            _buildBottomInformation(),
           ],
         ),
       ),

@@ -28,7 +28,9 @@ class KickdownApp extends StatelessWidget {
     return CupertinoApp(
       title: 'Hello',
       theme: CupertinoThemeData(
+        scaffoldBackgroundColor: Colors.white,
         primaryColor: Colors.red,
+        barBackgroundColor: Colors.white,
       ),
       home: TabNavigation(),
     );
@@ -72,7 +74,9 @@ class TabNavigation extends StatelessWidget {
         } else {
           returnValue = CupertinoTabView(
             builder: (context) {
-              return CupertinoPageScaffold(child: MoreScreen());
+              return CupertinoPageScaffold(
+                child: MoreScreen(),
+              );
             },
           );
         }

@@ -9,9 +9,11 @@ abstract class Styles {
     fontWeight: FontWeight.normal,
   );
 
-  static const Color settingsRowDivider = Color(0xFFD9D9D9);
+  static const Color settingsRowDivider = Color(0xFFCCCCCCC);
 
-  static const Color settingsDetailColor = Color(0xFFD9D9D9);
+  static const Color settingsDetailColor = Color(0xFFCCCCCCC);
+
+  static const Color chevronColor = Color(0xFFD8D8D8);
 
   // STYLE GUIDE STARTS HERE:
 
@@ -29,6 +31,7 @@ abstract class Styles {
   static const Color textColor02 = _grayLight;
   static const Color accentColor01Normal = _kickdownRed;
   static const Color accentColor01Pressed = _kickdownDarkRed;
+  static const Color accentColor01Disabled = _grayLight;
   static const Color annotationBadgeColor = _green;
 
   // TEXT STYLES
@@ -45,7 +48,7 @@ abstract class Styles {
       TextStyle(color: _white, fontSize: 15, fontWeight: FontWeight.w800);
 
   static const TextStyle body01 =
-      TextStyle(color: _black, fontSize: 15, fontWeight: FontWeight.normal);
+      TextStyle(color: _black, fontSize: 15, fontWeight: FontWeight.w500);
 
   static const TextStyle caption01 =
       TextStyle(color: _grayDark, fontSize: 13, fontWeight: FontWeight.normal);

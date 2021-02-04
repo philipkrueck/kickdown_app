@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kickdown_app/components/bid_button.dart';
+import 'package:kickdown_app/components/buttons/button_02.dart';
 
 class BidPreparationScreen extends StatelessWidget {
   @override
@@ -28,9 +28,11 @@ class BidPreparationScreen extends StatelessWidget {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        BidButton(
-          onButtonPressed: _showErrorDialog,
+        Button02(
+          onPressed: _showErrorDialog,
+          text: 'Bieten',
         )
       ],
     );

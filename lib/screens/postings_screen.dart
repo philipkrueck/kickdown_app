@@ -17,6 +17,8 @@ class _PostingsScreenState extends State<PostingsScreen> {
   final navigationBarSliver = CupertinoSliverNavigationBar(
       largeTitle: Text('Angebote'), transitionBetweenRoutes: true);
 
+  static const double _padding = 16.0;
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +58,16 @@ class _PostingsScreenState extends State<PostingsScreen> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return PostingCard(posting: postings[index]);
+          return Padding(
+            padding: EdgeInsets.only(
+              left: _padding,
+              right: _padding,
+              top: _padding,
+            ),
+            child: PostingCard(
+              posting: postings[index],
+            ),
+          );
         },
         childCount: postings.length,
       ),
@@ -79,27 +90,31 @@ class _PostingsScreenState extends State<PostingsScreen> {
     return SliverFillRemaining(
       hasScrollBody: false,
       child: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
         child: ErrorScreen(),
       ),
     );
   }
 
-  CustomScrollView _buildScrollView({Widget bodySliver, bool isScrollable}) {
-    return CustomScrollView(
-      physics: isScrollable
-          ? AlwaysScrollableScrollPhysics()
-          : NeverScrollableScrollPhysics(),
-      slivers: <Widget>[
-        CupertinoSliverRefreshControl(
-          onRefresh: _refreshData,
-        ),
-        navigationBarSliver,
-        SliverSafeArea(
-          top: false,
-          sliver: bodySliver,
-        ),
-      ],
+  Widget _buildScrollView({Widget bodySliver, bool isScrollable}) {
+    return SafeArea(
+      child: CustomScrollView(
+        physics: isScrollable
+            ? AlwaysScrollableScrollPhysics()
+            : NeverScrollableScrollPhysics(),
+        slivers: <Widget>[
+          CupertinoSliverRefreshControl(
+            onRefresh: _refreshData,
+          ),
+          navigationBarSliver,
+          SliverSafeArea(
+            top: false,
+            sliver: bodySliver,
+          ),
+        ],
+      ),
     );
   }
 

@@ -32,6 +32,7 @@ class _Button03State extends State<Button03> {
         padding: EdgeInsets.zero,
         onPressed: widget.onPressed,
         pressedOpacity: 1,
+        disabledColor: Styles.accentColor01Disabled,
         child: Text(
           widget.text,
           style: Styles.buttonText02.copyWith(color: _textColor),
