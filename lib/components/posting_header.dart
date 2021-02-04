@@ -74,65 +74,68 @@ class PostingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              _networkImage,
-              isDetail ? _buildBackButton(context) : Container(),
-              _buildFavoriteIcon(
-                  context: context,
-                  isSelected: false,
-                  onPressed: () {
-                    print('tap favorite');
-                  }),
-              isDetail ? _imageLabel : Container(),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
+    return Hero(
+      tag: posting.id,
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Stack(
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        posting.title,
-                        style: Styles.title02,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        softWrap: false,
-                      ),
-                    ),
-                    Text(
-                      currencyFormatter.format(posting.currentPrice),
-                      style: Styles.title03,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 5),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      posting.city,
-                      style: Styles.caption02,
-                    ),
-                    CountdownLabel(
-                      endDate: posting.endTime,
-                      currentUserIsHighestBidder: false,
-                    )
-                  ],
-                )
+                _networkImage,
+                isDetail ? _buildBackButton(context) : Container(),
+                _buildFavoriteIcon(
+                    context: context,
+                    isSelected: false,
+                    onPressed: () {
+                      print('tap favorite');
+                    }),
+                isDetail ? _imageLabel : Container(),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          posting.title,
+                          style: Styles.title02,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                      ),
+                      Text(
+                        currencyFormatter.format(posting.currentPrice),
+                        style: Styles.title03,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        posting.city,
+                        style: Styles.caption02,
+                      ),
+                      CountdownLabel(
+                        endDate: posting.endTime,
+                        currentUserIsHighestBidder: false,
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

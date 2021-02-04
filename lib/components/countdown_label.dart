@@ -13,7 +13,6 @@ class CountdownLabel extends StatelessWidget {
       this.currentUserIsHighestBidder = false});
 
   Duration get durationUntilEnd {
-    return Duration(hours: 3, seconds: 4);
     return endDate.difference(DateTime.now());
   }
 
@@ -51,7 +50,7 @@ class CountdownLabel extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
         color: currentUserIsHighestBidder
             ? Styles.annotationBadgeColor
-            : Styles.accentColor01,
+            : Styles.accentColor01Normal,
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8, 3, 7, 2),

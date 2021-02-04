@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/screens/postings_screen.dart';
-import 'package:kickdown_app/screens/settings_screen.dart';
+import 'package:kickdown_app/screens/more_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
@@ -72,7 +72,7 @@ class TabNavigation extends StatelessWidget {
         } else {
           returnValue = CupertinoTabView(
             builder: (context) {
-              return CupertinoPageScaffold(child: SettingsScreen());
+              return CupertinoPageScaffold(child: MoreScreen());
             },
           );
         }

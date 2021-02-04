@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kickdown_app/components/buttons/button_03.dart';
 import 'package:kickdown_app/styles.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class SettingsScreen extends StatefulWidget {
+class MoreScreen extends StatefulWidget {
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  _MoreScreenState createState() => _MoreScreenState();
 
-  final ChromeSafariBrowser browser = ChromeSafariBrowser();
+  ChromeSafariBrowser browser = ChromeSafariBrowser();
 }
 
 const String aboutKickdownURL = 'https://www.kickdown.com/de/howitworks';
@@ -33,67 +34,66 @@ class SettingsListTileViewModel {
   });
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
-  List<SettingsListTileViewModel> settingsListTileViewModels = [
-    SettingsListTileViewModel(
-      title: 'Mein Account',
-      trailing: CupertinoButton(
-        padding: EdgeInsets.only(right: 8),
-        child: Text('Anmelden'),
-        onPressed: () => print('Anmelden'),
-      ),
-      isStartOfSection: true,
-      isEndOfSection: true,
-    ),
-    SettingsListTileViewModel(
-      title: 'About Kickdown',
-      trailing: DetailIcon(),
-      url: aboutKickdownURL,
-      isStartOfSection: true,
-    ),
-    SettingsListTileViewModel(
-      title: 'AGB',
-      trailing: DetailIcon(),
-      url: termsOfUsagesURL,
-    ),
-    SettingsListTileViewModel(
-      title: 'Datenschutz',
-      trailing: DetailIcon(),
-      url: privacyTermsUrl,
-    ),
-    SettingsListTileViewModel(
-      title: 'Impressum',
-      trailing: DetailIcon(),
-      url: imprintUrl,
-      isEndOfSection: true,
-    ),
-    SettingsListTileViewModel(
-      title: 'Tracking',
-      trailing: CupertinoSwitch(
-        value: true,
-        onChanged: (bool newValue) {
-          // update switch value
-        },
-      ),
-      isStartOfSection: true,
-      isEndOfSection: true,
-    )
-  ];
+class _MoreScreenState extends State<MoreScreen> {
+  bool trackingIsOn = true;
 
   @override
   Widget build(BuildContext context) {
-    settingsListTileViewModels.last = SettingsListTileViewModel(
-      title: 'Tracking',
-      trailing: CupertinoSwitch(
-        activeColor: CupertinoTheme.of(context).primaryColor,
-        value: true,
-        onChanged: (bool newValue) {
-          // update switch value
-        },
+    List<SettingsListTileViewModel> settingsListTileViewModels = [
+      SettingsListTileViewModel(
+        title: 'Mein Account',
+        trailing: Padding(
+          padding: EdgeInsets.only(right: 16),
+          child: Button03(
+            text: 'Anmelden',
+            onPressed: () {
+              print('Anmelden');
+            },
+          ),
+        ),
+        isStartOfSection: true,
+        isEndOfSection: true,
       ),
-      isStartOfSection: true,
-      isEndOfSection: true,
-    );
+      SettingsListTileViewModel(
+        title: 'About Kickdown',
+        trailing: DetailIcon(),
+        url: aboutKickdownURL,
+        isStartOfSection: true,
+      ),
+      SettingsListTileViewModel(
+        title: 'AGB',
+        trailing: DetailIcon(),
+        url: termsOfUsagesURL,
+      ),
+      SettingsListTileViewModel(
+        title: 'Datenschutz',
+        trailing: DetailIcon(),
+        url: privacyTermsUrl,
+      ),
+      SettingsListTileViewModel(
+        title: 'Impressum',
+        trailing: DetailIcon(),
+        url: imprintUrl,
+        isEndOfSection: true,
+      ),
+      SettingsListTileViewModel(
+        title: 'Tracking',
+        trailing: Padding(
+          padding: EdgeInsets.only(right: 10),
+          child: CupertinoSwitch(
+            value: trackingIsOn,
+            activeColor: Styles.accentColor01Normal,
+            onChanged: (bool newValue) {
+              setState(() {
+                trackingIsOn = newValue;
+              });
+            },
+          ),
+        ),
+        isStartOfSection: true,
+        isEndOfSection: true,
+      )
+    ];
 
     return Scaffold(
       body: CustomScrollView(
@@ -122,7 +122,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _openUrl(String url) async {
-    await widget.browser.open(url: url);
+    print('open $url');
+    await widget.browser.open(
+      url: url,
+      options: ChromeSafariBrowserClassOptions(
+        ios: IOSSafariOptions(
+            transitionStyle: IOSUIModalTransitionStyle.PARTIAL_CURL),
+      ),
+    );
   }
 }
 
@@ -146,7 +153,7 @@ class CupertinoListTile extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: isStartOfSection ? 20 : 0,
+            height: isStartOfSection ? 28 : 0,
           ),
           isStartOfSection ? CupertinoSectionDivider() : Container(),
           Container(
@@ -156,7 +163,10 @@ class CupertinoListTile extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(title),
+                    child: Text(
+                      title,
+                      style: Styles.body01,
+                    ),
                   ),
                 ),
                 trailing,
@@ -189,12 +199,9 @@ class CupertinoSectionDivider extends StatelessWidget {
 class CupertinoInnerRowDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      child: Container(
-        height: 1,
-        color: Styles.settingsRowDivider, //Styles.settingsRowDivider,
-      ),
+    return Container(
+      height: 1,
+      color: Styles.settingsRowDivider, //Styles.settingsRowDivider,
     );
   }
 }
@@ -202,9 +209,12 @@ class CupertinoInnerRowDivider extends StatelessWidget {
 class DetailIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      CupertinoIcons.forward,
-      color: Styles.settingsDetailColor,
+    return Padding(
+      padding: EdgeInsets.only(right: 10),
+      child: Icon(
+        CupertinoIcons.forward,
+        color: Styles.settingsDetailColor,
+      ),
     );
   }
 }

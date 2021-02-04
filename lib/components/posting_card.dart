@@ -22,7 +22,8 @@ class PostingCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Color(0x54000000),
-                spreadRadius: 4,
+                spreadRadius: 1,
+                blurRadius: 4,
               ),
             ],
             borderRadius: BorderRadius.circular(20),

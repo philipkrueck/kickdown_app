@@ -1,8 +1,13 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kickdown_app/components/bid_button.dart';
 import 'package:kickdown_app/components/countdown_label.dart';
 import 'package:kickdown_app/components/posting_header.dart';
 import 'package:kickdown_app/networking/posting.dart';
+import 'package:kickdown_app/screens/bid_preparation_screen.dart';
 
 class PostingDetailsScreen extends StatelessWidget {
   final Posting posting;
@@ -11,6 +16,23 @@ class PostingDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _onButtonPressed() {
+      showCupertinoModalPopup(
+          useRootNavigator: true,
+          context: context,
+          builder: (context) {
+            return Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(16))),
+              width: double.infinity,
+              height: 300,
+              child: BidPreparationScreen(),
+            );
+          });
+    }
+
     return CupertinoPageScaffold(
       child: Column(
         children: [
@@ -54,10 +76,8 @@ class PostingDetailsScreen extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 32),
             child: Expanded(
-              child: CupertinoButton(
-                child: Text('Bieten'),
-                color: Colors.red,
-                onPressed: () => print('tap'),
+              child: BidButton(
+                onButtonPressed: _onButtonPressed,
               ),
             ),
           ),

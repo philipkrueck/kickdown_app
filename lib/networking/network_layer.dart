@@ -15,7 +15,7 @@ class NetworkLayer {
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     final response = await http.get(
-      '$_productionBaseURL/api/v1/postings',
+      '$_debugBaseURL/api/v1/postings',
       headers: <String, String>{'authorization': basicAuth},
     );
 

@@ -31,6 +31,7 @@ dependencies:
   intl: ^0.16.1
   provider: ^4.3.2+2
   cached_network_image: ^2.5.0
+  cupertino_listview: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -39,33 +40,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/ic_menu_more_normal.png
-    - assets/2.0/ic_menu_more_normal.png
-    - assets/3.0/ic_menu_more_normal.png
-    - assets/ic_menu_more_selected.png
-    - assets/2.0/ic_menu_more_selected.png
-    - assets/3.0/ic_menu_more_selected.png
-    - assets/ic_menu_overview_normal.png
-    - assets/2.0/ic_menu_overview_normal.png
-    - assets/3.0/ic_menu_overview_normal.png
-    - assets/ic_menu_overview_selected.png
-    - assets/2.0/ic_menu_overview_selected.png
-    - assets/3.0/ic_menu_overview_selected.png
-    - assets/ic_navbar_back.png
-    - assets/2.0/ic_navbar_back.png
-    - assets/3.0/ic_navbar_back.png
-    - assets/ic_navbar_close.png
-    - assets/2.0/ic_navbar_close.png
-    - assets/3.0/ic_navbar_close.png
-    - assets/ic_timer.png
-    - assets/2.0/ic_timer.png
-    - assets/3.0/ic_timer.png
-    - assets/img_placeholder.png
-    - assets/2.0/img_placeholder.png
-    - assets/3.0/img_placeholder.png
-    - assets/ic_favorite_normal.png
-    - assets/2.0/ic_favorite_normal.png
-    - assets/3.0/ic_favorite_normal.png
-    - assets/ic_favorite_selected.png
-    - assets/2.0/ic_favorite_selected.png
-    - assets/3.0/ic_favorite_selected.png
+    - assets/
