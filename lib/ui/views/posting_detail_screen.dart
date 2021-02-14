@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/components/buttons/button_01.dart';
-import 'package:kickdown_app/components/posting_header.dart';
-import 'package:kickdown_app/networking/posting.dart';
-import 'package:kickdown_app/screens/bid_preparation_screen.dart';
+import 'package:kickdown_app/models/posting.dart';
+import 'package:kickdown_app/ui/shared/buttons/button_01.dart';
+import 'package:kickdown_app/ui/shared/posting_header.dart';
+
+import 'bid_preparation_screen.dart';
 
 class PostingDetailsScreen extends StatelessWidget {
   final Posting posting;

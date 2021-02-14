@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/networking/posting.dart';
+import 'package:kickdown_app/application_state.dart';
+import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/styles.dart';
 
-import '../application_state.dart';
 import 'countdown_label.dart';
 import 'package:intl/intl.dart';
 

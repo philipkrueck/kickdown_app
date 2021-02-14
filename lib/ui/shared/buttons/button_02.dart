@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../styles.dart';
+import 'package:kickdown_app/styles.dart';
 
 class Button02 extends StatefulWidget {
   final String text;

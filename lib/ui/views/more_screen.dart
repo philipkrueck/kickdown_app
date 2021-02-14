@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/components/buttons/button_03.dart';
 import 'package:kickdown_app/styles.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:kickdown_app/ui/shared/buttons/button_03.dart';
 
 class MoreScreen extends StatefulWidget {
   @override
@@ -95,29 +95,33 @@ class _MoreScreenState extends State<MoreScreen> {
       )
     ];
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(largeTitle: Text('Mehr')),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                final viewModel = settingsListTileViewModels[index];
-                return CupertinoListTile(
-                  title: viewModel.title,
-                  trailing: viewModel.trailing,
-                  onTap: viewModel.url != null
-                      ? () => _openUrl(viewModel.url)
-                      : null,
-                  isStartOfSection: viewModel.isStartOfSection,
-                  isEndOfSection: viewModel.isEndOfSection,
-                );
-              },
-              childCount: settingsListTileViewModels.length,
-            ),
-          )
-        ],
+    return CupertinoTabView(
+      builder: (context) => CupertinoPageScaffold(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: CustomScrollView(
+            slivers: <Widget>[
+              CupertinoSliverNavigationBar(largeTitle: Text('Mehr')),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    final viewModel = settingsListTileViewModels[index];
+                    return CupertinoListTile(
+                      title: viewModel.title,
+                      trailing: viewModel.trailing,
+                      onTap: viewModel.url != null
+                          ? () => _openUrl(viewModel.url)
+                          : null,
+                      isStartOfSection: viewModel.isStartOfSection,
+                      isEndOfSection: viewModel.isEndOfSection,
+                    );
+                  },
+                  childCount: settingsListTileViewModels.length,
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

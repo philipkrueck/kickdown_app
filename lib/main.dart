@@ -1,22 +1,18 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:kickdown_app/screens/postings_screen.dart';
-import 'package:kickdown_app/screens/more_screen.dart';
+import 'package:flutter/cupertino.dart' hide Router;
+import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
+import 'package:kickdown_app/app/locator.dart';
+import 'package:kickdown_app/ui/views/more_screen.dart';
+import 'package:kickdown_app/ui/views/postings/postings_view.dart';
 import 'package:provider/provider.dart';
+import 'package:stacked_services/stacked_services.dart';
 
+import 'app/router.gr.dart';
 import 'application_state.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      lazy: false,
-      create: (context) {
-        return ApplicationState();
-      },
-      builder: (context, _) => KickdownApp(),
-    ),
-  );
+  setupLocator();
+  runApp(KickdownApp());
 }
 
 class KickdownApp extends StatelessWidget {
@@ -26,13 +22,15 @@ class KickdownApp extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     return CupertinoApp(
-      title: 'Hello',
+      title: 'Kickdown',
+      initialRoute: Routes.InitialRoute,
+      onGenerateRoute: Router().onGenerateRoute,
+      navigatorKey: StackedService.navigatorKey,
       theme: CupertinoThemeData(
         scaffoldBackgroundColor: Colors.white,
         primaryColor: Colors.red,
         barBackgroundColor: Colors.white,
       ),
-      home: TabNavigation(),
     );
   }
 }
@@ -68,7 +66,7 @@ class TabNavigation extends StatelessWidget {
         if (index == 0) {
           returnValue = CupertinoTabView(
             builder: (context) {
-              return CupertinoPageScaffold(child: PostingsScreen());
+              return CupertinoPageScaffold(child: PostingsView());
             },
           );
         } else {

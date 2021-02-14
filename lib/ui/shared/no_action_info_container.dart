@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-
-import '../styles.dart';
+import 'package:kickdown_app/styles.dart';
 
 class NoActionInfoContainer extends StatelessWidget {
   final String text;
@@ -12,9 +11,13 @@ class NoActionInfoContainer extends StatelessWidget {
     return Container(
       color: CupertinoColors.systemGroupedBackground,
       child: Center(
-        child: Text(
-          'Es sind aktuell keine Daten vorhanden.',
-          style: Styles.errorLabel,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: Styles.errorLabel,
+          ),
         ),
       ),
     );

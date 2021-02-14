@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/components/posting_header.dart';
-import 'package:kickdown_app/networking/posting.dart';
-import 'package:kickdown_app/screens/posting_detail_screen.dart';
+import 'package:kickdown_app/models/posting.dart';
+import 'package:kickdown_app/ui/shared/posting_header.dart';
+import 'package:kickdown_app/ui/views/posting_detail_screen.dart';
 
 import 'countdown_label.dart';
 

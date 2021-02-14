@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../styles.dart';
+import 'package:kickdown_app/styles.dart';
 
 class CountdownLabel extends StatelessWidget {
   final DateTime endDate;

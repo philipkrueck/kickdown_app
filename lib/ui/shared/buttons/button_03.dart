@@ -1,42 +1,40 @@
 import 'package:flutter/cupertino.dart';
+import 'package:kickdown_app/styles.dart';
 
-import '../../styles.dart';
-
-class Button01 extends StatefulWidget {
+class Button03 extends StatefulWidget {
   final String text;
   final Function onPressed;
 
-  Button01({@required this.text, this.onPressed});
+  Button03({@required this.text, this.onPressed});
 
   @override
-  _Button01State createState() => _Button01State();
+  _Button03State createState() => _Button03State();
 }
 
-class _Button01State extends State<Button01> {
-  Color _backgroundColor = Styles.accentColor01Normal;
+class _Button03State extends State<Button03> {
+  Color _textColor = Styles.accentColor01Normal;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (tapDetails) {
         setState(() {
-          _backgroundColor = Styles.accentColor01Pressed;
+          _textColor = Styles.accentColor01Pressed;
         });
       },
       onTapCancel: () {
         setState(() {
-          _backgroundColor = Styles.accentColor01Normal;
+          _textColor = Styles.accentColor01Normal;
         });
       },
       child: CupertinoButton(
         padding: EdgeInsets.zero,
         onPressed: widget.onPressed,
-        color: _backgroundColor,
         pressedOpacity: 1,
         disabledColor: Styles.accentColor01Disabled,
         child: Text(
           widget.text,
-          style: Styles.buttonText01,
+          style: Styles.buttonText02.copyWith(color: _textColor),
         ),
       ),
     );

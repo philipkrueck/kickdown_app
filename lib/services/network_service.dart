@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:kickdown_app/networking/posting.dart';
+import 'package:kickdown_app/models/posting.dart';
 
-class NetworkLayer {
+class NetworkService {
   static const _debugBaseURL = 'https://kdstaging.herokuapp.com';
   static const _productionBaseURL = 'https://www.kickdown.com';
 
-  static Future<List<Posting>> fetchPostings() async {
+  Future<List<Posting>> fetchPostings() async {
     // NOTE: set up basic auth
     String username = 'foo';
     String password = 'bar';
@@ -27,7 +27,7 @@ class NetworkLayer {
     }
   }
 
-  static List<Posting> _parsePostings(String responseBody) {
+  List<Posting> _parsePostings(String responseBody) {
     Map<String, dynamic> parsed = jsonDecode(responseBody);
 
     List<dynamic> postings =

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kickdown_app/components/buttons/button_02.dart';
+import 'package:kickdown_app/ui/shared/buttons/button_02.dart';
 
 class BidPreparationScreen extends StatelessWidget {
   @override
