@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../ui/views/more/more_viewmodel.dart';
 import '../services/network_service.dart';
 import '../services/postings_manager.dart';
 import '../ui/views/postings/postings_viewmodel.dart';
@@ -32,6 +33,7 @@ GetIt $initGetIt(
       () => thirdPartyServicesModule.postingsService);
 
   // Eager singletons must be registered in the right order
+  gh.singleton<MoreViewmodel>(MoreViewmodel());
   gh.singleton<PostingsViewmodel>(PostingsViewmodel());
   return get;
 }

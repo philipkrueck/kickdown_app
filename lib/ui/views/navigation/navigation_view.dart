@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kickdown_app/ui/views/more/more_view.dart';
 import 'package:kickdown_app/ui/views/navigation/navigation_viewmodel.dart';
 import 'package:kickdown_app/ui/views/postings/postings_view.dart';
 import 'package:stacked/stacked.dart';
-import '../more_screen.dart';
 
 class NavigationView extends StatelessWidget {
   final overviewNormalTabIcon =
@@ -43,7 +43,7 @@ class NavigationView extends StatelessWidget {
       case 0:
         return PostingsView();
       case 1:
-        return MoreScreen();
+        return MoreView();
       default:
         return PostingsView();
     }

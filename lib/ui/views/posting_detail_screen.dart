@@ -72,11 +72,10 @@ class PostingDetailsScreen extends StatelessWidget {
             height: 70,
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 32),
-            child: Expanded(
-                child: Button01(
+            child: Button01(
               onPressed: _onButtonPressed,
               text: 'Bieten',
-            )),
+            ),
           ),
           SizedBox(height: MediaQuery.of(context).padding.bottom)
         ],

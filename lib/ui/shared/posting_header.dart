@@ -1,12 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/application_state.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/styles.dart';
 
 import 'countdown_label.dart';
 import 'package:intl/intl.dart';
+
+Image placeholderImage = Image.asset(
+  'assets/img_placeholder.png',
+  fit: BoxFit.cover,
+);
 
 class PostingHeader extends StatelessWidget {
   final Posting posting;
@@ -25,8 +29,8 @@ class PostingHeader extends StatelessWidget {
       aspectRatio: 16 / 9,
       child: CachedNetworkImage(
         imageUrl: this.posting.heroPhotoURL,
-        placeholder: (context, url) => ApplicationState.placeholder,
-        errorWidget: (context, url, error) => ApplicationState.placeholder,
+        placeholder: (context, url) => placeholderImage,
+        errorWidget: (context, url, error) => placeholderImage,
         width: double.infinity,
         fit: BoxFit.fitWidth,
       ),

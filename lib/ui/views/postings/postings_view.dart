@@ -10,9 +10,10 @@ import 'package:kickdown_app/ui/views/postings/postings_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class PostingsView extends StatelessWidget {
-  Future<List<Posting>> futurePostings;
   final navigationBarSliver = CupertinoSliverNavigationBar(
-      largeTitle: Text('Angebote'), transitionBetweenRoutes: true);
+    largeTitle: Text('Angebote'),
+    transitionBetweenRoutes: true,
+  );
 
   static const double _padding = 16.0;
 
@@ -32,61 +33,48 @@ class PostingsView extends StatelessWidget {
                 return _buildScrollView(
                   bodySliver: _buildLoading(context: context),
                   isScrollable: false,
+                  onRefresh: model.refreshPostings,
                 );
               case LoadingState.data:
                 return _buildScrollView(
                   bodySliver: _buildSliverList(
                     postings: model.postings,
                     context: context,
+                    tapListItem: model.handleTapOnItem,
                   ),
                   isScrollable: true,
+                  onRefresh: model.refreshPostings,
                 );
               case LoadingState.noData:
                 return _buildScrollView(
                   bodySliver: _buildNoDataInfo(context: context),
                   isScrollable: false,
+                  onRefresh: model.refreshPostings,
                 );
               case LoadingState.error:
                 return _buildScrollView(
                   bodySliver: _buildErrorInfo(context: context),
                   isScrollable: false,
+                  onRefresh: model.refreshPostings,
                 );
               default:
-                return Center(child: Text('no data'));
+                return _buildScrollView(
+                  bodySliver: _buildNoDataInfo(context: context),
+                  isScrollable: false,
+                  onRefresh: model.refreshPostings,
+                );
             }
           }()),
-
-          // child: FutureBuilder<List<Posting>>(
-          //   future: futurePostings,
-          //   builder: (context, snapshot) {
-          //     Widget postingsListSliver;
-          //     bool sliverIsScrollable = false;
-
-          //     if (snapshot.hasData) {
-          //       List<Posting> postings = snapshot.data;
-          //       if (postings.isEmpty) {
-          //         postingsListSliver = _buildNoDataInfo(context: context);
-          //       } else {
-          //         sliverIsScrollable = true;
-          //         postingsListSliver = _buildSliverList(
-          //             postings: snapshot.data, context: context);
-          //       }
-          //     } else if (snapshot.hasError) {
-          //       postingsListSliver = _buildErrorInfo(context: context);
-          //     } else {
-          //       postingsListSliver = _buildLoading(context: context);
-          //     }
-
-          //     return _buildScrollView(
-          //         bodySliver: postingsListSliver,
-          //         isScrollable: sliverIsScrollable);
-          //   },
         ),
       ),
     );
   }
 
-  Widget _buildSliverList({List<Posting> postings, BuildContext context}) {
+  Widget _buildSliverList({
+    List<Posting> postings,
+    BuildContext context,
+    Function tapListItem,
+  }) {
     return SliverPadding(
       padding: const EdgeInsets.only(bottom: _padding),
       sliver: SliverList(
@@ -100,6 +88,7 @@ class PostingsView extends StatelessWidget {
               ),
               child: PostingCard(
                 posting: postings[index],
+                onTap: () => tapListItem(index: index),
               ),
             );
           },
@@ -133,7 +122,8 @@ class PostingsView extends StatelessWidget {
     );
   }
 
-  Widget _buildScrollView({Widget bodySliver, bool isScrollable}) {
+  Widget _buildScrollView(
+      {Widget bodySliver, bool isScrollable, Function onRefresh}) {
     return SafeArea(
       child: CustomScrollView(
         physics: isScrollable
@@ -141,7 +131,10 @@ class PostingsView extends StatelessWidget {
             : NeverScrollableScrollPhysics(),
         slivers: <Widget>[
           CupertinoSliverRefreshControl(
-            onRefresh: _refreshData,
+            onRefresh: () async {
+              await Future.delayed(Duration(seconds: 1));
+              onRefresh();
+            },
           ),
           navigationBarSliver,
           SliverSafeArea(
@@ -151,12 +144,5 @@ class PostingsView extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Future _refreshData() async {
-    await Future.delayed(Duration(seconds: 1));
-
-    // futurePostings = PostingsService.loadPostings();
-    print('refreshing');
   }
 }

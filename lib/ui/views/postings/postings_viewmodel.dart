@@ -1,8 +1,11 @@
 import 'package:injectable/injectable.dart';
 import 'package:kickdown_app/app/locator.dart';
+import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/services/postings_manager.dart';
 import 'package:stacked/stacked.dart';
+import 'package:flutter/widgets.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 enum LoadingState {
   loading,
@@ -14,6 +17,7 @@ enum LoadingState {
 @singleton
 class PostingsViewmodel extends BaseViewModel {
   PostingsManager _postingsManager = locator<PostingsManager>();
+  NavigationService _navigationService = locator<NavigationService>();
   LoadingState _loadingState = LoadingState.loading;
   List<Posting> _postings;
 
@@ -24,7 +28,7 @@ class PostingsViewmodel extends BaseViewModel {
     _fetchPostings();
   }
 
-  void refreshPostings() {
+  void refreshPostings() async {
     _fetchPostings();
   }
 
@@ -41,5 +45,14 @@ class PostingsViewmodel extends BaseViewModel {
       _loadingState = LoadingState.error;
     }
     notifyListeners();
+  }
+
+  void handleTapOnItem({@required int index}) {
+    if (index >= _postings.length) return;
+
+    Posting posting = _postings.elementAt(index);
+
+    _navigationService.navigateTo(Routes.PostingDetailView,
+        arguments: PostingDetailsScreenArguments(posting: posting));
   }
 }

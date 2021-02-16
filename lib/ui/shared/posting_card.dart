@@ -8,9 +8,11 @@ import 'countdown_label.dart';
 
 class PostingCard extends StatelessWidget {
   Posting posting;
+  Function onTap;
 
   PostingCard({
     @required this.posting,
+    this.onTap,
   });
 
   @override
@@ -35,13 +37,7 @@ class PostingCard extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {
-        Navigator.of(context).push(
-          CupertinoPageRoute(builder: (context) {
-            return PostingDetailsScreen(posting: posting);
-          }),
-        );
-      },
+      onTap: onTap,
     );
   }
 }
