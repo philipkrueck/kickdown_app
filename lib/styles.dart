@@ -53,6 +53,8 @@ abstract class Styles {
   static const TextStyle caption01 =
       TextStyle(color: _grayDark, fontSize: 13, fontWeight: FontWeight.normal);
 
+  static final TextStyle caption01Light = caption01.copyWith(color: _white);
+
   static const TextStyle caption02 =
       TextStyle(color: _grayDark, fontSize: 13, fontWeight: FontWeight.bold);
 

@@ -9,16 +9,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../models/posting.dart';
 import '../ui/views/navigation/navigation_view.dart';
-import '../ui/views/posting_detail_screen.dart';
+import '../ui/views/posting_detail/posting_detail_view.dart';
+import '../ui/views/posting_detail/posting_detail_viewmodel.dart';
+import '../ui/views/posting_detail/posting_photos_slider_view.dart';
 
 class Routes {
   static const String InitialRoute = '/';
-  static const String PostingDetailView = '/posting-details-screen';
+  static const String PostingDetailView = '/posting-detail-view';
+  static const String PostingPhotosSliderView = '/posting-photos-slider-view';
   static const all = <String>{
     InitialRoute,
     PostingDetailView,
+    PostingPhotosSliderView,
   };
 }
 
@@ -27,7 +30,8 @@ class Router extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(Routes.InitialRoute, page: NavigationView),
-    RouteDef(Routes.PostingDetailView, page: PostingDetailsScreen),
+    RouteDef(Routes.PostingDetailView, page: PostingDetailView),
+    RouteDef(Routes.PostingPhotosSliderView, page: PostingPhotosSliderView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -38,12 +42,19 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    PostingDetailsScreen: (data) {
-      final args = data.getArgs<PostingDetailsScreenArguments>(
-        orElse: () => PostingDetailsScreenArguments(),
+    PostingDetailView: (data) {
+      final args = data.getArgs<PostingDetailViewArguments>(
+        orElse: () => PostingDetailViewArguments(),
       );
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => PostingDetailsScreen(posting: args.posting),
+        builder: (context) => PostingDetailView(
+            postingDetailViewmodel: args.postingDetailViewmodel),
+        settings: data,
+      );
+    },
+    PostingPhotosSliderView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => PostingPhotosSliderView(),
         settings: data,
       );
     },
@@ -54,8 +65,8 @@ class Router extends RouterBase {
 /// Arguments holder classes
 /// *************************************************************************
 
-/// PostingDetailsScreen arguments holder class
-class PostingDetailsScreenArguments {
-  final Posting posting;
-  PostingDetailsScreenArguments({this.posting});
+/// PostingDetailView arguments holder class
+class PostingDetailViewArguments {
+  final PostingDetailViewmodel postingDetailViewmodel;
+  PostingDetailViewArguments({this.postingDetailViewmodel});
 }

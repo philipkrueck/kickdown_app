@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/ui/shared/posting_card.dart';
@@ -26,45 +27,49 @@ class PostingsView extends StatelessWidget {
       disposeViewModel: false,
       initialiseSpecialViewModelsOnce: true,
       builder: (context, model, child) => CupertinoTabView(
-        builder: (context) => CupertinoPageScaffold(
-          child: (() {
-            switch (model.loadingState) {
-              case LoadingState.loading:
-                return _buildScrollView(
-                  bodySliver: _buildLoading(context: context),
-                  isScrollable: false,
-                  onRefresh: model.refreshPostings,
-                );
-              case LoadingState.data:
-                return _buildScrollView(
-                  bodySliver: _buildSliverList(
-                    postings: model.postings,
-                    context: context,
-                    tapListItem: model.handleTapOnItem,
-                  ),
-                  isScrollable: true,
-                  onRefresh: model.refreshPostings,
-                );
-              case LoadingState.noData:
-                return _buildScrollView(
-                  bodySliver: _buildNoDataInfo(context: context),
-                  isScrollable: false,
-                  onRefresh: model.refreshPostings,
-                );
-              case LoadingState.error:
-                return _buildScrollView(
-                  bodySliver: _buildErrorInfo(context: context),
-                  isScrollable: false,
-                  onRefresh: model.refreshPostings,
-                );
-              default:
-                return _buildScrollView(
-                  bodySliver: _buildNoDataInfo(context: context),
-                  isScrollable: false,
-                  onRefresh: model.refreshPostings,
-                );
-            }
-          }()),
+        builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.dark,
+          child: CupertinoPageScaffold(
+            child: (() {
+              switch (model.loadingState) {
+                case LoadingState.loading:
+                  return _buildScrollView(
+                    bodySliver: _buildLoading(context: context),
+                    isScrollable: false,
+                    onRefresh: model.refreshPostings,
+                  );
+                case LoadingState.data:
+                  return _buildScrollView(
+                    bodySliver: _buildSliverList(
+                      postings: model.postings,
+                      context: context,
+                      tapListItem: model.handleTapOnItem,
+                      onTapFavorite: model.favoriteItemAtIndex,
+                    ),
+                    isScrollable: true,
+                    onRefresh: model.refreshPostings,
+                  );
+                case LoadingState.noData:
+                  return _buildScrollView(
+                    bodySliver: _buildNoDataInfo(context: context),
+                    isScrollable: false,
+                    onRefresh: model.refreshPostings,
+                  );
+                case LoadingState.error:
+                  return _buildScrollView(
+                    bodySliver: _buildErrorInfo(context: context),
+                    isScrollable: false,
+                    onRefresh: model.refreshPostings,
+                  );
+                default:
+                  return _buildScrollView(
+                    bodySliver: _buildNoDataInfo(context: context),
+                    isScrollable: false,
+                    onRefresh: model.refreshPostings,
+                  );
+              }
+            }()),
+          ),
         ),
       ),
     );
@@ -74,21 +79,25 @@ class PostingsView extends StatelessWidget {
     List<Posting> postings,
     BuildContext context,
     Function tapListItem,
+    Function onTapFavorite,
   }) {
     return SliverPadding(
-      padding: const EdgeInsets.only(bottom: _padding),
+      padding: const EdgeInsets.only(
+        bottom: _padding,
+        left: _padding,
+        right: _padding,
+      ),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
             return Padding(
               padding: EdgeInsets.only(
-                left: _padding,
-                right: _padding,
                 top: _padding,
               ),
               child: PostingCard(
                 posting: postings[index],
-                onTap: () => tapListItem(index: index),
+                onTap: () => tapListItem(index: index, context: context),
+                onTapFavorite: () => onTapFavorite(index),
               ),
             );
           },

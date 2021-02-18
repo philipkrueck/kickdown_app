@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/ui/views/more/more_view.dart';
 import 'package:kickdown_app/ui/views/navigation/navigation_viewmodel.dart';
 import 'package:kickdown_app/ui/views/postings/postings_view.dart';
@@ -17,7 +18,9 @@ class NavigationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<NavigationViewmodel>.reactive(
-      viewModelBuilder: () => NavigationViewmodel(),
+      viewModelBuilder: () => locator<NavigationViewmodel>(),
+      disposeViewModel: false,
+      initialiseSpecialViewModelsOnce: true,
       builder: (context, model, child) => CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
           items: [

@@ -43,6 +43,8 @@ dependencies:
   provider: ^4.3.2+2
   cached_network_image: ^2.5.0
   cupertino_listview: ^1.0.4
+  carousel_slider: ^3.0.0
+  tuple: ^1.0.3
 
 dev_dependencies:
   flutter_test:

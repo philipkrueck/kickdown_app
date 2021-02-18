@@ -2,18 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/ui/shared/posting_header.dart';
-import 'package:kickdown_app/ui/views/posting_detail_screen.dart';
-
-import 'countdown_label.dart';
 
 class PostingCard extends StatelessWidget {
-  Posting posting;
-  Function onTap;
+  final Posting posting;
+  final Function onTap;
+  final Function onTapFavorite;
 
-  PostingCard({
-    @required this.posting,
-    this.onTap,
-  });
+  PostingCard({@required this.posting, this.onTap, this.onTapFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +29,7 @@ class PostingCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           child: PostingHeader(
             posting: posting,
+            onFavoriteTapped: onTapFavorite,
           ),
         ),
       ),

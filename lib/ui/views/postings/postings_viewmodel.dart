@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/services/postings_manager.dart';
+import 'package:kickdown_app/ui/views/posting_detail/posting_detail_view.dart';
+import 'package:kickdown_app/ui/views/posting_detail/posting_detail_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -47,12 +51,24 @@ class PostingsViewmodel extends BaseViewModel {
     notifyListeners();
   }
 
-  void handleTapOnItem({@required int index}) {
+  void handleTapOnItem({@required int index, @required context}) {
     if (index >= _postings.length) return;
 
-    Posting posting = _postings.elementAt(index);
+    PostingDetailViewmodel postingDetailViewmodel =
+        PostingDetailViewmodel(postingIndex: index);
 
-    _navigationService.navigateTo(Routes.PostingDetailView,
-        arguments: PostingDetailsScreenArguments(posting: posting));
+    // NOTE: ideally the navigation service would have been used here,
+    // but it is not context aware
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => PostingDetailView(
+          postingDetailViewmodel: postingDetailViewmodel,
+        ),
+      ),
+    );
+  }
+
+  void favoriteItemAtIndex(int index) {
+    _postingsManager.favoritePosting(index: index);
   }
 }

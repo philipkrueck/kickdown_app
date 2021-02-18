@@ -15,6 +15,9 @@ Image placeholderImage = Image.asset(
 class PostingHeader extends StatelessWidget {
   final Posting posting;
   final bool isDetail;
+  final Function onFavoriteTapped;
+  final Function onBackButtonTapped;
+  final Function onTap;
 
   final NumberFormat currencyFormatter =
       NumberFormat.simpleCurrency(locale: 'eu', decimalDigits: 0);
@@ -22,6 +25,9 @@ class PostingHeader extends StatelessWidget {
   PostingHeader({
     @required this.posting,
     this.isDetail = false,
+    this.onFavoriteTapped,
+    this.onBackButtonTapped,
+    this.onTap,
   });
 
   Widget get _networkImage {
@@ -37,9 +43,9 @@ class PostingHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildFavoriteIcon({context, bool isSelected, Function onPressed}) {
+  Widget _buildFavoriteIcon({context, bool isSelected}) {
     return Positioned(
-      top: isDetail ? MediaQuery.of(context).padding.top + 8 : 8,
+      top: isDetail ? MediaQuery.of(context).padding.top + 4 : 4,
       right: 16,
       child: CupertinoButton(
         padding: EdgeInsets.zero,
@@ -50,21 +56,19 @@ class PostingHeader extends StatelessWidget {
           width: 32,
           height: 32,
         ),
-        onPressed: onPressed,
+        onPressed: onFavoriteTapped,
       ),
     );
   }
 
   Widget _buildBackButton(context) {
     return Positioned(
-      top: MediaQuery.of(context).padding.top + 8,
+      top: MediaQuery.of(context).padding.top + 4,
       left: 16,
       height: 30,
       width: 30,
       child: CupertinoNavigationBarBackButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
+        onPressed: onBackButtonTapped,
         color: Colors.white,
       ),
     );
@@ -72,11 +76,11 @@ class PostingHeader extends StatelessWidget {
 
   Widget get _imageLabel {
     return Positioned(
-      bottom: 8,
-      right: 8,
+      bottom: 12,
+      right: 12,
       child: Text(
         '1/119',
-        style: TextStyle(color: Colors.white),
+        style: Styles.caption04,
       ),
     );
   }
@@ -130,25 +134,26 @@ class PostingHeader extends StatelessWidget {
 
     return Hero(
       tag: posting.id,
-      child: Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                _networkImage,
-                isDetail ? _buildBackButton(context) : Container(),
-                _buildFavoriteIcon(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  _networkImage,
+                  isDetail ? _buildBackButton(context) : Container(),
+                  _buildFavoriteIcon(
                     context: context,
-                    isSelected: false,
-                    onPressed: () {
-                      print('tap favorite');
-                    }),
-                isDetail ? _imageLabel : Container(),
-              ],
-            ),
-            _buildBottomInformation(),
-          ],
+                    isSelected: posting.starredByCurrentUser ?? false,
+                  ),
+                  isDetail ? _imageLabel : Container(),
+                ],
+              ),
+              _buildBottomInformation(),
+            ],
+          ),
         ),
       ),
     );

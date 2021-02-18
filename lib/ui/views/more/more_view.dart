@@ -32,7 +32,7 @@ class MoreView extends StatelessWidget {
                           return CupertinoListTile(
                             title: 'Mein Account',
                             trailing: Padding(
-                              padding: EdgeInsets.only(right: 16),
+                              padding: const EdgeInsets.only(right: 8.0),
                               child: Button03(
                                 text: 'Anmelden',
                                 onPressed: () {
@@ -135,24 +135,26 @@ class _CupertinoListTileState extends State<CupertinoListTile> {
     return Column(
       children: [
         SizedBox(
-          height: widget.isStartOfSection ? 28 : 0,
+          height: widget.isStartOfSection ? 30 : 0,
         ),
-        widget.isStartOfSection ? CupertinoSectionDivider() : Container(),
+        widget.isStartOfSection
+            ? CupertinoSectionDivider(
+                isStartOfSection: widget.isStartOfSection,
+              )
+            : Container(),
         GestureDetector(
           child: GestureDetector(
             onTap: widget.onTap,
             child: Container(
+              height: 50,
               color: _backgroundColor,
+              padding: EdgeInsets.only(left: 16, right: 8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(16, 15, 16, 13),
-                      child: Text(
-                        widget.title,
-                        style: Styles.body01,
-                      ),
-                    ),
+                  Text(
+                    widget.title,
+                    style: Styles.body01,
                   ),
                   widget.trailing,
                 ],
@@ -177,7 +179,9 @@ class _CupertinoListTileState extends State<CupertinoListTile> {
           },
         ),
         widget.isEndOfSection
-            ? CupertinoSectionDivider()
+            ? CupertinoSectionDivider(
+                isStartOfSection: false,
+              )
             : CupertinoInnerRowDivider(),
         SizedBox(
           height: widget.isEndOfSection ? 20 : 0,
@@ -188,10 +192,14 @@ class _CupertinoListTileState extends State<CupertinoListTile> {
 }
 
 class CupertinoSectionDivider extends StatelessWidget {
+  final bool isStartOfSection;
+
+  const CupertinoSectionDivider({this.isStartOfSection});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 1,
+      height: isStartOfSection ? 1 : 0.5,
       color: Styles.settingsRowDivider,
     );
   }
@@ -203,8 +211,8 @@ class CupertinoInnerRowDivider extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 16),
       child: Container(
-        height: 1,
-        color: Styles.settingsRowDivider, //Styles.settingsRowDivider,
+        height: 0.5,
+        color: Styles.settingsRowDivider,
       ),
     );
   }
@@ -213,12 +221,9 @@ class CupertinoInnerRowDivider extends StatelessWidget {
 class DetailIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 10),
-      child: Icon(
-        CupertinoIcons.forward,
-        color: Styles.chevronColor,
-      ),
+    return Icon(
+      CupertinoIcons.forward,
+      color: Styles.chevronColor,
     );
   }
 }
