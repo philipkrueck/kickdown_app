@@ -12,7 +12,8 @@ import 'package:flutter/cupertino.dart';
 import '../ui/views/navigation/navigation_view.dart';
 import '../ui/views/posting_detail/posting_detail_view.dart';
 import '../ui/views/posting_detail/posting_detail_viewmodel.dart';
-import '../ui/views/posting_detail/posting_photos_slider_view.dart';
+import '../ui/views/posting_photos_slider.dart/posting_photos_slider_view.dart';
+import '../ui/views/posting_photos_slider.dart/posting_photos_slider_viewmodel.dart';
 
 class Routes {
   static const String InitialRoute = '/';
@@ -53,8 +54,11 @@ class Router extends RouterBase {
       );
     },
     PostingPhotosSliderView: (data) {
+      final args =
+          data.getArgs<PostingPhotosSliderViewArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => PostingPhotosSliderView(),
+        builder: (context) => PostingPhotosSliderView(
+            postingPhotosSliderViewmodel: args.postingPhotosSliderViewmodel),
         settings: data,
       );
     },
@@ -69,4 +73,11 @@ class Router extends RouterBase {
 class PostingDetailViewArguments {
   final PostingDetailViewmodel postingDetailViewmodel;
   PostingDetailViewArguments({this.postingDetailViewmodel});
+}
+
+/// PostingPhotosSliderView arguments holder class
+class PostingPhotosSliderViewArguments {
+  final PostingPhotosSliderViewmodel postingPhotosSliderViewmodel;
+  PostingPhotosSliderViewArguments(
+      {@required this.postingPhotosSliderViewmodel});
 }

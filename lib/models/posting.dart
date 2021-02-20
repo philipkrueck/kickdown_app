@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 class Posting {
   // TODO: make properties get only
   String id;
@@ -17,6 +19,12 @@ class Posting {
   String auctionCode;
   int highestBidInEuro;
   DateTime endTime = DateTime.utc(2021, 11, 9);
+  List<String> _imageUrls;
+  List<Image> _images;
+  List<String> get imageUrls => _imageUrls;
+  List<Image> get images => _images;
+
+  int loadingOrLoadedImagesLastIndex = -1;
 
   // Observable properties
   bool starredByCurrentUser;
@@ -69,5 +77,22 @@ class Posting {
       currentPrice: attributes["current_price"],
       starredByCurrentUser: attributes["starred_by_current_user"],
     );
+  }
+
+  void addImage(Image image, {int index}) {
+    _images[index] = image;
+  }
+
+  void setImages(List<Image> images) {
+    _images = images;
+  }
+
+  void setImageUrls(List<String> imageUrls) {
+    if (_imageUrls != null) return;
+    _imageUrls = imageUrls;
+    _images = List(_imageUrls.length);
+    for (int i = 0; i < _images.length; i++) {
+      _images[i] = null;
+    }
   }
 }

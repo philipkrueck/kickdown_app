@@ -37,7 +37,7 @@ class PostingDetailView extends StatelessWidget {
           });
     }
 
-    return ViewModelBuilder<PostingDetailViewmodel>.nonReactive(
+    return ViewModelBuilder<PostingDetailViewmodel>.reactive(
       viewModelBuilder: () => postingDetailViewmodel,
       builder: (context, model, child) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -50,7 +50,8 @@ class PostingDetailView extends StatelessWidget {
                 onBackButtonTapped: () =>
                     model.onBackButtonTapped(context: context),
                 onFavoriteTapped: model.onFavoriteTapped,
-                onTap: model.onPostingHeaderTapped,
+                onTap:
+                    model.imagesAreLoaded ? model.onPostingHeaderTapped : null,
               ), // NOTE: the posting probably shouldn't be exposed like this to the PostingHeader widget
               Expanded(
                 child: ListView(

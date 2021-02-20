@@ -3,6 +3,7 @@ import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/services/postings_manager.dart';
+import 'package:kickdown_app/ui/views/posting_photos_slider.dart/posting_photos_slider_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tuple/tuple.dart';
@@ -13,6 +14,10 @@ class PostingDetailViewmodel extends BaseViewModel {
   final int postingIndex;
   Posting _posting;
   List<Tuple2<String, String>> _detailInformation;
+
+  bool _imagesAreLoaded = false;
+
+  bool get imagesAreLoaded => _imagesAreLoaded;
 
   PostingDetailViewmodel({this.postingIndex}) {
     _posting = _postingsManager.getPosting(index: postingIndex);
@@ -27,6 +32,7 @@ class PostingDetailViewmodel extends BaseViewModel {
       Tuple2('Getriebe', _posting.transmission),
       Tuple2('Länderversion', _posting.country),
     ];
+    _fetchImages();
   }
 
   Posting get posting => _posting;
@@ -47,6 +53,18 @@ class PostingDetailViewmodel extends BaseViewModel {
   }
 
   void onPostingHeaderTapped() {
-    _navigationService.navigateTo(Routes.PostingPhotosSliderView);
+    _navigationService.navigateTo(
+      Routes.PostingPhotosSliderView,
+      arguments: PostingPhotosSliderViewArguments(
+        postingPhotosSliderViewmodel:
+            PostingPhotosSliderViewmodel(postingIndex: postingIndex),
+      ),
+    );
+  }
+
+  void _fetchImages() async {
+    await _postingsManager.fetchImagesForPosting(postingIndex: postingIndex);
+    _imagesAreLoaded = true;
+    notifyListeners();
   }
 }
