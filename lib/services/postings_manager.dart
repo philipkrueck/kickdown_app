@@ -14,7 +14,16 @@ class PostingsManager {
 
   Future<List<Posting>> loadPostings() async {
     _postings = await _networkService.fetchPostings();
+    loadHeroImages(_postings);
     return _postings;
+  }
+
+  Future<void> loadHeroImages(List<Posting> postings) async {
+    for (int i = 0; i < postings.length; i++) {
+      Image heroImage =
+          await _networkService.loadImage(url: postings[i].heroPhotoURL);
+      postings[i].addImage(heroImage, index: 0);
+    }
   }
 
   Posting getPosting({int index}) {
@@ -46,6 +55,7 @@ class PostingsManager {
 
     print('fetching images $startIndex to $lastIndex...');
 
+    // ToDo: start these operations in parallel
     for (int i = startIndex; i <= lastIndex; i++) {
       Image image = await _networkService.loadImage(url: posting.imageUrls[i]);
       if (image != null) {

@@ -20,7 +20,7 @@ class Posting {
   int highestBidInEuro;
   DateTime endTime = DateTime.utc(2021, 11, 9);
   List<String> _imageUrls;
-  List<Image> _images;
+  List<Image> _images = [null];
   List<String> get imageUrls => _imageUrls;
   List<Image> get images => _images;
 

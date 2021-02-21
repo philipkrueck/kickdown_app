@@ -38,7 +38,10 @@ class NetworkService {
   }
 
   Future<Image> loadImage({url}) async {
-    Image _image = Image.network(url);
+    Image _image = Image.network(
+      url,
+      fit: BoxFit.fitWidth,
+    );
 
     Completer completer = new Completer<Image>();
 

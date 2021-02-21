@@ -33,12 +33,9 @@ class PostingHeader extends StatelessWidget {
   Widget get _networkImage {
     return AspectRatio(
       aspectRatio: 16 / 9,
-      child: CachedNetworkImage(
-        imageUrl: this.posting.heroPhotoURL,
-        placeholder: (context, url) => placeholderImage,
-        errorWidget: (context, url, error) => placeholderImage,
+      child: Container(
         width: double.infinity,
-        fit: BoxFit.fitWidth,
+        child: posting.images.first ?? placeholderImage,
       ),
     );
   }
