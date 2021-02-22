@@ -12,17 +12,17 @@ import 'package:flutter/cupertino.dart';
 import '../ui/views/navigation/navigation_view.dart';
 import '../ui/views/posting_detail/posting_detail_view.dart';
 import '../ui/views/posting_detail/posting_detail_viewmodel.dart';
-import '../ui/views/posting_photos_slider.dart/posting_photos_slider_view.dart';
-import '../ui/views/posting_photos_slider.dart/posting_photos_slider_viewmodel.dart';
+import '../ui/views/posting_images_slider.dart/posting_images_slider_view.dart';
+import '../ui/views/posting_images_slider.dart/posting_images_slider_viewmodel.dart';
 
 class Routes {
   static const String InitialRoute = '/';
   static const String PostingDetailView = '/posting-detail-view';
-  static const String PostingPhotosSliderView = '/posting-photos-slider-view';
+  static const String PostingImagesSliderView = '/posting-images-slider-view';
   static const all = <String>{
     InitialRoute,
     PostingDetailView,
-    PostingPhotosSliderView,
+    PostingImagesSliderView,
   };
 }
 
@@ -32,7 +32,7 @@ class Router extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.InitialRoute, page: NavigationView),
     RouteDef(Routes.PostingDetailView, page: PostingDetailView),
-    RouteDef(Routes.PostingPhotosSliderView, page: PostingPhotosSliderView),
+    RouteDef(Routes.PostingImagesSliderView, page: PostingImagesSliderView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -53,12 +53,12 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    PostingPhotosSliderView: (data) {
+    PostingImagesSliderView: (data) {
       final args =
-          data.getArgs<PostingPhotosSliderViewArguments>(nullOk: false);
+          data.getArgs<PostingImagesSliderViewArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => PostingPhotosSliderView(
-            postingPhotosSliderViewmodel: args.postingPhotosSliderViewmodel),
+        builder: (context) => PostingImagesSliderView(
+            postingImagesSliderViewmodel: args.postingImagesSliderViewmodel),
         settings: data,
       );
     },
@@ -75,9 +75,9 @@ class PostingDetailViewArguments {
   PostingDetailViewArguments({this.postingDetailViewmodel});
 }
 
-/// PostingPhotosSliderView arguments holder class
-class PostingPhotosSliderViewArguments {
-  final PostingPhotosSliderViewmodel postingPhotosSliderViewmodel;
-  PostingPhotosSliderViewArguments(
-      {@required this.postingPhotosSliderViewmodel});
+/// PostingImagesSliderView arguments holder class
+class PostingImagesSliderViewArguments {
+  final PostingImagesSliderViewmodel postingImagesSliderViewmodel;
+  PostingImagesSliderViewArguments(
+      {@required this.postingImagesSliderViewmodel});
 }

@@ -5,7 +5,7 @@ import 'package:kickdown_app/services/postings_manager.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class PostingPhotosSliderViewmodel extends BaseViewModel {
+class PostingImagesSliderViewmodel extends BaseViewModel {
   PostingsManager _postingsManager = locator<PostingsManager>();
   NavigationService _navigationService = locator<NavigationService>();
 
@@ -18,7 +18,7 @@ class PostingPhotosSliderViewmodel extends BaseViewModel {
   final int postingIndex;
   Posting _posting;
 
-  PostingPhotosSliderViewmodel({@required this.postingIndex}) {
+  PostingImagesSliderViewmodel({@required this.postingIndex}) {
     _posting = _postingsManager.getPosting(index: postingIndex);
   }
 
@@ -35,9 +35,7 @@ class PostingPhotosSliderViewmodel extends BaseViewModel {
 
   void setCurrentIndex(int index) {
     _currentIndex = index;
-    print(_posting.loadingOrLoadedImagesLastIndex);
     if (_currentIndex >= _posting.loadingOrLoadedImagesLastIndex - 5) {
-      print('calling fetchImages');
       _postingsManager.fetchImagesForPosting(
           postingIndex: postingIndex,
           lastImageIndex: _posting.loadingOrLoadedImagesLastIndex + 5);

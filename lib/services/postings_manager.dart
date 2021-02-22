@@ -40,31 +40,38 @@ class PostingsManager {
       {int postingIndex, int lastImageIndex = 2}) async {
     assert(postingIndex < _postings.length);
     Posting posting = _postings[postingIndex];
+    if (posting.loadingOrLoadedImagesLastIndex >= lastImageIndex ||
+        _didLoadAllImages(posting)) return;
 
-    if (posting.loadingOrLoadedImagesLastIndex >= lastImageIndex) return;
+    print(
+        'lastImageIndex = $lastImageIndex, lastLoadedIndex = ${posting.loadingOrLoadedImagesLastIndex}');
 
     int startIndex = posting.loadingOrLoadedImagesLastIndex + 1;
-    posting.loadingOrLoadedImagesLastIndex = min(lastImageIndex,
-        posting.images != null ? posting.images.length : pow(2, 52));
+    int imageUrlsLastIndex = posting.imageUrls != null
+        ? posting.imageUrls.length - 1
+        : pow(2, 10); // set to a high number if not fetched yet
+    lastImageIndex = min(lastImageIndex, imageUrlsLastIndex);
+    posting.loadingOrLoadedImagesLastIndex = lastImageIndex;
 
     await _fetchImageUrlsIfNeeded(posting);
 
-    if (lastImageIndex >= posting.imageUrls.length) return;
-
-    int lastIndex = min(lastImageIndex, posting.imageUrls.length - 1);
-
-    print('fetching images $startIndex to $lastIndex...');
+    print('fetching images $startIndex to $lastImageIndex...');
 
     // ToDo: start these operations in parallel
-    for (int i = startIndex; i <= lastIndex; i++) {
+    for (int i = startIndex; i <= lastImageIndex; i++) {
       Image image = await _networkService.loadImage(url: posting.imageUrls[i]);
       if (image != null) {
         posting.addImage(image, index: i);
       }
     }
 
-    print('fetching images $startIndex to $lastIndex completed.');
+    print('fetching images $startIndex to $lastImageIndex completed.');
     return;
+  }
+
+  bool _didLoadAllImages(Posting posting) {
+    return posting.imageUrls != null &&
+        posting.imageUrls.length - 1 == posting.loadingOrLoadedImagesLastIndex;
   }
 
   Future<void> _fetchImageUrlsIfNeeded(Posting posting) async {

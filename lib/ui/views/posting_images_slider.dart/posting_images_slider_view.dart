@@ -1,28 +1,27 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/styles.dart';
 import 'package:kickdown_app/ui/shared/posting_header.dart';
-import 'package:kickdown_app/ui/views/posting_photos_slider.dart/posting_photos_slider_viewmodel.dart';
+import 'package:kickdown_app/ui/views/posting_images_slider.dart/posting_images_slider_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
-class PostingPhotosSliderView extends StatelessWidget {
+class PostingImagesSliderView extends StatelessWidget {
   static const imageURLs = [
     'https://www.kickdown.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBZ1l1IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4857d17bf70a2b3f4b561e6aa7c568c9b95232bb/WhatsApp%20Image%202021-02-08%20at%2020.03.53.jpg',
     'https://www.kickdown.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBZ2N1IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--5595f05b48bc6af087133adb03a1185cc768dd28/WhatsApp%20Image%202021-02-08%20at%2020.03.55.jpg',
     'https://www.kickdown.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDR1IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08df8f9cfc8136b186bbcfc905233dd83e4c3e4c/SAM_7867.jpg',
   ];
 
-  final PostingPhotosSliderViewmodel postingPhotosSliderViewmodel;
+  final PostingImagesSliderViewmodel postingImagesSliderViewmodel;
 
-  const PostingPhotosSliderView({@required this.postingPhotosSliderViewmodel});
+  const PostingImagesSliderView({@required this.postingImagesSliderViewmodel});
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.reactive(
+    return ViewModelBuilder<PostingImagesSliderViewmodel>.reactive(
       initialiseSpecialViewModelsOnce: true,
-      viewModelBuilder: () => postingPhotosSliderViewmodel,
+      viewModelBuilder: () => postingImagesSliderViewmodel,
       builder: (context, model, child) => CupertinoPageScaffold(
         backgroundColor: Colors.black,
         child: Stack(

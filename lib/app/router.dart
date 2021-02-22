@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:kickdown_app/ui/views/navigation/navigation_view.dart';
 import 'package:kickdown_app/ui/views/posting_detail/posting_detail_view.dart';
-import 'package:kickdown_app/ui/views/posting_photos_slider.dart/posting_photos_slider_view.dart';
+import 'package:kickdown_app/ui/views/posting_images_slider.dart/posting_images_slider_view.dart';
 
 @CupertinoAutoRouter(
   routes: <AutoRoute>[
@@ -9,9 +9,9 @@ import 'package:kickdown_app/ui/views/posting_photos_slider.dart/posting_photos_
     CupertinoRoute(
         page: PostingDetailView, initial: false, name: "PostingDetailView"),
     CupertinoRoute(
-        page: PostingPhotosSliderView,
+        page: PostingImagesSliderView,
         initial: false,
-        name: "PostingPhotosSliderView"),
+        name: "PostingImagesSliderView"),
   ],
 )
 class $Router {}
