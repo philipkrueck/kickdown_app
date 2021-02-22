@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kickdown_app/styles.dart';
 import 'package:kickdown_app/ui/shared/buttons/button_01.dart';
-import 'package:kickdown_app/ui/shared/posting_header.dart';
+import 'package:kickdown_app/ui/shared/posting_header/posting_header.dart';
 import 'package:kickdown_app/ui/views/bid_preparation_screen.dart';
 import 'package:kickdown_app/ui/views/posting_detail/posting_detail_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -44,14 +44,15 @@ class PostingDetailView extends StatelessWidget {
         child: CupertinoPageScaffold(
           child: Column(
             children: [
-              PostingHeader(
-                posting: model.posting,
-                isDetail: true,
-                onBackButtonTapped: () =>
-                    model.onBackButtonTapped(context: context),
-                onFavoriteTapped: model.onFavoriteTapped,
-                onTap:
-                    model.imagesAreLoaded ? model.onPostingHeaderTapped : null,
+              GestureDetector(
+                // child: PostingHeader(
+                //   posting: model.posting,
+                //   isDetail: true,
+                //   onBackButtonTapped: () =>
+                //       model.onBackButtonTapped(context: context),
+                //   onFavoriteTapped: model.onFavoriteTapped,
+                // ),
+                onTap: model.onPostingHeaderTapped,
               ), // NOTE: the posting probably shouldn't be exposed like this to the PostingHeader widget
               Expanded(
                 child: ListView(

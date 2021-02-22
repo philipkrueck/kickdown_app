@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/models/posting.dart';
-import 'package:kickdown_app/ui/shared/posting_header.dart';
+import 'package:kickdown_app/ui/shared/posting_header/posting_header.dart';
+import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
 
 class PostingCard extends StatelessWidget {
-  final Posting posting;
+  final PostingHeaderViewmodel postingHeaderViewmodel;
   final Function onTap;
-  final Function onTapFavorite;
 
-  PostingCard({@required this.posting, this.onTap, this.onTapFavorite});
+  PostingCard({@required this.postingHeaderViewmodel, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +27,7 @@ class PostingCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: PostingHeader(
-            posting: posting,
-            onFavoriteTapped: onTapFavorite,
+            postingHeaderViewmodel: postingHeaderViewmodel,
           ),
         ),
       ),

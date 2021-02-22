@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/styles.dart';
-import 'package:kickdown_app/ui/shared/posting_header.dart';
+import 'package:kickdown_app/ui/shared/posting_header/posting_header.dart';
 import 'package:kickdown_app/ui/views/posting_images_slider.dart/posting_images_slider_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 

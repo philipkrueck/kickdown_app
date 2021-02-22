@@ -53,6 +53,8 @@ class PostingDetailViewmodel extends BaseViewModel {
   }
 
   void onPostingHeaderTapped() {
+    if (!_imagesAreLoaded) return;
+
     _navigationService.navigateTo(
       Routes.PostingImagesSliderView,
       arguments: PostingImagesSliderViewArguments(

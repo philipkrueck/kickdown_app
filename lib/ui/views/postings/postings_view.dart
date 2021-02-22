@@ -41,10 +41,8 @@ class PostingsView extends StatelessWidget {
                 case LoadingState.data:
                   return _buildScrollView(
                     bodySliver: _buildSliverList(
-                      postings: model.postings,
                       context: context,
-                      tapListItem: model.handleTapOnItem,
-                      onTapFavorite: model.favoriteItemAtIndex,
+                      postingsViewmodel: model,
                     ),
                     isScrollable: true,
                     onRefresh: model.refreshPostings,
@@ -76,10 +74,8 @@ class PostingsView extends StatelessWidget {
   }
 
   Widget _buildSliverList({
-    List<Posting> postings,
+    PostingsViewmodel postingsViewmodel,
     BuildContext context,
-    Function tapListItem,
-    Function onTapFavorite,
   }) {
     return SliverPadding(
       padding: const EdgeInsets.only(
@@ -95,13 +91,14 @@ class PostingsView extends StatelessWidget {
                 top: _padding,
               ),
               child: PostingCard(
-                posting: postings[index],
-                onTap: () => tapListItem(index: index, context: context),
-                onTapFavorite: () => onTapFavorite(index),
+                postingHeaderViewmodel:
+                    postingsViewmodel.headerViewmodel(index: index),
+                onTap: () => postingsViewmodel.handleTapOnItem(
+                    index: index, context: context),
               ),
             );
           },
-          childCount: postings.length,
+          childCount: postingsViewmodel.postingCardCount,
         ),
       ),
     );

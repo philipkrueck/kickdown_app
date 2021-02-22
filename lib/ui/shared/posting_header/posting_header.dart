@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/styles.dart';
 
-import 'countdown_label.dart';
-import 'package:intl/intl.dart';
+import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
+
+import '../countdown_label.dart';
 
 Image placeholderImage = Image.asset(
   'assets/img_placeholder.png',
@@ -12,21 +13,10 @@ Image placeholderImage = Image.asset(
 );
 
 class PostingHeader extends StatelessWidget {
-  final Posting posting;
-  final bool isDetail;
-  final Function onFavoriteTapped;
-  final Function onBackButtonTapped;
-  final Function onTap;
-
-  final NumberFormat currencyFormatter =
-      NumberFormat.simpleCurrency(locale: 'eu', decimalDigits: 0);
+  final PostingHeaderViewmodel postingHeaderViewmodel;
 
   PostingHeader({
-    @required this.posting,
-    this.isDetail = false,
-    this.onFavoriteTapped,
-    this.onBackButtonTapped,
-    this.onTap,
+    @required this.postingHeaderViewmodel,
   });
 
   Widget get _networkImage {
@@ -34,14 +24,16 @@ class PostingHeader extends StatelessWidget {
       aspectRatio: 16 / 9,
       child: Container(
         width: double.infinity,
-        child: posting.images.first ?? placeholderImage,
+        child: postingHeaderViewmodel.images.first ?? placeholderImage,
       ),
     );
   }
 
   Widget _buildFavoriteIcon({context, bool isSelected}) {
     return Positioned(
-      top: isDetail ? MediaQuery.of(context).padding.top + 4 : 4,
+      top: postingHeaderViewmodel.isDetail
+          ? MediaQuery.of(context).padding.top + 4
+          : 4,
       right: 16,
       child: CupertinoButton(
         padding: EdgeInsets.zero,
@@ -52,7 +44,7 @@ class PostingHeader extends StatelessWidget {
           width: 32,
           height: 32,
         ),
-        onPressed: onFavoriteTapped,
+        onPressed: postingHeaderViewmodel.onFavoriteTapped,
       ),
     );
   }
@@ -64,7 +56,7 @@ class PostingHeader extends StatelessWidget {
       height: 30,
       width: 30,
       child: CupertinoNavigationBarBackButton(
-        onPressed: onBackButtonTapped,
+        onPressed: postingHeaderViewmodel.onBackButtonTapped,
         color: Colors.white,
       ),
     );
@@ -95,7 +87,7 @@ class PostingHeader extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    posting.title,
+                    postingHeaderViewmodel.title,
                     style: Styles.title02,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -103,7 +95,7 @@ class PostingHeader extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  currencyFormatter.format(posting.currentPrice),
+                  postingHeaderViewmodel.currentPrice,
                   style: Styles.title03,
                 ),
               ],
@@ -114,12 +106,13 @@ class PostingHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  posting.city,
+                  postingHeaderViewmodel.city,
                   style: Styles.caption02,
                 ),
                 CountdownLabel(
-                  endDate: posting.endTime,
-                  currentUserIsHighestBidder: false,
+                  endDate: postingHeaderViewmodel.endDate,
+                  currentUserIsHighestBidder:
+                      postingHeaderViewmodel.currentUserIsHighestBidder,
                 )
               ],
             )
@@ -129,27 +122,27 @@ class PostingHeader extends StatelessWidget {
     }
 
     return Hero(
-      tag: posting.id,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  _networkImage,
-                  isDetail ? _buildBackButton(context) : Container(),
-                  _buildFavoriteIcon(
-                    context: context,
-                    isSelected: posting.starredByCurrentUser ?? false,
-                  ),
-                  isDetail ? _imageLabel : Container(),
-                ],
-              ),
-              _buildBottomInformation(),
-            ],
-          ),
+      tag: postingHeaderViewmodel.id,
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                _networkImage,
+                postingHeaderViewmodel.isDetail
+                    ? _buildBackButton(context)
+                    : Container(),
+                _buildFavoriteIcon(
+                  context: context,
+                  isSelected:
+                      postingHeaderViewmodel.starredByCurrentUser ?? false,
+                ),
+                postingHeaderViewmodel.isDetail ? _imageLabel : Container(),
+              ],
+            ),
+            _buildBottomInformation(),
+          ],
         ),
       ),
     );
