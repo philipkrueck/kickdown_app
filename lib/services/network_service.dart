@@ -37,10 +37,10 @@ class NetworkService {
     return List<Posting>.from(postings);
   }
 
-  Future<Image> loadImage({url}) async {
+  Future<Image> loadImage({url, tryNumber = 0}) async {
     Image _image = Image.network(
       url,
-      fit: BoxFit.fitWidth,
+      fit: BoxFit.cover,
     );
 
     Completer completer = new Completer<Image>();
@@ -48,7 +48,6 @@ class NetworkService {
     _image.image.resolve(ImageConfiguration()).addListener(
       ImageStreamListener(
         (ImageInfo info, bool syncCall) {
-          print('image download completed');
           completer.complete(_image);
         },
       ),
@@ -56,9 +55,11 @@ class NetworkService {
 
     return completer.future.timeout(
       // timeout after 10 seconds
-      Duration(seconds: 10),
+      Duration(seconds: 20),
       onTimeout: () {
-        throw new Exception('Image loading timed out');
+        Future.delayed(Duration(seconds: tryNumber * 10), () {
+          loadImage(url: url);
+        });
       },
     );
   }

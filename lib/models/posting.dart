@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 class Posting {
@@ -18,7 +20,7 @@ class Posting {
   String heroPhotoURL;
   String auctionCode;
   int highestBidInEuro;
-  DateTime endTime = DateTime.utc(2021, 11, 9);
+  DateTime endTime;
   List<String> _imageUrls;
   List<Image> _images = [null];
   List<String> get imageUrls => _imageUrls;
@@ -30,6 +32,12 @@ class Posting {
   bool starredByCurrentUser;
   int currentPrice;
   bool loggedInUserIsHighestBidder;
+
+  final StreamController<int> _streamController =
+      StreamController<int>.broadcast();
+
+  Stream<int> get imageAddedAtIndexStream =>
+      _streamController.stream.asBroadcastStream();
 
   // TODO: add missing properties
 
@@ -50,6 +58,7 @@ class Posting {
       this.heroPhotoURL,
       this.auctionCode,
       this.highestBidInEuro,
+      this.endTime,
       this.starredByCurrentUser,
       this.currentPrice,
       this.loggedInUserIsHighestBidder});
@@ -57,6 +66,7 @@ class Posting {
   // NOTE: this could possibly be generated using built_value and not mapped by hand
   factory Posting.fromJson(Map<String, dynamic> json) {
     final attributes = json["data"]["attributes"];
+
     return Posting(
       id: json["data"]["id"],
       sellerName: attributes["seller_name"],
@@ -74,24 +84,29 @@ class Posting {
       heroPhotoURL: attributes["hero_photo_url"],
       auctionCode: attributes["auction_code"],
       highestBidInEuro: attributes["highest_bid_amount_in_euro"],
+      endTime: DateTime.parse(json["included"][0]["attributes"]["end_at"]),
       currentPrice: attributes["current_price"],
       starredByCurrentUser: attributes["starred_by_current_user"],
     );
   }
 
-  void addImage(Image image, {int index}) {
-    _images[index] = image;
+  void dispose() {
+    _streamController.close();
   }
 
-  void setImages(List<Image> images) {
-    _images = images;
+  void addImage(Image image, {int index}) {
+    _images[index] = image;
+    _streamController.sink.add(index);
+    print('index $index added to stream controller');
   }
 
   void setImageUrls(List<String> imageUrls) {
     if (_imageUrls != null) return;
     _imageUrls = imageUrls;
+    Image firstImage = _images[0];
     _images = List(_imageUrls.length);
-    for (int i = 0; i < _images.length; i++) {
+    _images[0] = firstImage;
+    for (int i = 1; i < _images.length; i++) {
       _images[i] = null;
     }
   }

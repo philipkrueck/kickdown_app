@@ -1,6 +1,8 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 
-abstract class PostingHeaderViewmodel {
+abstract class PostingHeaderViewmodel extends BaseViewModel {
   bool get showImageGallery;
   bool get isDetail;
 
@@ -15,5 +17,13 @@ abstract class PostingHeaderViewmodel {
   bool get starredByCurrentUser;
   Function get onFavoriteTapped;
 
-  Function get onBackButtonTapped;
+  void onBackButtonTapped({BuildContext context}) {}
+  int get currentIndex => null;
+  int get totalImages => null;
+
+  bool get shouldShowGallery => false;
+
+  void setCurrentIndex(int index) {}
+
+  CarouselController carouselController;
 }

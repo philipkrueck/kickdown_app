@@ -20,7 +20,6 @@ class PostingDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _onButtonPressed() {
-      // TODO: this popup should triggered via the view model
       showCupertinoModalPopup(
           useRootNavigator: true,
           context: context,
@@ -45,15 +44,11 @@ class PostingDetailView extends StatelessWidget {
           child: Column(
             children: [
               GestureDetector(
-                // child: PostingHeader(
-                //   posting: model.posting,
-                //   isDetail: true,
-                //   onBackButtonTapped: () =>
-                //       model.onBackButtonTapped(context: context),
-                //   onFavoriteTapped: model.onFavoriteTapped,
-                // ),
+                child: PostingHeader(
+                  postingHeaderViewmodel: model.postingHeaderViewmodel,
+                ),
                 onTap: model.onPostingHeaderTapped,
-              ), // NOTE: the posting probably shouldn't be exposed like this to the PostingHeader widget
+              ),
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(38, 8, 38, 12),

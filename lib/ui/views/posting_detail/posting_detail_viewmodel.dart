@@ -3,7 +3,10 @@ import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/services/postings_manager.dart';
+import 'package:kickdown_app/ui/shared/posting_header/posting_header_detail_viewmodel.dart';
+import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
 import 'package:kickdown_app/ui/views/posting_images_slider.dart/posting_images_slider_viewmodel.dart';
+import 'package:kickdown_app/utils/image_gallery_index_manager.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tuple/tuple.dart';
@@ -12,15 +15,22 @@ class PostingDetailViewmodel extends BaseViewModel {
   final PostingsManager _postingsManager = locator<PostingsManager>();
   final NavigationService _navigationService = locator<NavigationService>();
   final int postingIndex;
+  ImageGalleryIndexManager _imageGalleryIndexManager;
+  PostingHeaderDetailViewmodel _postingHeaderViewmodel;
   Posting _posting;
   List<Tuple2<String, String>> _detailInformation;
 
   bool _imagesAreLoaded = false;
 
   bool get imagesAreLoaded => _imagesAreLoaded;
+  PostingHeaderViewmodel get postingHeaderViewmodel => _postingHeaderViewmodel;
 
   PostingDetailViewmodel({this.postingIndex}) {
     _posting = _postingsManager.getPosting(index: postingIndex);
+    _imageGalleryIndexManager =
+        ImageGalleryIndexManager(postingIndex: postingIndex);
+    _postingHeaderViewmodel = PostingHeaderDetailViewmodel(
+        posting: posting, imageGalleryIndexManager: _imageGalleryIndexManager);
 
     _detailInformation = [
       Tuple2('Verkäufer', _posting.sellerName),
@@ -40,12 +50,6 @@ class PostingDetailViewmodel extends BaseViewModel {
 
   String get description => _posting.description;
 
-  void onBackButtonTapped({BuildContext context}) {
-    // Note: Ideally this would be implemented via the navigation service
-    // which isn't context sensitive
-    Navigator.of(context).pop();
-  }
-
   void onFavoriteTapped() {
     // TODO: implement favorite toggling on network
     _postingsManager.favoritePosting(index: postingIndex);
@@ -58,8 +62,9 @@ class PostingDetailViewmodel extends BaseViewModel {
     _navigationService.navigateTo(
       Routes.PostingImagesSliderView,
       arguments: PostingImagesSliderViewArguments(
-        postingImagesSliderViewmodel:
-            PostingImagesSliderViewmodel(postingIndex: postingIndex),
+        postingImagesSliderViewmodel: PostingImagesSliderViewmodel(
+            imageGalleryIndexManager: _imageGalleryIndexManager,
+            posting: posting),
       ),
     );
   }
@@ -67,6 +72,7 @@ class PostingDetailViewmodel extends BaseViewModel {
   void _fetchImages() async {
     await _postingsManager.fetchImagesForPosting(postingIndex: postingIndex);
     _imagesAreLoaded = true;
+    _postingHeaderViewmodel.setShouldShowGallery(true);
     notifyListeners();
   }
 }

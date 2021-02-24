@@ -1,32 +1,50 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/models/posting.dart';
-import 'package:kickdown_app/services/postings_manager.dart';
+import 'package:kickdown_app/utils/image_gallery_index_manager.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class PostingImagesSliderViewmodel extends BaseViewModel {
-  PostingsManager _postingsManager = locator<PostingsManager>();
-  NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService _navigationService = locator<NavigationService>();
+  final ImageGalleryIndexManager imageGalleryIndexManager;
+  StreamSubscription<int> _imageAdddedListener;
+  StreamSubscription<bool> _currentIndexChangedListener;
 
-  int _currentIndex = 0;
+  int get currentIndex => imageGalleryIndexManager.currentIndex;
 
-  int get currentIndex => _currentIndex;
+  int get totalImages => posting.imageUrls.length;
 
-  int get totalImages => _posting.imageUrls.length;
+  final Posting posting;
 
-  final int postingIndex;
-  Posting _posting;
+  PostingImagesSliderViewmodel(
+      {@required this.posting, @required this.imageGalleryIndexManager}) {
+    _imageAdddedListener = posting.imageAddedAtIndexStream.listen((index) {
+      if (index == currentIndex) return;
+      notifyListeners();
+    });
 
-  PostingImagesSliderViewmodel({@required this.postingIndex}) {
-    _posting = _postingsManager.getPosting(index: postingIndex);
+    _currentIndexChangedListener =
+        imageGalleryIndexManager.currentIndexChangedStream.listen((_) {
+      print('new index is ${imageGalleryIndexManager.currentIndex}');
+      notifyListeners();
+    });
   }
 
-  List<Image> get images => _posting.images;
+  @override
+  void dispose() {
+    _imageAdddedListener.cancel();
+    _currentIndexChangedListener.cancel();
+    super.dispose();
+  }
+
+  List<Image> get images => posting.images;
 
   Image image({int index}) {
-    if (index >= _posting.images.length) return null;
-    return _posting.images[index];
+    if (index >= posting.images.length) return null;
+    return posting.images[index];
   }
 
   void tapCloseButton() {
@@ -34,13 +52,7 @@ class PostingImagesSliderViewmodel extends BaseViewModel {
   }
 
   void setCurrentIndex(int index) {
-    _currentIndex = index;
-    if (_currentIndex >= _posting.loadingOrLoadedImagesLastIndex - 5) {
-      _postingsManager.fetchImagesForPosting(
-          postingIndex: postingIndex,
-          lastImageIndex: _posting.loadingOrLoadedImagesLastIndex + 5);
-    }
-
-    notifyListeners();
+    assert(index < images.length);
+    imageGalleryIndexManager.setCurrentIndex(index);
   }
 }

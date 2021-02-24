@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:http/http.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/services/network_service.dart';
@@ -13,6 +12,7 @@ class PostingsManager {
   List<Posting> _postings;
 
   Future<List<Posting>> loadPostings() async {
+    print('loading postings');
     _postings = await _networkService.fetchPostings();
     loadHeroImages(_postings);
     return _postings;
@@ -20,6 +20,7 @@ class PostingsManager {
 
   Future<void> loadHeroImages(List<Posting> postings) async {
     for (int i = 0; i < postings.length; i++) {
+      postings[i].loadingOrLoadedImagesLastIndex = 0;
       Image heroImage =
           await _networkService.loadImage(url: postings[i].heroPhotoURL);
       postings[i].addImage(heroImage, index: 0);
@@ -61,6 +62,7 @@ class PostingsManager {
     for (int i = startIndex; i <= lastImageIndex; i++) {
       Image image = await _networkService.loadImage(url: posting.imageUrls[i]);
       if (image != null) {
+        print('image download completed for $i');
         posting.addImage(image, index: i);
       }
     }

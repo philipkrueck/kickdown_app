@@ -60,6 +60,7 @@ class Router extends RouterBase {
         builder: (context) => PostingImagesSliderView(
             postingImagesSliderViewmodel: args.postingImagesSliderViewmodel),
         settings: data,
+        fullscreenDialog: true,
       );
     },
   };

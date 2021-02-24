@@ -1,7 +1,10 @@
+import 'dart:async';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/styles.dart';
 
-class CountdownLabel extends StatelessWidget {
+class CountdownLabel extends StatefulWidget {
   final DateTime endDate;
   final bool isSold;
   final bool currentUserIsHighestBidder;
@@ -11,27 +14,50 @@ class CountdownLabel extends StatelessWidget {
       this.isSold = false,
       this.currentUserIsHighestBidder = false});
 
+  @override
+  _CountdownLabelState createState() => _CountdownLabelState();
+}
+
+class _CountdownLabelState extends State<CountdownLabel> {
+  Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (!widget.isSold && !widget.currentUserIsHighestBidder) {
+      timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+        setState(() {});
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
   Duration get durationUntilEnd {
-    return endDate.difference(DateTime.now());
+    Duration duration = widget.endDate.difference(DateTime.now());
+    return duration >= duration ? duration : 0.0;
   }
 
   String get timeDifferenceString {
-    if (isSold) {
+    if (widget.isSold) {
       return 'Verkauft';
     }
 
-    if (currentUserIsHighestBidder) {
+    if (widget.currentUserIsHighestBidder) {
       return 'Sie sind Höchstbietender';
     }
 
-    if (durationUntilEnd.inHours <= 12) {
+    if (durationUntilEnd.inHours <= 23) {
       return durationInHoursMinSecs(durationUntilEnd);
-    } else if (durationUntilEnd.inDays == 1) {
+    } else if (durationUntilEnd.inHours <= 47) {
       return "Noch 1 Tag";
-    } else if (durationUntilEnd.inDays >= 2) {
-      return "Noch ${durationUntilEnd.inDays} Tage";
     } else {
-      return durationUntilEnd.toString();
+      return "Noch ${durationUntilEnd.inDays} Tage";
     }
   }
 
@@ -47,7 +73,7 @@ class CountdownLabel extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: currentUserIsHighestBidder
+        color: widget.currentUserIsHighestBidder && !widget.isSold
             ? Styles.annotationBadgeColor
             : Styles.accentColor01Normal,
       ),
