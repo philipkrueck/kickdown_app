@@ -79,8 +79,4 @@ class PostingsViewmodel extends BaseViewModel {
       ),
     );
   }
-
-  void favoriteItemAtIndex(int index) {
-    _postingsManager.favoritePosting(index: index);
-  }
 }

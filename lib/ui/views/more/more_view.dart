@@ -30,15 +30,24 @@ class MoreView extends StatelessWidget {
                       switch (index) {
                         case 0:
                           return CupertinoListTile(
-                            title: 'Mein Account',
+                            title: model.userIsLoggedIn && model.email != null
+                                ? model.email
+                                : 'Mein Account',
                             trailing: Padding(
                               padding: const EdgeInsets.only(right: 8.0),
-                              child: Button03(
-                                text: 'Anmelden',
-                                onPressed: () {
-                                  model.onTapLogin();
-                                },
-                              ),
+                              child: model.userIsLoggedIn
+                                  ? Button03(
+                                      text: 'Abmelden',
+                                      onPressed: () {
+                                        model.onTapLogin();
+                                      },
+                                    )
+                                  : Button03(
+                                      text: 'Anmelden',
+                                      onPressed: () {
+                                        model.onTapLogin();
+                                      },
+                                    ),
                             ),
                             onTap: null,
                             isStartOfSection: true,

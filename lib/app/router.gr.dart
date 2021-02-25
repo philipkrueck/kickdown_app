@@ -9,6 +9,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../ui/views/authentication_flow.dart/authentication_flow.dart';
 import '../ui/views/navigation/navigation_view.dart';
 import '../ui/views/posting_detail/posting_detail_view.dart';
 import '../ui/views/posting_detail/posting_detail_viewmodel.dart';
@@ -19,10 +20,12 @@ class Routes {
   static const String InitialRoute = '/';
   static const String PostingDetailView = '/posting-detail-view';
   static const String PostingImagesSliderView = '/posting-images-slider-view';
+  static const String AuthenticationFlow = '/authentication-flow';
   static const all = <String>{
     InitialRoute,
     PostingDetailView,
     PostingImagesSliderView,
+    AuthenticationFlow,
   };
 }
 
@@ -33,6 +36,7 @@ class Router extends RouterBase {
     RouteDef(Routes.InitialRoute, page: NavigationView),
     RouteDef(Routes.PostingDetailView, page: PostingDetailView),
     RouteDef(Routes.PostingImagesSliderView, page: PostingImagesSliderView),
+    RouteDef(Routes.AuthenticationFlow, page: AuthenticationFlow),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -59,6 +63,13 @@ class Router extends RouterBase {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => PostingImagesSliderView(
             postingImagesSliderViewmodel: args.postingImagesSliderViewmodel),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
+    AuthenticationFlow: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => AuthenticationFlow(),
         settings: data,
         fullscreenDialog: true,
       );

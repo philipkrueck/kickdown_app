@@ -52,7 +52,7 @@ class PostingDetailViewmodel extends BaseViewModel {
 
   void onFavoriteTapped() {
     // TODO: implement favorite toggling on network
-    _postingsManager.favoritePosting(index: postingIndex);
+    _postingsManager.favorizePosting(index: postingIndex);
     notifyListeners();
   }
 

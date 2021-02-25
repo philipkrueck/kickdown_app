@@ -67,6 +67,8 @@ class Posting {
   factory Posting.fromJson(Map<String, dynamic> json) {
     final attributes = json["data"]["attributes"];
 
+    print('starredByCurrentUser: ${attributes["starred_by_current_user"]}');
+
     return Posting(
       id: json["data"]["id"],
       sellerName: attributes["seller_name"],

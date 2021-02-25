@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/models/posting.dart';
+import 'package:kickdown_app/services/network_service.dart';
 import 'package:kickdown_app/services/postings_manager.dart';
 import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
 
@@ -11,6 +12,7 @@ class PostingHeaderOverviewViewmodel extends PostingHeaderViewmodel {
   final NumberFormat currencyFormatter =
       NumberFormat.simpleCurrency(locale: 'eu', decimalDigits: 0);
   final PostingsManager _postingsManager = locator<PostingsManager>();
+  final NetworkService _networkService = locator<NetworkService>();
   final Posting posting;
   StreamSubscription<int> _imageAdddedListener;
 
@@ -45,8 +47,7 @@ class PostingHeaderOverviewViewmodel extends PostingHeaderViewmodel {
   String get id => posting.id;
 
   Function get onFavoriteTapped => () {
-        // ToDo: implement
-        print('favorite');
+        _networkService.favorizePosting(id: posting.id);
       };
 
   bool get starredByCurrentUser => false; // ToDo: implement

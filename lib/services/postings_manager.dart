@@ -32,9 +32,10 @@ class PostingsManager {
     return _postings.elementAt(index);
   }
 
-  void favoritePosting({int index}) {
-    // ToDo: implement
-    print('favorite');
+  void favorizePosting({int index}) {
+    Posting posting = _postings[index];
+
+    print(posting);
   }
 
   Future<void> fetchImagesForPosting(
