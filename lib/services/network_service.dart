@@ -14,23 +14,27 @@ class NetworkService {
     "Content-Type": "application/json; charset=utf-8",
   };
 
-  final StreamController _streamController = StreamController<bool>();
+  final StreamController _streamController = StreamController<bool>.broadcast();
+
+  final httpClient = http.Client();
 
   static String baseURL = _productionBaseURL;
 
   UserSessionData userSessionData;
 
-  bool get userIsLoggedIn =>
-      userSessionData != null && userSessionData.uid != null;
+  bool get userIsLoggedIn => userSessionData != null && userSessionData.isValid;
 
-  String get email => userSessionData.uid;
+  String get email => (userSessionData != null && userSessionData.uid != null)
+      ? userSessionData.uid
+      : null;
 
-  Stream<bool> isLoggedInStream; // ToDo: create stream
+  Stream<bool> get isLoggedInStream =>
+      _streamController.stream.asBroadcastStream();
 
   Map<String, String> get _httpHeaders {
     if (userSessionData != null &&
         userSessionData.httpHeaderValues.isNotEmpty) {
-      var _newHeaders = Map.from(_defaultHeaders);
+      Map<String, String> _newHeaders = Map.from(_defaultHeaders);
       print(
           'userSessionData.httpHeaderValues: ${userSessionData.httpHeaderValues}');
 
@@ -40,7 +44,6 @@ class NetworkService {
     return _defaultHeaders;
   }
 
-  @override
   void dispose() {
     _streamController.close();
   }
@@ -51,15 +54,18 @@ class NetworkService {
       'password': password,
     };
 
-    final response = await http.post(
-      '$baseURL/auth/sign_in',
+    String queryString = Uri(queryParameters: queryParameters).query;
+
+    final response = await httpClient.post(
+      '$baseURL/auth/sign_in?' + queryString,
       headers: _httpHeaders,
     );
 
     print(response.request.url);
-    _initializeOrUpdateUserSessionDataWithHeaders(
-        response.headers, response.statusCode);
+    _initializeOrUpdateUserSessionDataWithHeaders(response.headers,
+        statusCode: response.statusCode);
     if (response.statusCode == 200) {
+      _streamController.add(true);
       print('successfully logged in');
       return true;
       // return _parsePostings(response.body);
@@ -72,36 +78,43 @@ class NetworkService {
   Future<List<Posting>> fetchPostings() async {
     print('http headers: ${_httpHeaders}');
 
-    final response = await http.get('$baseURL/postings', headers: _httpHeaders);
+    final response =
+        await httpClient.get('$baseURL/postings', headers: _httpHeaders);
 
     print('response code: ${response.statusCode}');
-    _initializeOrUpdateUserSessionDataWithHeaders(
-        response.headers, response.statusCode);
+    _initializeOrUpdateUserSessionDataWithHeaders(response.headers,
+        statusCode: response.statusCode);
     if (response.statusCode == 200) {
-      print('successfully fetched postings');
       return _parsePostings(response.body);
     } else {
       throw Exception('Failed to load listings');
     }
   }
 
-  Future<void> favorizePosting({String id}) async {
-    final response = await http.get('$baseURL/postings/$id/star',
-        headers: _defaultHeaders
-          ..addAll(
-              userSessionData != null ? userSessionData.httpHeaderValues : {}));
+  Future<bool> favorizePosting({String id}) async {
+    final response = await httpClient.post('$baseURL/postings/$id/star',
+        headers: _httpHeaders);
 
-    _initializeOrUpdateUserSessionDataWithHeaders(
-        response.headers, response.statusCode);
-    if (response.statusCode != 200) {
-      // ToDo: parse response and set bool value on posting, maybe not do it here
+    print(id);
+
+    _initializeOrUpdateUserSessionDataWithHeaders(response.headers,
+        statusCode: response.statusCode);
+    if (response.statusCode == 200) {
+      print('favorized!!!');
+      Map<String, dynamic> parsed = jsonDecode(response.body);
+      print(parsed);
+      bool isFavorite = parsed['active'];
+      print('isFavorite: ${isFavorite}');
+      return isFavorite;
     } else {
       throw Exception("Could not favorize posting.");
     }
   }
 
   void logout() {
+    print('logout');
     userSessionData = null;
+    _streamController.sink.add(false);
   }
 
   List<Posting> _parsePostings(String responseBody) {
@@ -140,11 +153,11 @@ class NetworkService {
   }
 
   Future<List<String>> fetchImageUrls({String id}) async {
-    final response = await http.get('$baseURL/postings/$id/photos',
-        headers: _defaultHeaders
-          ..addAll(
-              userSessionData != null ? userSessionData.httpHeaderValues : {}));
+    final response = await httpClient.get('$baseURL/postings/$id/photos',
+        headers: _httpHeaders);
 
+    _initializeOrUpdateUserSessionDataWithHeaders(response.headers,
+        statusCode: response.statusCode);
     if (response.statusCode == 200) {
       return _parseImageUrls(response.body);
     } else {
@@ -162,7 +175,8 @@ class NetworkService {
   }
 
   void _initializeOrUpdateUserSessionDataWithHeaders(
-      Map<String, String> headers, int statusCode) {
+      Map<String, String> headers,
+      {int statusCode}) {
     if (statusCode >= 200 && statusCode < 300) {
       // success
       if (userSessionData == null) {

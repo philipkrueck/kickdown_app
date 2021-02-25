@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/models/posting.dart';
+import 'package:kickdown_app/services/network_service.dart';
 import 'package:kickdown_app/services/postings_manager.dart';
 import 'package:kickdown_app/ui/shared/posting_header/posting_header.dart';
 import 'package:kickdown_app/ui/shared/posting_header/posting_header_overview_viewmodel.dart';
@@ -25,16 +28,29 @@ enum LoadingState {
 class PostingsViewmodel extends BaseViewModel {
   PostingsManager _postingsManager = locator<PostingsManager>();
   NavigationService _navigationService = locator<NavigationService>();
+  NetworkService _networkService = locator<NetworkService>();
   LoadingState _loadingState = LoadingState.loading;
   List<Posting> _postings;
   List<PostingHeaderViewmodel> _postingHeaderViewModels;
+  StreamSubscription<bool> _userIsLoggedInListener;
 
   LoadingState get loadingState => _loadingState;
 
   int get postingCardCount => _postingHeaderViewModels.length;
 
   void initialize() {
+    _userIsLoggedInListener = _networkService.isLoggedInStream.listen((_) {
+      print('PostingsViewmodel: userLoggedInStream changed');
+      _fetchPostings();
+    });
+
     _fetchPostings();
+  }
+
+  @override
+  void dispose() {
+    _userIsLoggedInListener.cancel();
+    super.dispose();
   }
 
   void refreshPostings() async {

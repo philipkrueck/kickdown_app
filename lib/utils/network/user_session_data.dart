@@ -1,9 +1,9 @@
 class UserSessionData {
-  static const AccessTokenHeader = "access-Token";
+  static const AccessTokenHeader = "access-token";
   static const ClientHeader = "client";
   static const ExpiryHeader = "expiry";
   static const UidHeader = "uid";
-  static const TokenTypeHeader = "token-Type";
+  static const TokenTypeHeader = "token-type";
 
   String uid;
   String accessToken;
@@ -23,19 +23,22 @@ class UserSessionData {
   }
 
   void udpateWithHeaderFields(Map<String, String> headerFields) {
-    if (headerFields[UidHeader] != null) {
+    if (headerFields[UidHeader] != null && headerFields[UidHeader].isNotEmpty) {
       uid = headerFields[UidHeader];
     }
 
-    if (headerFields[AccessTokenHeader] != null) {
+    if (headerFields[AccessTokenHeader] != null &&
+        headerFields[AccessTokenHeader].isNotEmpty) {
       accessToken = headerFields[AccessTokenHeader];
     }
 
-    if (headerFields[ClientHeader] != null) {
+    if (headerFields[ClientHeader] != null &&
+        headerFields[ClientHeader].isNotEmpty) {
       clientId = headerFields[ClientHeader];
     }
 
-    if (headerFields[ExpiryHeader] != null) {
+    if (headerFields[ExpiryHeader] != null &&
+        headerFields[ExpiryHeader].isNotEmpty) {
       expirationDate = headerFields[ExpiryHeader];
     }
   }

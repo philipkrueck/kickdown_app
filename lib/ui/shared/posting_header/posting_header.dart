@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/styles.dart';
 import 'package:kickdown_app/ui/shared/posting_header/gradient_view.dart';
 

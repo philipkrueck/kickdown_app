@@ -9,9 +9,11 @@ class AuthenticationFlowViewmodel extends BaseViewModel {
 
   void tapLogin() async {
     try {
+      bool debug = false;
+
       await _networkService.login(
-        email: 'maybachmusic@kickdown.xx',
-        password: 'maybach',
+        email: debug ? 'philip.krueck@apploft.de' : 'maybachmusic@kickdown.xx',
+        password: debug ? 'foobar' : 'maybach',
       );
       _navigationService.back();
     } catch (e) {

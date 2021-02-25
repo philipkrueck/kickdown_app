@@ -24,9 +24,10 @@ class MoreViewmodel extends BaseViewModel {
   bool _trackingIsOn = true; // This needs to be saved to system preferences
   StreamSubscription _isLoggedInSubscription;
 
-  MoreViewModel() {
+  void initialize() {
     _isLoggedInSubscription = _networkService.isLoggedInStream.listen(
-      (newValue) {
+      (_) {
+        print('MoreViewmodel. isLoggedInStream changed');
         notifyListeners();
       },
     );

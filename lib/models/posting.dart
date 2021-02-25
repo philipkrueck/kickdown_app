@@ -33,13 +33,16 @@ class Posting {
   int currentPrice;
   bool loggedInUserIsHighestBidder;
 
-  final StreamController<int> _streamController =
+  final StreamController<int> _imageAddedStreamController =
       StreamController<int>.broadcast();
+  final StreamController<bool> _starredStreamController =
+      StreamController<bool>.broadcast();
 
   Stream<int> get imageAddedAtIndexStream =>
-      _streamController.stream.asBroadcastStream();
+      _imageAddedStreamController.stream.asBroadcastStream();
 
-  // TODO: add missing properties
+  Stream<bool> get starredByCurrentUserStream =>
+      _starredStreamController.stream.asBroadcastStream();
 
   Posting(
       {this.id,
@@ -93,12 +96,13 @@ class Posting {
   }
 
   void dispose() {
-    _streamController.close();
+    _imageAddedStreamController.close();
+    _starredStreamController.close();
   }
 
   void addImage(Image image, {int index}) {
     _images[index] = image;
-    _streamController.sink.add(index);
+    _imageAddedStreamController.sink.add(index);
     print('index $index added to stream controller');
   }
 
@@ -111,5 +115,16 @@ class Posting {
     for (int i = 1; i < _images.length; i++) {
       _images[i] = null;
     }
+  }
+
+  void toggleStarredByCurrentUser() {
+    if (starredByCurrentUser == null) return;
+    starredByCurrentUser = !starredByCurrentUser;
+    _starredStreamController.sink.add(starredByCurrentUser);
+  }
+
+  void setStarredByCurrentUser({bool newValue}) {
+    starredByCurrentUser = newValue;
+    _starredStreamController.sink.add(starredByCurrentUser);
   }
 }

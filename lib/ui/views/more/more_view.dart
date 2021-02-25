@@ -17,6 +17,8 @@ class MoreView extends StatelessWidget {
       viewModelBuilder: () => locator<MoreViewmodel>(),
       disposeViewModel: false,
       initialiseSpecialViewModelsOnce: true,
+      fireOnModelReadyOnce: true,
+      onModelReady: (model) => model.initialize(),
       builder: (context, model, child) => CupertinoTabView(
         builder: (context) => CupertinoPageScaffold(
           child: Scaffold(
@@ -39,7 +41,7 @@ class MoreView extends StatelessWidget {
                                   ? Button03(
                                       text: 'Abmelden',
                                       onPressed: () {
-                                        model.onTapLogin();
+                                        model.onTapLogout();
                                       },
                                     )
                                   : Button03(
