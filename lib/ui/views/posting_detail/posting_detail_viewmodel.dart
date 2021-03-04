@@ -79,11 +79,34 @@ class PostingDetailViewmodel extends BaseViewModel {
   }
 
   void onCTAButtonPressed({BuildContext context}) {
+    // Navigator.of(context).push(CupertinoPageRoute(
+    //     builder: (context) => Column(
+    //           children: [
+    //             Container(
+    //               height: 300,
+    //             ),
+    //             Container(
+    //               height: 300,
+    //               child: Center(
+    //                 child: BidPreparationView(
+    //                   viewmodel: BidPreparationViewmodel(posting: posting),
+    //                 ),
+    //               ),
+    //             ),
+    //           ],
+    //         )));
+
     showCupertinoModalPopup(
       context: context,
+      semanticsDismissible: true,
       builder: (context) => Container(
         height: 307,
-        color: Colors.white,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+            color: Colors.white),
         child: BidPreparationView(
           viewmodel: BidPreparationViewmodel(
             posting: posting,
