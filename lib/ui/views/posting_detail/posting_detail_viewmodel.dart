@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/models/posting.dart';
@@ -99,18 +100,9 @@ class PostingDetailViewmodel extends BaseViewModel {
     showCupertinoModalPopup(
       context: context,
       semanticsDismissible: true,
-      builder: (context) => Container(
-        height: 307,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            color: Colors.white),
-        child: BidPreparationView(
-          viewmodel: BidPreparationViewmodel(
-            posting: posting,
-          ),
+      builder: (context) => BidPreparationView(
+        viewmodel: BidPreparationViewmodel(
+          posting: posting,
         ),
       ),
     );
