@@ -7,7 +7,7 @@ import 'package:kickdown_app/ui/shared/posting_header/posting_header.dart';
 import 'package:kickdown_app/ui/views/posting_detail/posting_detail_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
-class PostingDetailView extends StatefulWidget {
+class PostingDetailView extends StatelessWidget {
   final PostingDetailViewmodel postingDetailViewmodel;
 
   PostingDetailView({this.postingDetailViewmodel}) {
@@ -17,21 +17,9 @@ class PostingDetailView extends StatefulWidget {
   }
 
   @override
-  _PostingDetailViewState createState() => _PostingDetailViewState();
-}
-
-class _PostingDetailViewState extends State<PostingDetailView> {
-  /// Builds this widget with it's own context and configuration
-  /// This allows the background to be interactive and depict live state
-  Widget get $thisWidget => build(context);
-
-  @override
   Widget build(BuildContext buildContext) {
     return ViewModelBuilder<PostingDetailViewmodel>.reactive(
-      viewModelBuilder: () => widget.postingDetailViewmodel,
-      initialiseSpecialViewModelsOnce: true,
-      disposeViewModel: false,
-      fireOnModelReadyOnce: true,
+      viewModelBuilder: () => postingDetailViewmodel,
       builder: (modelContext, model, child) =>
           AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -81,10 +69,8 @@ class _PostingDetailViewState extends State<PostingDetailView> {
                 child: Container(
                   height: 50,
                   child: Button01(
-                    onPressed: () => model.onCTAButtonPressed(
-                        context: buildContext,
-                        behindChildContext: this.context,
-                        behindChild: this.widget),
+                    onPressed: () =>
+                        model.onCTAButtonPressed(context: buildContext),
                     text: 'Bieten',
                   ),
                 ),

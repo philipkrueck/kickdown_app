@@ -4,8 +4,6 @@ import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/services/postings_manager.dart';
-import 'package:kickdown_app/ui/shared/custom_ios_transitions/cupertino_dialog_body.dart';
-import 'package:kickdown_app/ui/shared/custom_ios_transitions/cupertino_modal_transition.dart';
 import 'package:kickdown_app/ui/shared/posting_header/posting_header_detail_viewmodel.dart';
 import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
 import 'package:kickdown_app/ui/views/bid_preparation_view/bid_preparation_view.dart';
@@ -80,52 +78,18 @@ class PostingDetailViewmodel extends BaseViewModel {
     );
   }
 
-  void onCTAButtonPressed(
-      {BuildContext context,
-      BuildContext behindChildContext,
-      Widget behindChild}) {
-    Duration transitionDuration = const Duration(milliseconds: 400);
-    bool inheritRouteTransition = false;
-
-    showGeneralDialog(
-      barrierColor: Colors.black,
-      context: behindChildContext,
-      transitionDuration: transitionDuration,
-      transitionBuilder: (context, animation, secondaryAnimation, child) {
-        return CupertinoModalTransition(
-            animation: animation,
-            behindChild: behindChild,
-            child: !inheritRouteTransition
-                ? child
-                : (() {
-                    /// Using [this.context] instead of the provided [context]
-                    /// allows us to make sure we use the route that [this.widget] is being
-                    /// displayed in instead of the route that our modal will be displayed in
-                    final route = ModalRoute.of(behindChildContext);
-
-                    return route.buildTransitions(
-                      context,
-                      animation,
-                      secondaryAnimation,
-                      child,
-                    );
-                  })());
-      },
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return CupertinoFullscreenDialogTransition(
-          primaryRouteAnimation: animation,
-          secondaryRouteAnimation: secondaryAnimation,
-          child: CupertinoDialogBody(
-            height: 307,
-            child: BidPreparationView(
-              viewmodel: BidPreparationViewmodel(
-                posting: posting,
-              ),
-            ),
+  void onCTAButtonPressed({BuildContext context}) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => Container(
+        height: 307,
+        color: Colors.white,
+        child: BidPreparationView(
+          viewmodel: BidPreparationViewmodel(
+            posting: posting,
           ),
-          linearTransition: true,
-        );
-      },
+        ),
+      ),
     );
   }
 
