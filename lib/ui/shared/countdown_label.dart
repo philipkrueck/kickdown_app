@@ -7,12 +7,11 @@ import 'package:kickdown_app/styles.dart';
 class CountdownLabel extends StatefulWidget {
   final DateTime endDate;
   final bool isSold;
-  final bool currentUserIsHighestBidder;
 
-  const CountdownLabel(
-      {this.endDate,
-      this.isSold = false,
-      this.currentUserIsHighestBidder = false});
+  const CountdownLabel({
+    this.endDate,
+    this.isSold = false,
+  });
 
   @override
   _CountdownLabelState createState() => _CountdownLabelState();
@@ -25,7 +24,7 @@ class _CountdownLabelState extends State<CountdownLabel> {
   void initState() {
     super.initState();
 
-    if (!widget.isSold && !widget.currentUserIsHighestBidder) {
+    if (!widget.isSold) {
       timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
         setState(() {});
       });
@@ -44,12 +43,8 @@ class _CountdownLabelState extends State<CountdownLabel> {
   }
 
   String get timeDifferenceString {
-    if (widget.isSold) {
+    if (widget.isSold || durationUntilEnd.inSeconds <= 0) {
       return 'Verkauft';
-    }
-
-    if (widget.currentUserIsHighestBidder) {
-      return 'Sie sind Höchstbietender';
     }
 
     if (durationUntilEnd.inHours <= 23) {
@@ -72,14 +67,12 @@ class _CountdownLabelState extends State<CountdownLabel> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: widget.currentUserIsHighestBidder && !widget.isSold
-            ? Styles.annotationBadgeColor
-            : Styles.accentColor01Normal,
-      ),
+          borderRadius: BorderRadius.circular(6),
+          color: Styles.accentColor01Normal),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8, 3, 7, 2),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             durationUntilEnd.inHours <= 12
                 ? Image.asset(

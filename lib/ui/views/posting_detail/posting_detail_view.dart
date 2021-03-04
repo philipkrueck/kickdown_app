@@ -4,11 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:kickdown_app/styles.dart';
 import 'package:kickdown_app/ui/shared/buttons/button_01.dart';
 import 'package:kickdown_app/ui/shared/posting_header/posting_header.dart';
-import 'package:kickdown_app/ui/views/bid_preparation_screen.dart';
 import 'package:kickdown_app/ui/views/posting_detail/posting_detail_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
-class PostingDetailView extends StatelessWidget {
+class PostingDetailView extends StatefulWidget {
   final PostingDetailViewmodel postingDetailViewmodel;
 
   PostingDetailView({this.postingDetailViewmodel}) {
@@ -18,29 +17,26 @@ class PostingDetailView extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    void _onButtonPressed() {
-      showCupertinoModalPopup(
-          useRootNavigator: true,
-          context: context,
-          builder: (context) {
-            return Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(16))),
-              width: double.infinity,
-              height: 300,
-              child: BidPreparationScreen(),
-            );
-          });
-    }
+  _PostingDetailViewState createState() => _PostingDetailViewState();
+}
 
+class _PostingDetailViewState extends State<PostingDetailView> {
+  /// Builds this widget with it's own context and configuration
+  /// This allows the background to be interactive and depict live state
+  Widget get $thisWidget => build(context);
+
+  @override
+  Widget build(BuildContext buildContext) {
     return ViewModelBuilder<PostingDetailViewmodel>.reactive(
-      viewModelBuilder: () => postingDetailViewmodel,
-      builder: (context, model, child) => AnnotatedRegion<SystemUiOverlayStyle>(
+      viewModelBuilder: () => widget.postingDetailViewmodel,
+      initialiseSpecialViewModelsOnce: true,
+      disposeViewModel: false,
+      fireOnModelReadyOnce: true,
+      builder: (modelContext, model, child) =>
+          AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: CupertinoPageScaffold(
+          resizeToAvoidBottomInset: false,
           child: Column(
             children: [
               GestureDetector(
@@ -85,12 +81,15 @@ class PostingDetailView extends StatelessWidget {
                 child: Container(
                   height: 50,
                   child: Button01(
-                    onPressed: _onButtonPressed,
+                    onPressed: () => model.onCTAButtonPressed(
+                        context: buildContext,
+                        behindChildContext: this.context,
+                        behindChild: this.widget),
                     text: 'Bieten',
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).padding.bottom)
+              SizedBox(height: MediaQuery.of(modelContext).padding.bottom)
             ],
           ),
         ),

@@ -90,12 +90,15 @@ class PostingHeader extends StatelessWidget {
   Widget _buildBackButton({BuildContext context, Function onButtonTapped}) {
     return Positioned(
       top: MediaQuery.of(context).padding.top + 4,
-      left: 16,
-      height: 30,
-      width: 30,
-      child: CupertinoNavigationBarBackButton(
+      left: 12,
+      child: CupertinoButton(
+        padding: EdgeInsets.zero,
+        child: Image.asset(
+          'assets/ic_navbar_back.png',
+          color: Colors.white,
+          height: 30,
+        ),
         onPressed: onButtonTapped,
-        color: Colors.white,
       ),
     );
   }
@@ -191,8 +194,7 @@ class PostingHeader extends StatelessWidget {
                         ),
                         CountdownLabel(
                           endDate: model.endDate,
-                          currentUserIsHighestBidder:
-                              model.currentUserIsHighestBidder,
+                          isSold: false, // todo: add
                         )
                       ],
                     )

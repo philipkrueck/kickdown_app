@@ -33,41 +33,77 @@ abstract class Styles {
   static const Color accentColor01Pressed = _kickdownDarkRed;
   static const Color accentColor01Disabled = _grayLight;
   static const Color annotationBadgeColor = _green;
+  static const Color grayLight = _grayLight;
+  static const Color kickdownRed = _kickdownRed;
 
   // TEXT STYLES
-  static const TextStyle title01 =
-      TextStyle(color: _black, fontSize: 25, fontWeight: FontWeight.w800);
+  static const TextStyle title01 = TextStyle(
+    color: _black,
+    fontSize: 25,
+    fontWeight: FontWeight.w800,
+  );
 
-  static const TextStyle title02 =
-      TextStyle(color: _black, fontSize: 15, fontWeight: FontWeight.w800);
+  static const TextStyle title02 = TextStyle(
+    color: _black,
+    fontSize: 15,
+    fontWeight: FontWeight.w800,
+  );
 
-  static const TextStyle title03 =
-      TextStyle(color: _kickdownRed, fontSize: 25, fontWeight: FontWeight.w800);
+  static const TextStyle title03 = TextStyle(
+    color: _kickdownRed,
+    fontSize: 25,
+    fontWeight: FontWeight.w800,
+  );
 
-  static const TextStyle title04 =
-      TextStyle(color: _white, fontSize: 15, fontWeight: FontWeight.w800);
+  static const TextStyle title04 = TextStyle(
+    color: _white,
+    fontSize: 15,
+    fontWeight: FontWeight.w800,
+  );
 
-  static const TextStyle body01 =
-      TextStyle(color: _black, fontSize: 15, fontWeight: FontWeight.w500);
+  static const TextStyle body01 = TextStyle(
+    color: _black,
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+  );
 
-  static const TextStyle caption01 =
-      TextStyle(color: _grayDark, fontSize: 13, fontWeight: FontWeight.normal);
+  static const TextStyle caption01 = TextStyle(
+    color: _grayDark,
+    fontSize: 13,
+    fontWeight: FontWeight.normal,
+  );
 
-  static final TextStyle caption01Light = caption01.copyWith(color: _white);
+  static final TextStyle caption01Light = caption01.copyWith(
+    color: _white,
+  );
 
-  static const TextStyle caption02 =
-      TextStyle(color: _grayDark, fontSize: 13, fontWeight: FontWeight.bold);
+  static const TextStyle caption02 = TextStyle(
+    color: _grayDark,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
+  );
 
-  static const TextStyle caption03 =
-      TextStyle(color: _kickdownRed, fontSize: 13, fontWeight: FontWeight.bold);
+  static const TextStyle caption03 = TextStyle(
+    color: _kickdownRed,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
+  );
 
-  static const TextStyle caption04 =
-      TextStyle(color: _white, fontSize: 13, fontWeight: FontWeight.bold);
+  static const TextStyle caption04 = TextStyle(
+    color: _white,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
+  );
 
   static const TextStyle caption05 = TextStyle(
-      color: _kickdownRed, fontSize: 13, fontWeight: FontWeight.normal);
+    color: _kickdownRed,
+    fontSize: 13,
+    fontWeight: FontWeight.normal,
+  );
 
-  static final TextStyle errorLabel = body01.copyWith(color: textColor02);
+  static final TextStyle errorLabel = body01.copyWith(
+    color: textColor02,
+  );
 
   static const TextStyle buttonText01 = TextStyle(
     color: _white,
@@ -75,6 +111,17 @@ abstract class Styles {
     fontSize: 16,
   );
 
-  static final TextStyle buttonText02 =
-      buttonText01.copyWith(color: accentColor01Normal);
+  static final TextStyle buttonText02 = buttonText01.copyWith(
+    color: accentColor01Normal,
+  );
+
+  static const TextStyle textField01 = TextStyle(
+    color: _black,
+    fontSize: 15,
+    fontWeight: FontWeight.normal,
+  );
+
+  static final TextStyle textField02 = textField01.copyWith(
+    color: _grayLight,
+  );
 }

@@ -22,6 +22,7 @@ class NavigationView extends StatelessWidget {
       disposeViewModel: false,
       initialiseSpecialViewModelsOnce: true,
       builder: (context, model, child) => CupertinoTabScaffold(
+        resizeToAvoidBottomInset: true,
         tabBar: CupertinoTabBar(
           items: [
             BottomNavigationBarItem(
