@@ -12,7 +12,12 @@ import 'package:stacked/stacked.dart';
 
 class PostingsView extends StatelessWidget {
   final navigationBarSliver = CupertinoSliverNavigationBar(
-    largeTitle: Text('Angebote'),
+    largeTitle: Text(
+      'Angebote',
+      style: TextStyle(
+        color: Colors.black,
+      ),
+    ),
     transitionBetweenRoutes: true,
   );
 

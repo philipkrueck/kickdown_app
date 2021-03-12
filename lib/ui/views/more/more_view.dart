@@ -21,98 +21,103 @@ class MoreView extends StatelessWidget {
       onModelReady: (model) => model.initialize(),
       builder: (context, model, child) => CupertinoTabView(
         builder: (context) => CupertinoPageScaffold(
-          child: Scaffold(
-            backgroundColor: Colors.white,
-            body: CustomScrollView(
-              slivers: <Widget>[
-                CupertinoSliverNavigationBar(largeTitle: Text('Mehr')),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      switch (index) {
-                        case 0:
-                          return CupertinoListTile(
-                            title: model.userIsLoggedIn && model.email != null
-                                ? model.email
-                                : 'Mein Account',
-                            trailing: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: model.userIsLoggedIn
-                                  ? Button03(
-                                      text: 'Abmelden',
-                                      onPressed: () {
-                                        model.onTapLogout();
-                                      },
-                                    )
-                                  : Button03(
-                                      text: 'Anmelden',
-                                      onPressed: () {
-                                        model.onTapLogin();
-                                      },
-                                    ),
-                            ),
-                            onTap: null,
-                            isStartOfSection: true,
-                            isEndOfSection: true,
-                          );
-                        case 1:
-                          return CupertinoListTile(
-                            title: 'About Kickdown',
-                            trailing: DetailIcon(),
-                            onTap: () => model.onTapAboutKickdownTile(),
-                            isStartOfSection: true,
-                            isEndOfSection: false,
-                          );
-                        case 2:
-                          return CupertinoListTile(
-                            title: 'AGB',
-                            trailing: DetailIcon(),
-                            onTap: () => model.onTapTermsOfUsagesTile(),
-                            isStartOfSection: false,
-                            isEndOfSection: false,
-                          );
-                        case 3:
-                          return CupertinoListTile(
-                            title: 'Datenschutz',
-                            trailing: DetailIcon(),
-                            onTap: () => model.onTapPrivacyTermsTile(),
-                            isStartOfSection: false,
-                            isEndOfSection: false,
-                          );
-                        case 4:
-                          return CupertinoListTile(
-                            title: 'Impressum',
-                            trailing: DetailIcon(),
-                            onTap: () => model.onTapImprintTile(),
-                            isStartOfSection: false,
-                            isEndOfSection: true,
-                          );
-                        case 5:
-                          return CupertinoListTile(
-                            title: 'Tracking',
-                            trailing: Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: CupertinoSwitch(
-                                value: model.trackingIsOn,
-                                activeColor: Styles.accentColor01Normal,
-                                onChanged: (bool newValue) {
-                                  model.setTracking(isOn: newValue);
-                                },
-                              ),
-                            ),
-                            onTap: null,
-                            isStartOfSection: true,
-                            isEndOfSection: true,
-                          );
-                        default:
-                          return null;
-                      }
-                    },
-                    childCount: 6,
+          backgroundColor: Colors.white,
+          child: CustomScrollView(
+            slivers: <Widget>[
+              CupertinoSliverNavigationBar(
+                largeTitle: Text(
+                  'Mehr',
+                  style: TextStyle(
+                    color: Colors.black,
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    switch (index) {
+                      case 0:
+                        return CupertinoListTile(
+                          title: model.userIsLoggedIn && model.email != null
+                              ? model.email
+                              : 'Mein Account',
+                          trailing: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: model.userIsLoggedIn
+                                ? Button03(
+                                    text: 'Abmelden',
+                                    onPressed: () {
+                                      model.onTapLogout();
+                                    },
+                                  )
+                                : Button03(
+                                    text: 'Anmelden',
+                                    onPressed: () {
+                                      model.onTapLogin();
+                                    },
+                                  ),
+                          ),
+                          onTap: null,
+                          isStartOfSection: true,
+                          isEndOfSection: true,
+                        );
+                      case 1:
+                        return CupertinoListTile(
+                          title: 'About Kickdown',
+                          trailing: DetailIcon(),
+                          onTap: () => model.onTapAboutKickdownTile(),
+                          isStartOfSection: true,
+                          isEndOfSection: false,
+                        );
+                      case 2:
+                        return CupertinoListTile(
+                          title: 'AGB',
+                          trailing: DetailIcon(),
+                          onTap: () => model.onTapTermsOfUsagesTile(),
+                          isStartOfSection: false,
+                          isEndOfSection: false,
+                        );
+                      case 3:
+                        return CupertinoListTile(
+                          title: 'Datenschutz',
+                          trailing: DetailIcon(),
+                          onTap: () => model.onTapPrivacyTermsTile(),
+                          isStartOfSection: false,
+                          isEndOfSection: false,
+                        );
+                      case 4:
+                        return CupertinoListTile(
+                          title: 'Impressum',
+                          trailing: DetailIcon(),
+                          onTap: () => model.onTapImprintTile(),
+                          isStartOfSection: false,
+                          isEndOfSection: true,
+                        );
+                      case 5:
+                        return CupertinoListTile(
+                          title: 'Tracking',
+                          trailing: Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: CupertinoSwitch(
+                              value: model.trackingIsOn,
+                              activeColor: Styles.accentColor01Normal,
+                              onChanged: (bool newValue) {
+                                model.setTracking(isOn: newValue);
+                              },
+                            ),
+                          ),
+                          onTap: null,
+                          isStartOfSection: true,
+                          isEndOfSection: true,
+                        );
+                      default:
+                        return null;
+                    }
+                  },
+                  childCount: 6,
+                ),
+              )
+            ],
           ),
         ),
       ),
