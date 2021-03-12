@@ -14,9 +14,6 @@ class PostingsView extends StatelessWidget {
   final navigationBarSliver = CupertinoSliverNavigationBar(
     largeTitle: Text(
       'Angebote',
-      style: TextStyle(
-        color: Colors.black,
-      ),
     ),
     transitionBetweenRoutes: true,
   );

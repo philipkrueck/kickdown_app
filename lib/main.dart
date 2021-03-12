@@ -26,6 +26,7 @@ class KickdownApp extends StatelessWidget {
       onGenerateRoute: Router().onGenerateRoute,
       navigatorKey: StackedService.navigatorKey,
       theme: CupertinoThemeData(
+        brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
         primaryColor: Styles.kickdownRed,
         barBackgroundColor: Colors.white,

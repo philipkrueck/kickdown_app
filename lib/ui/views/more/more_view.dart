@@ -27,9 +27,6 @@ class MoreView extends StatelessWidget {
               CupertinoSliverNavigationBar(
                 largeTitle: Text(
                   'Mehr',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
                 ),
               ),
               SliverList(
