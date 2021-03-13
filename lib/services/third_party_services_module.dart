@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kickdown_app/services/network_service.dart';
 import 'package:kickdown_app/services/postings_manager.dart';
@@ -16,4 +17,7 @@ abstract class ThirdPartyServicesModule {
 
   @lazySingleton
   NetworkService get networkService;
+
+  @lazySingleton
+  CacheManager get cacheManager;
 }

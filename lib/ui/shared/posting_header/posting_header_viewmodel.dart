@@ -16,7 +16,8 @@ abstract class PostingHeaderViewmodel extends BaseViewModel {
   Posting posting;
   bool get isDetail;
 
-  List<Image> get images => posting.images;
+  String get heroUrl => posting.heroPhotoURL;
+  List<String> get imageUrls => posting.imageUrls;
   String get title => posting.title;
   String get city => posting.city;
   String get currentPrice => currencyFormatter.format(posting.currentPrice);
@@ -26,6 +27,7 @@ abstract class PostingHeaderViewmodel extends BaseViewModel {
   String get id => posting.id;
   bool get starredByCurrentUser => posting.starredByCurrentUser ?? false;
   bool get shouldShowGallery => false;
+  PageController get pageController => null;
 
   Function get onFavoriteTapped => () async {
         try {
@@ -42,9 +44,5 @@ abstract class PostingHeaderViewmodel extends BaseViewModel {
 
   void onBackButtonTapped({BuildContext context}) {}
   int get currentIndex => null;
-  int get totalImages => null;
-
-  void setCurrentIndex(int index) {}
-
-  CarouselController carouselController;
+  int get totalImages => posting.imageUrls.length;
 }

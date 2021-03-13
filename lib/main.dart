@@ -3,7 +3,6 @@ import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/styles.dart';
-import 'package:kickdown_app/ui/views/navigation/navigation_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app/router.gr.dart';

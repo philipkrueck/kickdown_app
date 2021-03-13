@@ -4,10 +4,12 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../utils/global_image_cache_manager.dart';
 import '../ui/views/more/more_viewmodel.dart';
 import '../ui/views/navigation/navigation_viewmodel.dart';
 import '../services/network_service.dart';
@@ -24,8 +26,10 @@ GetIt $initGetIt(
   EnvironmentFilter environmentFilter,
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
-  final thirdPartyServicesModule = _$ThirdPartyServicesModule();
+  final thirdPartyServicesModule = _$ThirdPartyServicesModule(get);
+  gh.lazySingleton<CacheManager>(() => thirdPartyServicesModule.cacheManager);
   gh.lazySingleton<DialogService>(() => thirdPartyServicesModule.dialogService);
+  gh.factory<GlobalImageCacheManager>(() => GlobalImageCacheManager());
   gh.lazySingleton<NavigationService>(
       () => thirdPartyServicesModule.navigationService);
   gh.lazySingleton<NetworkService>(
@@ -41,6 +45,10 @@ GetIt $initGetIt(
 }
 
 class _$ThirdPartyServicesModule extends ThirdPartyServicesModule {
+  final GetIt _get;
+  _$ThirdPartyServicesModule(this._get);
+  @override
+  CacheManager get cacheManager => CacheManager(_get<Config>());
   @override
   DialogService get dialogService => DialogService();
   @override

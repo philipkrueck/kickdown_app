@@ -1,11 +1,12 @@
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/styles.dart';
-import 'package:kickdown_app/ui/shared/posting_header/gradient_view.dart';
 
 import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
+import 'package:kickdown_app/utils/global_image_cache_manager.dart';
 import 'package:stacked/stacked.dart';
 
 import '../countdown_label.dart';
@@ -22,46 +23,45 @@ class PostingHeader extends StatelessWidget {
     @required this.postingHeaderViewmodel,
   });
 
-  Widget _buildNetworkImage({Image image}) {
+  Widget _buildNetworkImage({String url}) {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: Container(
         height: double.infinity,
         width: double.infinity,
-        child: image ?? placeholderImage,
+        child: CachedNetworkImage(
+          cacheManager: GlobalImageCacheManager(),
+          fit: BoxFit.cover,
+          imageUrl: url,
+          placeholder: (BuildContext context, String url) => placeholderImage,
+        ),
       ),
     );
   }
 
-  Widget _buildGallery(
-      {BuildContext context,
-      List<Image> images,
-      Function setGalleryIndex,
-      CarouselController carouselController}) {
-    return CarouselSlider.builder(
-      carouselController: carouselController,
-      options: CarouselOptions(
+  Widget _buildGallery({List<String> urls, PageController pageController}) {
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: ListView.builder(
+        controller: pageController,
+        physics: PageScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        enableInfiniteScroll: false,
-        initialPage: 0,
-        viewportFraction: 1,
-        onPageChanged: (int index, _) {
-          setGalleryIndex(index);
-        },
-      ),
-      itemCount: images.length,
-      itemBuilder: (BuildContext context, int index, int realIndex) {
-        return GradientView(
-          child: Container(
-            width: double.infinity,
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: images[realIndex] ?? placeholderImage,
+        itemCount: urls.length,
+        itemBuilder: (BuildContext context, int index) => Row(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: CachedNetworkImage(
+                cacheManager: GlobalImageCacheManager(),
+                fit: BoxFit.cover,
+                imageUrl: urls[index],
+                placeholder: (BuildContext context, String url) =>
+                    placeholderImage,
+              ),
             ),
-          ),
-          height: MediaQuery.of(context).size.width * 9 / 16 * 0.38,
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 
@@ -129,14 +129,10 @@ class PostingHeader extends StatelessWidget {
                 children: [
                   model.shouldShowGallery
                       ? _buildGallery(
-                          context: context,
-                          images: model.images,
-                          setGalleryIndex: model.setCurrentIndex,
-                          carouselController: model.carouselController,
+                          urls: model.imageUrls,
+                          pageController: model.pageController,
                         )
-                      : _buildNetworkImage(
-                          image:
-                              model.images != null ? model.images.first : null),
+                      : _buildNetworkImage(url: model.heroUrl),
                   model.isDetail
                       ? _buildBackButton(
                           context: context,

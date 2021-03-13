@@ -4,15 +4,9 @@ import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.d
 
 class PostingHeaderOverviewViewmodel extends PostingHeaderViewmodel {
   final Posting posting;
-  StreamSubscription<int> _imageAdddedListener;
   StreamSubscription<bool> _starredByUserListener;
 
   PostingHeaderOverviewViewmodel(this.posting) {
-    _imageAdddedListener = posting.imageAddedAtIndexStream.listen((index) {
-      if (index != 0) return;
-      notifyListeners();
-    });
-
     _starredByUserListener = posting.starredByCurrentUserStream.listen((_) {
       notifyListeners();
     });
@@ -20,7 +14,6 @@ class PostingHeaderOverviewViewmodel extends PostingHeaderViewmodel {
 
   @override
   void dispose() {
-    _imageAdddedListener.cancel();
     _starredByUserListener.cancel();
     super.dispose();
   }

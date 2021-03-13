@@ -9,41 +9,28 @@ import 'package:kickdown_app/utils/image_gallery_index_manager.dart';
 class PostingHeaderDetailViewmodel extends PostingHeaderViewmodel {
   final ImageGalleryIndexManager imageGalleryIndexManager;
   Posting posting;
-  StreamSubscription<int> _imageAdddedListener;
-  StreamSubscription<bool> _currentIndexChangedListener;
+  PageController _pageController = PageController();
   StreamSubscription<bool> _starredByUserListener;
 
-  bool _shouldShowGallery = false;
+  int _currentIndex = 0;
 
   PostingHeaderDetailViewmodel(
       {@required this.posting, @required this.imageGalleryIndexManager}) {
-    _imageAdddedListener = posting.imageAddedAtIndexStream.listen((index) {
-      if (index == currentIndex) return;
-      notifyListeners();
-    });
-
-    _currentIndexChangedListener =
-        imageGalleryIndexManager.currentIndexChangedStream.listen((_) {
-      print('new index is ${imageGalleryIndexManager.currentIndex}');
-      notifyListeners();
-      Future.delayed(
-          Duration(seconds: 1),
-          () => {
-                carouselController.animateToPage(
-                    imageGalleryIndexManager.currentIndex,
-                    duration: Duration(milliseconds: 300))
-              });
-    });
-
     _starredByUserListener = posting.starredByCurrentUserStream.listen((_) {
       notifyListeners();
+    });
+
+    _pageController.addListener(() {
+      int newIndex = _pageController.page.round();
+      if (_currentIndex != newIndex) {
+        _currentIndex = newIndex;
+        notifyListeners();
+      }
     });
   }
 
   @override
   void dispose() {
-    _imageAdddedListener.cancel();
-    _currentIndexChangedListener.cancel();
     _starredByUserListener.cancel();
     super.dispose();
   }
@@ -59,22 +46,19 @@ class PostingHeaderDetailViewmodel extends PostingHeaderViewmodel {
     Navigator.of(context).pop();
   }
 
-  bool get shouldShowGallery => _shouldShowGallery;
+  bool get shouldShowGallery => posting.imageUrls != null;
 
   @override
-  int get currentIndex => imageGalleryIndexManager.currentIndex;
+  PageController get pageController => _pageController;
+
+  @override
+  int get currentIndex => _currentIndex;
 
   @override
   int get totalImages => posting.images.length;
 
+  // ToDo: should rather listen to a postings stream than letting this property be set from the outside
   void setShouldShowGallery(bool newValue) {
-    _shouldShowGallery = newValue;
     notifyListeners();
-  }
-
-  @override
-  void setCurrentIndex(int index) {
-    assert(index < images.length);
-    imageGalleryIndexManager.setCurrentIndex(index);
   }
 }
