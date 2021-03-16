@@ -22,9 +22,7 @@ class Posting {
   int highestBidInEuro;
   DateTime endTime;
   List<String> _imageUrls;
-  List<Image> _images = [null];
   List<String> get imageUrls => _imageUrls;
-  List<Image> get images => _images;
 
   int loadingOrLoadedImagesLastIndex = -1;
 
@@ -33,13 +31,8 @@ class Posting {
   int currentPrice;
   bool loggedInUserIsHighestBidder;
 
-  final StreamController<int> _imageAddedStreamController =
-      StreamController<int>.broadcast();
   final StreamController<bool> _starredStreamController =
       StreamController<bool>.broadcast();
-
-  Stream<int> get imageAddedAtIndexStream =>
-      _imageAddedStreamController.stream.asBroadcastStream();
 
   Stream<bool> get starredByCurrentUserStream =>
       _starredStreamController.stream.asBroadcastStream();
@@ -96,25 +89,12 @@ class Posting {
   }
 
   void dispose() {
-    _imageAddedStreamController.close();
     _starredStreamController.close();
-  }
-
-  void addImage(Image image, {int index}) {
-    _images[index] = image;
-    _imageAddedStreamController.sink.add(index);
-    print('index $index added to stream controller');
   }
 
   void setImageUrls(List<String> imageUrls) {
     if (_imageUrls != null) return;
     _imageUrls = imageUrls;
-    Image firstImage = _images[0];
-    _images = List(_imageUrls.length);
-    _images[0] = firstImage;
-    for (int i = 1; i < _images.length; i++) {
-      _images[i] = null;
-    }
   }
 
   void toggleStarredByCurrentUser() {

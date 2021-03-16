@@ -41,7 +41,6 @@ dependencies:
   http: ^0.12.2
   intl: ^0.16.1
   provider: ^4.3.2+2
-  carousel_slider: ^3.0.0 # to be removed
   tuple: ^1.0.3
   cached_network_image: ^2.5.1
   flutter_cache_manager: ^2.1.2

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/styles.dart';
+import 'package:kickdown_app/ui/shared/posting_header/gradient_view.dart';
 
 import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
 import 'package:kickdown_app/utils/global_image_cache_manager.dart';
@@ -39,28 +40,50 @@ class PostingHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildGallery({List<String> urls, PageController pageController}) {
+  Widget get _galleryBackgroundImage {
     return AspectRatio(
       aspectRatio: 16 / 9,
-      child: ListView.builder(
-        controller: pageController,
-        physics: PageScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: urls.length,
-        itemBuilder: (BuildContext context, int index) => Row(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: CachedNetworkImage(
-                cacheManager: GlobalImageCacheManager(),
-                fit: BoxFit.cover,
-                imageUrl: urls[index],
-                placeholder: (BuildContext context, String url) =>
-                    placeholderImage,
+      child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: placeholderImage),
+    );
+  }
+
+  Widget _buildGallery(
+      {List<String> urls,
+      PageController pageController,
+      BuildContext context}) {
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          ListView.builder(
+            controller: pageController,
+            physics: PageScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemCount: urls.length,
+            itemBuilder: (BuildContext context, int index) => Row(
+              children: [
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: _buildNetworkImage(url: urls[index])),
+              ],
+            ),
+          ),
+          IgnorePointer(
+            child: Container(
+              height: MediaQuery.of(context).size.width * 9 / 16 * 0.38,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.black.withAlpha(117), Colors.transparent]),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -122,15 +145,16 @@ class PostingHeader extends StatelessWidget {
       builder: (context, model, child) => Hero(
         tag: model.id,
         child: Container(
-          color: Colors.white,
           child: Column(
             children: [
               Stack(
                 children: [
+                  _galleryBackgroundImage,
                   model.shouldShowGallery
                       ? _buildGallery(
                           urls: model.imageUrls,
                           pageController: model.pageController,
+                          context: context,
                         )
                       : _buildNetworkImage(url: model.heroUrl),
                   model.isDetail

@@ -1,21 +1,16 @@
 import 'dart:async';
-
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
-import 'package:kickdown_app/utils/image_gallery_index_manager.dart';
 
 class PostingHeaderDetailViewmodel extends PostingHeaderViewmodel {
-  final ImageGalleryIndexManager imageGalleryIndexManager;
   Posting posting;
   PageController _pageController = PageController();
   StreamSubscription<bool> _starredByUserListener;
 
   int _currentIndex = 0;
 
-  PostingHeaderDetailViewmodel(
-      {@required this.posting, @required this.imageGalleryIndexManager}) {
+  PostingHeaderDetailViewmodel({@required this.posting}) {
     _starredByUserListener = posting.starredByCurrentUserStream.listen((_) {
       notifyListeners();
     });
@@ -35,8 +30,6 @@ class PostingHeaderDetailViewmodel extends PostingHeaderViewmodel {
     super.dispose();
   }
 
-  CarouselController carouselController = CarouselController();
-
   bool get isDetail => true;
 
   @override
@@ -55,10 +48,16 @@ class PostingHeaderDetailViewmodel extends PostingHeaderViewmodel {
   int get currentIndex => _currentIndex;
 
   @override
-  int get totalImages => posting.images.length;
+  int get totalImages => posting.imageUrls.length;
 
   // ToDo: should rather listen to a postings stream than letting this property be set from the outside
   void setShouldShowGallery(bool newValue) {
     notifyListeners();
+  }
+
+  void setCurrentIndex(int newIndex) {
+    print('newIndex: $newIndex');
+    _pageController.animateToPage(newIndex,
+        curve: Curves.easeIn, duration: Duration(milliseconds: 10));
   }
 }

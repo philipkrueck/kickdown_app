@@ -15,13 +15,16 @@ class GradientView extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         child,
-        Container(
-          height: height,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [Colors.black.withAlpha(117), Colors.transparent]),
+        IgnorePointer(
+          child: Container(
+            height: height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black.withAlpha(117), Colors.transparent]),
+            ),
+            child: child,
           ),
         ),
       ],

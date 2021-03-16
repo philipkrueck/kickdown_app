@@ -10,7 +10,6 @@ import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.d
 import 'package:kickdown_app/ui/views/bid_preparation_view/bid_preparation_view.dart';
 import 'package:kickdown_app/ui/views/bid_preparation_view/bid_preparation_viewmodel.dart';
 import 'package:kickdown_app/ui/views/posting_images_slider.dart/posting_images_slider_viewmodel.dart';
-import 'package:kickdown_app/utils/image_gallery_index_manager.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tuple/tuple.dart';
@@ -19,22 +18,16 @@ class PostingDetailViewmodel extends BaseViewModel {
   final PostingsManager _postingsManager = locator<PostingsManager>();
   final NavigationService _navigationService = locator<NavigationService>();
   final int postingIndex;
-  ImageGalleryIndexManager _imageGalleryIndexManager;
   PostingHeaderDetailViewmodel _postingHeaderViewmodel;
   Posting _posting;
   List<Tuple2<String, String>> _detailInformation;
 
-  bool _imagesAreLoaded = false;
-
-  bool get imagesAreLoaded => _imagesAreLoaded;
+  bool get imagesAreLoaded => posting.imageUrls != null;
   PostingHeaderViewmodel get postingHeaderViewmodel => _postingHeaderViewmodel;
 
   PostingDetailViewmodel({this.postingIndex}) {
     _posting = _postingsManager.getPosting(index: postingIndex);
-    _imageGalleryIndexManager =
-        ImageGalleryIndexManager(postingIndex: postingIndex);
-    _postingHeaderViewmodel = PostingHeaderDetailViewmodel(
-        posting: posting, imageGalleryIndexManager: _imageGalleryIndexManager);
+    _postingHeaderViewmodel = PostingHeaderDetailViewmodel(posting: posting);
 
     _detailInformation = [
       Tuple2('Verkäufer', _posting.sellerName),
@@ -46,7 +39,8 @@ class PostingDetailViewmodel extends BaseViewModel {
       Tuple2('Getriebe', _posting.transmission),
       Tuple2('Länderversion', _posting.country),
     ];
-    _fetchImages();
+
+    _fetchImageUrlsIfNeeded();
   }
 
   @override
@@ -66,17 +60,17 @@ class PostingDetailViewmodel extends BaseViewModel {
     notifyListeners();
   }
 
-  void onPostingHeaderTapped() {
-    if (!_imagesAreLoaded) return;
-
-    _navigationService.navigateTo(
+  void onPostingHeaderTapped() async {
+    int currPageIndex = await _navigationService.navigateTo(
       Routes.PostingImagesSliderView,
       arguments: PostingImagesSliderViewArguments(
         postingImagesSliderViewmodel: PostingImagesSliderViewmodel(
-            imageGalleryIndexManager: _imageGalleryIndexManager,
-            posting: posting),
+            posting: posting,
+            currentIndex: _postingHeaderViewmodel.currentIndex),
       ),
     );
+
+    _postingHeaderViewmodel.setCurrentIndex(currPageIndex);
   }
 
   void onCTAButtonPressed({BuildContext context}) {
@@ -91,10 +85,10 @@ class PostingDetailViewmodel extends BaseViewModel {
     );
   }
 
-  void _fetchImages() async {
-    await _postingsManager.fetchImagesForPosting(postingIndex: postingIndex);
-    _imagesAreLoaded = true;
+  void _fetchImageUrlsIfNeeded() async {
+    await _postingsManager.fetchImageUrlsIfNeeded(posting);
     _postingHeaderViewmodel.setShouldShowGallery(true);
+
     notifyListeners();
   }
 }
