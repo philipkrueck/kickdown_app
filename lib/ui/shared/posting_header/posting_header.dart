@@ -213,7 +213,10 @@ class PostingHeader extends StatelessWidget {
                           style: Styles.caption02,
                         ),
                         CountdownLabel(
-                          endDate: model.endDate,
+                          endDate: DateTime(
+                              DateTime.now().year,
+                              DateTime.now().month,
+                              DateTime.now().day + 1), // model.endDate,
                           isSold: false, // todo: add
                         )
                       ],
