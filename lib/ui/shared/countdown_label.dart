@@ -144,7 +144,7 @@ class _CountdownLabelState extends State<CountdownLabel> {
                     height: 15,
                   )
                 : Container(),
-            SizedBox(width: 4),
+            durationUntilEnd.inHours <= 12 ? SizedBox(width: 4) : Container(),
             timeDifferenceLabel,
           ],
         ),
