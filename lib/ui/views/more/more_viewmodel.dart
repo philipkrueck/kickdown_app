@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/app/router.gr.dart';
@@ -20,7 +20,6 @@ class MoreViewmodel extends BaseViewModel {
 
   final NetworkService _networkService = locator<NetworkService>();
   final NavigationService _navigationService = locator<NavigationService>();
-  ChromeSafariBrowser browser = ChromeSafariBrowser();
   bool _trackingIsOn = true; // This needs to be saved to system preferences
   StreamSubscription _isLoggedInSubscription;
 
@@ -46,7 +45,8 @@ class MoreViewmodel extends BaseViewModel {
   String get email => _networkService.email;
 
   void onTapLogin() {
-    _navigationService.navigateTo(Routes.AuthenticationFlow);
+    // temporarily disabled for testing
+    // _navigationService.navigateTo(Routes.AuthenticationFlow);
   }
 
   void onTapLogout() {
@@ -77,12 +77,6 @@ class MoreViewmodel extends BaseViewModel {
   // TODO: open web view modally
   Future<void> _openUrl(String url) async {
     print('open $url');
-    await browser.open(
-      url: url,
-      options: ChromeSafariBrowserClassOptions(
-        ios: IOSSafariOptions(
-            transitionStyle: IOSUIModalTransitionStyle.PARTIAL_CURL),
-      ),
-    );
+    await launch(url, forceSafariVC: true, enableJavaScript: true);
   }
 }

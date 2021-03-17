@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/styles.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:kickdown_app/ui/shared/buttons/button_03.dart';
 import 'package:kickdown_app/ui/views/more/more_viewmodel.dart';
 import 'package:stacked/stacked.dart';
