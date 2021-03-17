@@ -6,6 +6,7 @@ import 'package:kickdown_app/ui/shared/posting_header/posting_header.dart';
 import 'package:kickdown_app/ui/views/posting_images_slider.dart/posting_images_slider_viewmodel.dart';
 import 'package:kickdown_app/utils/global_image_cache_manager.dart';
 import 'package:stacked/stacked.dart';
+import 'package:photo_view/photo_view.dart';
 
 class PostingImagesSliderView extends StatelessWidget {
   final PostingImagesSliderViewmodel postingImagesSliderViewmodel;
@@ -36,6 +37,13 @@ class PostingImagesSliderView extends StatelessWidget {
                           cacheManager: GlobalImageCacheManager(),
                           fit: BoxFit.cover,
                           imageUrl: model.imageUrls[index],
+                          imageBuilder: (context, image) => PhotoView(
+                            imageProvider: image,
+                            // customSize: Size(screenWidth, 100),
+                            initialScale: PhotoViewComputedScale.contained,
+                            maxScale: PhotoViewComputedScale.contained * 2.5,
+                            minScale: PhotoViewComputedScale.contained,
+                          ),
                           placeholder: (BuildContext context, String url) =>
                               placeholderImage,
                         ),

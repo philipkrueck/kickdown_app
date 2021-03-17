@@ -61,6 +61,8 @@ class PostingDetailViewmodel extends BaseViewModel {
   }
 
   void onPostingHeaderTapped() async {
+    if (posting.imageUrls == null || posting.imageUrls.length == 0) return;
+
     int currPageIndex = await _navigationService.navigateTo(
       Routes.PostingImagesSliderView,
       arguments: PostingImagesSliderViewArguments(
