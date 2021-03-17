@@ -7,13 +7,25 @@ import 'package:kickdown_app/ui/views/postings/postings_view.dart';
 import 'package:stacked/stacked.dart';
 
 class NavigationView extends StatelessWidget {
-  final overviewNormalTabIcon =
-      TabBarIcon(path: 'assets/ic_menu_overview_normal.png');
-  final overviewSelectedTabIcon =
-      TabBarIcon(path: 'assets/ic_menu_overview_selected.png');
-  final moreNormalTabIcon = TabBarIcon(path: 'assets/ic_menu_more_normal.png');
-  final moreSelectedTabIcon =
-      TabBarIcon(path: 'assets/ic_menu_more_selected.png');
+  final overviewImageNormal = Image.asset('assets/ic_menu_overview_normal.png');
+  final overviewImageSelected =
+      Image.asset('assets/ic_menu_overview_selected.png');
+  final moreImageNormal = Image.asset('assets/ic_menu_more_normal.png');
+  final moreImageSelected = Image.asset('assets/ic_menu_more_selected.png');
+
+  void preCacheTabBarImages(BuildContext context) {
+    [
+      overviewImageNormal,
+      overviewImageSelected,
+      moreImageNormal,
+      moreImageSelected
+    ].forEach(
+      (image) => precacheImage(
+        image.image,
+        context,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +33,29 @@ class NavigationView extends StatelessWidget {
       viewModelBuilder: () => locator<NavigationViewmodel>(),
       disposeViewModel: false,
       initialiseSpecialViewModelsOnce: true,
+      fireOnModelReadyOnce: true,
+      onModelReady: (_) => preCacheTabBarImages(context),
       builder: (context, model, child) => CupertinoTabScaffold(
         resizeToAvoidBottomInset: false,
         tabBar: CupertinoTabBar(
           items: [
             BottomNavigationBarItem(
               label: 'Angebote',
-              icon: overviewNormalTabIcon,
-              activeIcon: overviewSelectedTabIcon,
+              icon: TabBarIcon(
+                image: overviewImageNormal.image,
+              ),
+              activeIcon: TabBarIcon(
+                image: overviewImageSelected.image,
+              ),
             ),
             BottomNavigationBarItem(
               label: 'Mehr',
-              icon: moreNormalTabIcon,
-              activeIcon: moreSelectedTabIcon,
+              icon: TabBarIcon(
+                image: moreImageNormal.image,
+              ),
+              activeIcon: TabBarIcon(
+                image: moreImageSelected.image,
+              ),
             ),
           ],
         ),
@@ -55,14 +77,13 @@ class NavigationView extends StatelessWidget {
 }
 
 class TabBarIcon extends StatelessWidget {
-  final String path;
-  TabBarIcon({this.path});
+  ImageProvider image;
+  TabBarIcon({this.image});
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      // TODO: apply style as an icon
-      path,
+    return Image(
+      image: image,
       width: 24,
       height: 24,
       color: IconTheme.of(context).color,

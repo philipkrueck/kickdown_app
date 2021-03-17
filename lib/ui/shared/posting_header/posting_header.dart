@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/styles.dart';
-import 'package:kickdown_app/ui/shared/posting_header/gradient_view.dart';
 
 import 'package:kickdown_app/ui/shared/posting_header/posting_header_viewmodel.dart';
 import 'package:kickdown_app/utils/global_image_cache_manager.dart';
