@@ -17,9 +17,9 @@ class PostingCard extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Color(0x54000000),
-              spreadRadius: 1,
-              blurRadius: 4,
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 0,
+              blurRadius: 20,
             ),
           ],
           borderRadius: BorderRadius.circular(8),
