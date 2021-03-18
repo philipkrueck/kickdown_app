@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kickdown_app/app/locator.dart';
@@ -73,6 +74,9 @@ class MoreViewmodel extends BaseViewModel {
   // TODO: open web view modally
   Future<void> _openUrl(String url) async {
     print('open $url');
-    await launch(url, forceSafariVC: true, enableJavaScript: true);
+    await launch(url,
+        forceSafariVC: true,
+        enableJavaScript: true,
+        statusBarBrightness: Brightness.light);
   }
 }
