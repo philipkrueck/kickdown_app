@@ -34,6 +34,7 @@ class PostingImagesSliderView extends StatelessWidget {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         child: CachedNetworkImage(
+                          fadeInDuration: const Duration(milliseconds: 0),
                           cacheManager: GlobalImageCacheManager(),
                           fit: BoxFit.cover,
                           imageUrl: model.imageUrls[index],

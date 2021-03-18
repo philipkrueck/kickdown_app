@@ -30,6 +30,8 @@ class PostingHeader extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         child: CachedNetworkImage(
+          fadeInDuration: const Duration(milliseconds: 0),
+          useOldImageOnUrlChange: true,
           cacheManager: GlobalImageCacheManager(),
           fit: BoxFit.cover,
           imageUrl: url,
