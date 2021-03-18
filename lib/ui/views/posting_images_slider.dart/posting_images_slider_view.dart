@@ -26,7 +26,7 @@ class PostingImagesSliderView extends StatelessWidget {
               child: Center(
                 child: ListView.builder(
                   controller: model.pageController,
-                  physics: PageScrollPhysics(),
+                  physics: const PageScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: model.imageUrls.length,
                   itemBuilder: (BuildContext context, int index) => Row(
@@ -66,7 +66,7 @@ class PostingImagesSliderView extends StatelessWidget {
                   children: [
                     CupertinoButton(
                       padding: EdgeInsets.zero,
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         size: 24,
                         color: Colors.white,

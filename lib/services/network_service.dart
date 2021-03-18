@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/utils/network/user_session_data.dart';

@@ -10,7 +10,7 @@ import 'package:kickdown_app/ui/views/postings/postings_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class PostingsView extends StatelessWidget {
-  final navigationBarSliver = CupertinoSliverNavigationBar(
+  final navigationBarSliver = const CupertinoSliverNavigationBar(
     largeTitle: Text(
       'Angebote',
     ),
@@ -88,7 +88,7 @@ class PostingsView extends StatelessWidget {
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
             return Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: _padding,
               ),
               child: PostingCard(
@@ -134,12 +134,12 @@ class PostingsView extends StatelessWidget {
     return SafeArea(
       child: CustomScrollView(
         physics: isScrollable
-            ? AlwaysScrollableScrollPhysics()
-            : NeverScrollableScrollPhysics(),
+            ? const AlwaysScrollableScrollPhysics()
+            : const NeverScrollableScrollPhysics(),
         slivers: <Widget>[
           CupertinoSliverRefreshControl(
             onRefresh: () async {
-              await Future.delayed(Duration(seconds: 1));
+              await Future.delayed(const Duration(seconds: 1));
               onRefresh();
             },
           ),

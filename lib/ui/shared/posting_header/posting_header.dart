@@ -58,7 +58,7 @@ class PostingHeader extends StatelessWidget {
         children: [
           ListView.builder(
             controller: pageController,
-            physics: PageScrollPhysics(),
+            physics: const PageScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemCount: urls.length,
             itemBuilder: (BuildContext context, int index) => Row(
@@ -177,7 +177,7 @@ class PostingHeader extends StatelessWidget {
                 ],
               ),
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -200,7 +200,7 @@ class PostingHeader extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

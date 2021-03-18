@@ -61,13 +61,13 @@ class _KickdownTextFieldState extends State<KickdownTextField> {
       placeholderStyle: Styles.textField02,
       style: Styles.textField01,
       textInputAction: TextInputAction.done,
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.digitsOnly,
       ],
       placeholder: 'Ihr Gebot',
       cursorColor: Colors.black,
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       onSubmitted: (String value) {
         print('submitted value $value');
       },

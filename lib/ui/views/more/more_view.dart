@@ -21,7 +21,7 @@ class MoreView extends StatelessWidget {
           backgroundColor: Colors.white,
           child: CustomScrollView(
             slivers: <Widget>[
-              CupertinoSliverNavigationBar(
+              const CupertinoSliverNavigationBar(
                 largeTitle: Text(
                   'Mehr',
                 ),
@@ -91,7 +91,7 @@ class MoreView extends StatelessWidget {
                         return CupertinoListTile(
                           title: 'Tracking',
                           trailing: Padding(
-                            padding: EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.only(right: 10),
                             child: CupertinoSwitch(
                               value: model.trackingIsOn,
                               activeColor: Styles.accentColor01Normal,
@@ -158,7 +158,7 @@ class _CupertinoListTileState extends State<CupertinoListTile> {
             child: Container(
               height: 50,
               color: _backgroundColor,
-              padding: EdgeInsets.only(left: 16, right: 8),
+              padding: const EdgeInsets.only(left: 16, right: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -189,7 +189,7 @@ class _CupertinoListTileState extends State<CupertinoListTile> {
           },
         ),
         widget.isEndOfSection
-            ? CupertinoSectionDivider(
+            ? const CupertinoSectionDivider(
                 isStartOfSection: false,
               )
             : CupertinoInnerRowDivider(),
@@ -219,7 +219,7 @@ class CupertinoInnerRowDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16),
+      padding: const EdgeInsets.only(left: 16),
       child: Container(
         height: 0.5,
         color: Styles.settingsRowDivider,
@@ -231,7 +231,7 @@ class CupertinoInnerRowDivider extends StatelessWidget {
 class DetailIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Icon(
+    return const Icon(
       CupertinoIcons.forward,
       color: Styles.chevronColor,
     );

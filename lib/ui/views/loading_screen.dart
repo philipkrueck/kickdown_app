@@ -5,7 +5,7 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: CupertinoColors.systemGroupedBackground,
-      child: CupertinoActivityIndicator(
+      child: const CupertinoActivityIndicator(
         radius: 16,
       ),
     );

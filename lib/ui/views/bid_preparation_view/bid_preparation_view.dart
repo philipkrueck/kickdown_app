@@ -32,14 +32,14 @@ class BidPreparationView extends StatelessWidget {
             backgroundColor: Colors.transparent,
             child: Container(
               height: 307,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
                   color: Colors.white),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                 child: Stack(
                   children: [
                     Column(
@@ -57,27 +57,27 @@ class BidPreparationView extends StatelessWidget {
                             CountdownLabel(
                               endDate: model.endDate,
                             ),
-                            CloseViewButton(
+                            const CloseViewButton(
                               color: Colors.transparent,
                             ),
                           ],
                         ), // ),
-                        Text(
+                        const Text(
                           'Aktuelles Gebot',
                           style: Styles.caption01,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 3,
                         ),
                         Text(model.price, style: Styles.title03),
                         // HighestBidderBadge(),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 23, // mocking the HighestBidderBadge
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 12,
                         ),
                         Container(
@@ -93,7 +93,7 @@ class BidPreparationView extends StatelessWidget {
                                     onInputTextChanged:
                                         model.onInputTextChanged),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Expanded(
@@ -109,8 +109,8 @@ class BidPreparationView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                             'Mit der Abgabe meines Angebotes erkläre ich mich mit den geltenden Nutzungsbedingungen einverstanden.',
                             style: Styles.caption01,
                             textAlign: TextAlign.center),

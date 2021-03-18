@@ -34,7 +34,7 @@ abstract class PostingHeaderViewmodel extends BaseViewModel {
           bool newValue = await _networkService.favorizePosting(id: posting.id);
           posting.setStarredByCurrentUser(newValue: newValue);
         } catch (e) {
-          _dialogService.showDialog(
+          await _dialogService.showDialog(
             title: 'Auktion konnte nicht favorisiert werden',
             description: 'Bitte versuche es später erneut.',
           );

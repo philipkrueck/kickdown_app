@@ -50,19 +50,19 @@ class MoreViewmodel extends BaseViewModel {
   }
 
   void onTapAboutKickdownTile() async {
-    _openUrl(aboutKickdownURL);
+    await _openUrl(aboutKickdownURL);
   }
 
   void onTapTermsOfUsagesTile() async {
-    _openUrl(termsOfUsagesURL);
+    await _openUrl(termsOfUsagesURL);
   }
 
   void onTapPrivacyTermsTile() async {
-    _openUrl(privacyTermsURL);
+    await _openUrl(privacyTermsURL);
   }
 
   void onTapImprintTile() async {
-    _openUrl(imprintURL);
+    await _openUrl(imprintURL);
   }
 
   void setTracking({bool isOn}) {

@@ -34,7 +34,7 @@ class _CountdownLabelState extends State<CountdownLabel> {
     super.initState();
 
     if (!widget.isSold) {
-      timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
         setState(() {});
       });
     }
@@ -141,7 +141,9 @@ class _CountdownLabelState extends State<CountdownLabel> {
                     height: 15,
                   )
                 : Container(),
-            durationUntilEnd.inHours <= 12 ? SizedBox(width: 4) : Container(),
+            durationUntilEnd.inHours <= 12
+                ? const SizedBox(width: 4)
+                : Container(),
             timeDifferenceLabel,
           ],
         ),

@@ -58,6 +58,6 @@ class PostingHeaderDetailViewmodel extends PostingHeaderViewmodel {
   void setCurrentIndex(int newIndex) {
     print('newIndex: $newIndex');
     _pageController.animateToPage(newIndex,
-        curve: Curves.easeIn, duration: Duration(milliseconds: 10));
+        curve: Curves.easeIn, duration: const Duration(milliseconds: 10));
   }
 }

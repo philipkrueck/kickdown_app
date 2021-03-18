@@ -12,7 +12,7 @@ class PostingDetailView extends StatelessWidget {
 
   PostingDetailView({this.postingDetailViewmodel}) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.white),
+      const SystemUiOverlayStyle(statusBarColor: Colors.white),
     );
   }
 
@@ -35,14 +35,14 @@ class PostingDetailView extends StatelessWidget {
               ),
               Expanded(
                 child: ListView(
-                  padding: EdgeInsets.fromLTRB(38, 8, 38, 12),
+                  padding: const EdgeInsets.fromLTRB(38, 8, 38, 12),
                   shrinkWrap: true,
                   children: [
-                    Text(
+                    const Text(
                       'Details',
                       style: Styles.title02,
                     ),
-                    SizedBox(height: 6),
+                    const SizedBox(height: 6),
                     Wrap(
                       runSpacing: 5,
                       children: model.detailInformation
@@ -50,12 +50,12 @@ class PostingDetailView extends StatelessWidget {
                               type: detailInfo.item1, detail: detailInfo.item2))
                           .toList(),
                     ),
-                    SizedBox(height: 26),
-                    Text(
+                    const SizedBox(height: 26),
+                    const Text(
                       'Beschreibung',
                       style: Styles.title02,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       model.description,
                       style: Styles.body01,
@@ -65,7 +65,7 @@ class PostingDetailView extends StatelessWidget {
               ),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.fromLTRB(38, 12, 38, 12),
+                padding: const EdgeInsets.fromLTRB(38, 12, 38, 12),
                 child: Container(
                   height: 50,
                   child: Button01(
@@ -96,7 +96,7 @@ class DetailRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(type, style: Styles.caption02),
-        SizedBox(width: 4),
+        const SizedBox(width: 4),
         Text(
           detail,
           style: Styles.caption01,

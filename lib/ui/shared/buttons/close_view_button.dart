@@ -10,7 +10,7 @@ class CloseViewButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      padding: EdgeInsets.all(0.0),
+      padding: const EdgeInsets.all(0.0),
       child: Image.asset(
         "assets/ic_navbar_close.png",
         color: color,

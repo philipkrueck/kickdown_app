@@ -41,11 +41,11 @@ class BidPreparationViewmodel extends BaseViewModel {
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
-            title: Text('Aktion fehlgeschlagen'),
-            content: Text('Sie müssen sich anmelden'),
+            title: const Text('Aktion fehlgeschlagen'),
+            content: const Text('Sie müssen sich anmelden'),
             actions: [
               CupertinoDialogAction(
-                child: Text('Ok'),
+                child: const Text('Ok'),
                 isDefaultAction: true,
                 isDestructiveAction: false,
                 onPressed: () {

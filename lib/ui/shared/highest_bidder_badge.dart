@@ -14,8 +14,8 @@ class HighestBidderBadge extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(width: 4),
-            Text(
+            const SizedBox(width: 4),
+            const Text(
               'Sie sind Höchstbietender',
               style: Styles.title04,
             ),
