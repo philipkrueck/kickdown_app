@@ -17,6 +17,8 @@ Image placeholderImage = Image.asset(
 class PostingHeader extends StatelessWidget {
   final PostingHeaderViewmodel postingHeaderViewmodel;
 
+  static bool preCachedPlaceholderImage = false;
+
   PostingHeader({
     @required this.postingHeaderViewmodel,
   });
@@ -134,10 +136,19 @@ class PostingHeader extends StatelessWidget {
     );
   }
 
+  void preCachePlaceholder(BuildContext context) {
+    if (preCachedPlaceholderImage) return;
+    precacheImage(placeholderImage.image, context);
+    print('preCaching placeholder image');
+    preCachedPlaceholderImage = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PostingHeaderViewmodel>.reactive(
       viewModelBuilder: () => postingHeaderViewmodel,
+      fireOnModelReadyOnce: true,
+      onModelReady: (_) => preCachePlaceholder(context),
       disposeViewModel: false,
       builder: (context, model, child) => Hero(
         tag: model.id,

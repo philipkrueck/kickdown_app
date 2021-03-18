@@ -27,11 +27,11 @@ class PostingsManager {
   }
 
   Future<void> fetchImageUrlsIfNeeded(Posting posting) async {
-    if (posting.imageUrls == null) {
-      print('fetching image urls...');
-      List<String> imageUrls =
-          await _networkService.fetchImageUrls(id: posting.id);
-      posting.setImageUrls(imageUrls);
-    }
+    if (posting.imageUrls != null) return;
+
+    print('fetching image urls...');
+    List<String> imageUrls =
+        await _networkService.fetchImageUrls(id: posting.id);
+    posting.setImageUrls(imageUrls);
   }
 }

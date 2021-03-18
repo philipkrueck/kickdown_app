@@ -88,7 +88,7 @@ class PostingDetailViewmodel extends BaseViewModel {
 
   void _fetchImageUrlsIfNeeded() async {
     await _postingsManager.fetchImageUrlsIfNeeded(posting);
-    _postingHeaderViewmodel.setShouldShowGallery(true);
+    _postingHeaderViewmodel.showGallery(true);
 
     notifyListeners();
   }

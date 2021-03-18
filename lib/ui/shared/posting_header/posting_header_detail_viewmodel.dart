@@ -50,8 +50,7 @@ class PostingHeaderDetailViewmodel extends PostingHeaderViewmodel {
   @override
   int get totalImages => posting.imageUrls.length;
 
-  // ToDo: should rather listen to a postings stream than letting this property be set from the outside
-  void setShouldShowGallery(bool newValue) {
+  void showGallery(bool newValue) {
     notifyListeners();
   }
 
