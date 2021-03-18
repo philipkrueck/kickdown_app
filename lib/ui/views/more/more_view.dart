@@ -8,8 +8,6 @@ import 'package:kickdown_app/ui/views/more/more_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class MoreView extends StatelessWidget {
-// const String forgotPasswordUrl = 'https://www.kickdown.com/users/password/new';
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<MoreViewmodel>.reactive(
@@ -61,7 +59,7 @@ class MoreView extends StatelessWidget {
                         return CupertinoListTile(
                           title: 'About Kickdown',
                           trailing: DetailIcon(),
-                          onTap: () => model.onTapAboutKickdownTile(),
+                          onTap: () async => model.onTapAboutKickdownTile(),
                           isStartOfSection: true,
                           isEndOfSection: false,
                         );
@@ -69,7 +67,7 @@ class MoreView extends StatelessWidget {
                         return CupertinoListTile(
                           title: 'AGB',
                           trailing: DetailIcon(),
-                          onTap: () => model.onTapTermsOfUsagesTile(),
+                          onTap: () async => model.onTapTermsOfUsagesTile(),
                           isStartOfSection: false,
                           isEndOfSection: false,
                         );
@@ -77,7 +75,7 @@ class MoreView extends StatelessWidget {
                         return CupertinoListTile(
                           title: 'Datenschutz',
                           trailing: DetailIcon(),
-                          onTap: () => model.onTapPrivacyTermsTile(),
+                          onTap: () async => model.onTapPrivacyTermsTile(),
                           isStartOfSection: false,
                           isEndOfSection: false,
                         );
@@ -85,7 +83,7 @@ class MoreView extends StatelessWidget {
                         return CupertinoListTile(
                           title: 'Impressum',
                           trailing: DetailIcon(),
-                          onTap: () => model.onTapImprintTile(),
+                          onTap: () async => model.onTapImprintTile(),
                           isStartOfSection: false,
                           isEndOfSection: true,
                         );

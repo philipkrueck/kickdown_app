@@ -25,8 +25,6 @@ abstract class Styles {
   static const Color _grayLight = Color(0xFFC7C7C7);
   static const Color _white = Color(0xFFFFFFFF);
   static const Color _green = Color(0xFF6CD971);
-  static final Color _gradientBlack =
-      Color.lerp(_black.withOpacity(0), _black, 0.5);
 
   static const Color textColor02 = _grayLight;
   static const Color accentColor01Normal = _kickdownRed;

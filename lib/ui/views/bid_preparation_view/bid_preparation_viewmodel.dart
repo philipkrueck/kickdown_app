@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class BidPreparationViewmodel extends BaseViewModel {
-  final DialogService _dialogService = locator<DialogService>();
   final Posting posting;
   final NumberFormat currencyFormatter =
       NumberFormat.simpleCurrency(locale: 'eu', decimalDigits: 0);

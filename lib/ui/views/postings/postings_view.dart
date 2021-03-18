@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kickdown_app/app/locator.dart';
-import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/ui/shared/posting_card.dart';
 import 'package:kickdown_app/ui/views/error_screen.dart';
 import 'package:kickdown_app/ui/views/loading_screen.dart';

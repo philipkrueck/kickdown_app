@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:math';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kickdown_app/styles.dart';
 
@@ -51,7 +48,7 @@ class _CountdownLabelState extends State<CountdownLabel> {
 
   Duration get durationUntilEnd {
     Duration duration = widget.endDate.difference(DateTime.now());
-    return duration >= duration ? duration : 0.0;
+    return duration >= duration ? duration : const Duration(seconds: 0);
   }
 
   Widget get timeDifferenceLabel {
@@ -72,16 +69,16 @@ class _CountdownLabelState extends State<CountdownLabel> {
   String _twoDigits(int n) => n.toString().padLeft(2, "0");
 
   Widget _durationInHoursMinSecsWidget(BuildContext context) {
-    double width = componentWidth(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         componentWidget(_twoDigits(durationUntilEnd.inHours)),
         hoursMinSecSeparator,
-        componentWidget(_twoDigits(durationUntilEnd.inMinutes.remainder(60))),
+        componentWidget(
+            _twoDigits(durationUntilEnd.inMinutes.remainder(60) as int)),
         hoursMinSecSeparator,
         componentWidget(
-          _twoDigits(durationUntilEnd.inSeconds.remainder(60)),
+          _twoDigits(durationUntilEnd.inSeconds.remainder(60) as int),
           alignment: Alignment.centerLeft,
         ),
       ],

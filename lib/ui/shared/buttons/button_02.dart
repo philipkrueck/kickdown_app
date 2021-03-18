@@ -40,7 +40,7 @@ class _Button02State extends State<Button02> {
         ),
         child: CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: widget.onPressed,
+          onPressed: () => widget.onPressed(),
           color: _backgroundColor,
           pressedOpacity: 1,
           disabledColor: Styles.accentColor01Disabled,

@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
-
 class Posting {
   // TODO: make properties get only
   String id;
@@ -66,25 +64,26 @@ class Posting {
     print('starredByCurrentUser: ${attributes["starred_by_current_user"]}');
 
     return Posting(
-      id: json["data"]["id"],
-      sellerName: attributes["seller_name"],
-      description: attributes["seller_description"],
-      carMake: attributes["car_make"],
-      carYear: attributes["car_year"],
-      carModel: attributes["car_model"],
-      country: attributes["country"],
-      city: attributes["city"],
-      title: attributes["title"],
-      package: attributes["package"],
-      milage: attributes["milage"],
-      color: attributes["colour"],
-      transmission: attributes["transmission"],
-      heroPhotoURL: attributes["hero_photo_url"],
-      auctionCode: attributes["auction_code"],
-      highestBidInEuro: attributes["highest_bid_amount_in_euro"],
-      endTime: DateTime.parse(json["included"][0]["attributes"]["end_at"]),
-      currentPrice: attributes["current_price"],
-      starredByCurrentUser: attributes["starred_by_current_user"],
+      id: json["data"]["id"] as String,
+      sellerName: attributes["seller_name"] as String,
+      description: attributes["seller_description"] as String,
+      carMake: attributes["car_make"] as String,
+      carYear: attributes["car_year"] as int,
+      carModel: attributes["car_model"] as String,
+      country: attributes["country"] as String,
+      city: attributes["city"] as String,
+      title: attributes["title"] as String,
+      package: attributes["package"] as String,
+      milage: attributes["milage"] as String,
+      color: attributes["colour"] as String,
+      transmission: attributes["transmission"] as String,
+      heroPhotoURL: attributes["hero_photo_url"] as String,
+      auctionCode: attributes["auction_code"] as String,
+      highestBidInEuro: attributes["highest_bid_amount_in_euro"] as int,
+      endTime:
+          DateTime.parse(json["included"][0]["attributes"]["end_at"] as String),
+      currentPrice: attributes["current_price"] as int,
+      starredByCurrentUser: attributes["starred_by_current_user"] as bool,
     );
   }
 

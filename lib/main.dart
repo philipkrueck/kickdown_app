@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/styles.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import 'app/router.gr.dart';
 
 void main() {
@@ -24,7 +23,7 @@ class KickdownApp extends StatelessWidget {
       initialRoute: Routes.InitialRoute,
       onGenerateRoute: Router().onGenerateRoute,
       navigatorKey: StackedService.navigatorKey,
-      theme: CupertinoThemeData(
+      theme: const CupertinoThemeData(
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
         primaryColor: Styles.kickdownRed,

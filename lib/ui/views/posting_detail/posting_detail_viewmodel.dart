@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/models/posting.dart';
@@ -70,7 +69,7 @@ class PostingDetailViewmodel extends BaseViewModel {
             posting: posting,
             currentIndex: _postingHeaderViewmodel.currentIndex),
       ),
-    );
+    ) as int;
 
     _postingHeaderViewmodel.setCurrentIndex(currPageIndex);
   }

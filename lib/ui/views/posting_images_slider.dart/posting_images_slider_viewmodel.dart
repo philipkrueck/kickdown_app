@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/models/posting.dart';

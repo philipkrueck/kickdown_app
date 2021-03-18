@@ -102,7 +102,7 @@ class PostingHeader extends StatelessWidget {
           width: 32,
           height: 32,
         ),
-        onPressed: onFavoriteTapped,
+        onPressed: () => onFavoriteTapped(),
       ),
     );
   }
@@ -118,7 +118,7 @@ class PostingHeader extends StatelessWidget {
           color: Colors.white,
           height: 30,
         ),
-        onPressed: onButtonTapped,
+        onPressed: () => onButtonTapped(),
       ),
     );
   }

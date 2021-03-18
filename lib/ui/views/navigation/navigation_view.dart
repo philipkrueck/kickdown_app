@@ -13,7 +13,7 @@ class NavigationView extends StatelessWidget {
   final moreImageNormal = Image.asset('assets/ic_menu_more_normal.png');
   final moreImageSelected = Image.asset('assets/ic_menu_more_selected.png');
 
-  void preCacheTabBarImages(BuildContext context) {
+  void preCacheTabBarImages(BuildContext context) async {
     [
       overviewImageNormal,
       overviewImageSelected,
@@ -77,8 +77,8 @@ class NavigationView extends StatelessWidget {
 }
 
 class TabBarIcon extends StatelessWidget {
-  ImageProvider image;
-  TabBarIcon({this.image});
+  final ImageProvider image;
+  const TabBarIcon({this.image});
 
   @override
   Widget build(BuildContext context) {

@@ -16,7 +16,7 @@ class CloseViewButton extends StatelessWidget {
         color: color,
         height: 30,
       ),
-      onPressed: onPressed,
+      onPressed: () => onPressed(),
     );
   }
 }

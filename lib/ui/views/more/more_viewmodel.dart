@@ -3,11 +3,8 @@ import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kickdown_app/app/locator.dart';
-import 'package:kickdown_app/app/router.gr.dart';
 import 'package:kickdown_app/services/network_service.dart';
-import 'package:kickdown_app/ui/views/more/more_view.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 @singleton
 class MoreViewmodel extends BaseViewModel {
@@ -19,7 +16,6 @@ class MoreViewmodel extends BaseViewModel {
   static const String imprintURL = 'https://www.kickdown.com/de/imprint';
 
   final NetworkService _networkService = locator<NetworkService>();
-  final NavigationService _navigationService = locator<NavigationService>();
   bool _trackingIsOn = true; // This needs to be saved to system preferences
   StreamSubscription _isLoggedInSubscription;
 
@@ -53,19 +49,19 @@ class MoreViewmodel extends BaseViewModel {
     _networkService.logout();
   }
 
-  Future<void> onTapAboutKickdownTile() {
+  void onTapAboutKickdownTile() async {
     _openUrl(aboutKickdownURL);
   }
 
-  Future<void> onTapTermsOfUsagesTile() {
+  void onTapTermsOfUsagesTile() async {
     _openUrl(termsOfUsagesURL);
   }
 
-  Future<void> onTapPrivacyTermsTile() {
+  void onTapPrivacyTermsTile() async {
     _openUrl(privacyTermsURL);
   }
 
-  Future<void> onTapImprintTile() {
+  void onTapImprintTile() async {
     _openUrl(imprintURL);
   }
 

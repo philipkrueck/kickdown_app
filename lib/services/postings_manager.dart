@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:flutter/widgets.dart';
 import 'package:kickdown_app/app/locator.dart';
 import 'package:kickdown_app/models/posting.dart';
 import 'package:kickdown_app/services/network_service.dart';
